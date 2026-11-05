@@ -35,6 +35,11 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: profile.tagline,
     applicationName: profile.companyName,
+    icons: {
+      icon: [{ url: "/brand/logo.png", type: "image/png" }],
+      apple: [{ url: "/brand/logo.png", type: "image/png" }],
+      shortcut: "/brand/logo.png",
+    },
     authors: [{ name: profile.companyName }],
     creator: profile.companyName,
     keywords: [
