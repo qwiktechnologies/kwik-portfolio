@@ -15,6 +15,7 @@ export default async function RegisterPage() {
       lead="Checkout, the project brief, and every purchase you come back to live on one account."
       cardTitle="Create account"
       cardLead="Use the email you want receipts sent to."
+      points={["Free to open", "One account for every purchase", "The brief stays with the order"]}
     >
       <RegisterForm />
     </AuthFrame>

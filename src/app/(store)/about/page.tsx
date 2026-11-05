@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 export default async function AboutPage() {
   const profile = await getProfile();
   return (
-    <article className="mx-auto max-w-6xl px-5 py-14">
+    <article className="mx-auto w-[90%] px-5 py-14">
       <p className="text-[11px] uppercase tracking-[0.18em] text-muted">About</p>
       <h1 className="mt-3 max-w-4xl font-serif text-5xl leading-tight sm:text-6xl">{profile.aboutHeadline}</h1>
       <div className="mt-10 grid items-start gap-10 lg:grid-cols-12">

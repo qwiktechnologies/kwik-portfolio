@@ -31,7 +31,7 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-paper/95 text-ink backdrop-blur">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-4 sm:h-16 sm:px-5">
+      <div className="mx-auto flex h-14 w-[90%] items-center justify-between gap-4 px-4 sm:h-16 sm:px-5">
         <Link href="/" className="flex shrink-0 items-center" onClick={() => setOpen(false)}>
           <Image src="/brand/logo.png" alt={companyName} width={70} height={80} className="h-10 w-auto sm:h-11" priority />
         </Link>

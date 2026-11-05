@@ -20,7 +20,7 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
   });
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-14">
+    <div className="mx-auto w-[90%] px-5 py-14">
       <p className="text-[11px] uppercase tracking-[0.18em] text-muted">Catalog</p>
       <h1 className="mt-3 max-w-3xl font-serif text-5xl leading-tight sm:text-6xl">Formats you can buy.</h1>
       <p className="mt-4 max-w-2xl text-muted">Each card is a past kind of work, shaped into a scope with a naira price. The photograph is the trade. The list on the next page is what you actually buy.</p>

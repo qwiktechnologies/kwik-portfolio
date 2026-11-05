@@ -18,7 +18,7 @@ export function Footer({ profile }: { profile: Profile }) {
   const extra = parseExtra(profile.extraJson);
   return (
     <footer className="mt-16 border-t border-line bg-card text-ink sm:mt-20">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-5 sm:py-16 md:grid-cols-12">
+      <div className="mx-auto grid w-[90%] gap-8 px-4 py-12 sm:px-5 sm:py-16 md:grid-cols-12">
         <div className="md:col-span-5">
           <Link href="/" className="inline-flex">
             <Image src="/brand/logo.png" alt={profile.companyName} width={70} height={80} className="h-12 w-auto sm:h-14" />
@@ -61,7 +61,7 @@ export function Footer({ profile }: { profile: Profile }) {
         </div>
       </div>
       <div className="border-t border-line">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-5 py-5 text-xs text-muted">
+        <div className="mx-auto flex w-[90%] flex-wrap items-center justify-between gap-3 px-5 py-5 text-xs text-muted">
           <p>© {new Date().getFullYear()} {profile.companyName}. Catalog prices are set in naira.</p>
           <p>Card payments run through Stripe.</p>
         </div>
