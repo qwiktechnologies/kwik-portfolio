@@ -54,6 +54,13 @@ h2,
   border-color: var(--color-ink);
 }
 
+.auth-card .field {
+  border-radius: 999px;
+  border-color: #e4dfd4;
+  background: #fff;
+  padding: 0.9rem 1.15rem;
+}
+
 .prose-quick a,
 .rich-body a,
 .rich-editor a {

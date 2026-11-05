@@ -38,7 +38,7 @@ export default async function WorkDetail({ params }: { params: Promise<Params> }
   const url = `${siteUrl()}/work/${item.slug}`;
 
   return (
-    <article className="mx-auto max-w-6xl px-5 py-12">
+    <article className="mx-auto w-full px-5 py-12">
       <JsonLd
         data={{
           "@context": "https://schema.org",

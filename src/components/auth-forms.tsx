@@ -13,17 +13,20 @@ export function LoginForm({ next, devHint }: { next: string; devHint: boolean })
       {state.error ? <Notice>{state.error}</Notice> : null}
       <Field label="Email" name="email" type="email" autoComplete="email" required />
       <Field label="Password" name="password" type="password" autoComplete="current-password" required />
-      <button className={`${buttonClass.solid} w-full`} disabled={pending}>
+      <button className={`${buttonClass.solid} w-full py-3.5`} disabled={pending}>
         {pending ? "Signing in…" : "Sign in"}
       </button>
-      <div className="flex justify-between text-sm">
-        <Link href="/forgot-password" className="underline underline-offset-4">
-          Reset password
-        </Link>
-        <Link href="/register" className="underline underline-offset-4">
+      <p className="text-center text-sm text-muted">
+        New here?{" "}
+        <Link href="/register" className="font-medium text-ink">
           Create an account
         </Link>
-      </div>
+      </p>
+      <p className="text-center text-sm">
+        <Link href="/forgot-password" className="text-muted hover:text-ink">
+          Forgot your password?
+        </Link>
+      </p>
       {devHint ? (
         <p className="rounded-2xl bg-paper px-4 py-3 text-xs leading-5 text-muted">
           Local owner account: superadmin@quicktech.studio / QuickTech#Super1
@@ -42,12 +45,12 @@ export function RegisterForm() {
       <Field label="Email" name="email" type="email" autoComplete="email" required />
       <Field label="Password" name="password" type="password" autoComplete="new-password" required hint="At least 8 characters." />
       <Field label="Confirm password" name="confirm" type="password" autoComplete="new-password" required />
-      <button className={`${buttonClass.solid} w-full`} disabled={pending}>
+      <button className={`${buttonClass.solid} w-full py-3.5`} disabled={pending}>
         {pending ? "Creating…" : "Create account"}
       </button>
-      <p className="text-sm">
+      <p className="text-center text-sm text-muted">
         Already registered?{" "}
-        <Link href="/login" className="underline underline-offset-4">
+        <Link href="/login" className="font-medium text-ink">
           Sign in
         </Link>
       </p>

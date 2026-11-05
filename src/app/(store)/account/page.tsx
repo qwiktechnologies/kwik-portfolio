@@ -18,7 +18,7 @@ export default async function AccountPage() {
   });
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-14">
+    <div className="w-full px-5 py-14">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-[11px] uppercase tracking-[0.18em] text-muted">Account</p>

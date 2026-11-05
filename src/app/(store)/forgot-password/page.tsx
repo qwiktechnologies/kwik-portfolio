@@ -6,7 +6,12 @@ export const metadata: Metadata = { title: "Reset password", robots: { index: fa
 
 export default function ForgotPage() {
   return (
-    <AuthFrame title="Reset your password" lead="Enter the email on the account. The link expires in one hour.">
+    <AuthFrame
+      title="Set a new password."
+      lead="One link goes to the email on the account. It expires in an hour."
+      cardTitle="Reset password"
+      cardLead="Enter the email you signed up with."
+    >
       <ForgotForm />
     </AuthFrame>
   );

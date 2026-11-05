@@ -10,7 +10,12 @@ export default async function RegisterPage() {
   const session = await getSession();
   if (session) redirect("/account");
   return (
-    <AuthFrame title="Create your account" lead="One account covers checkout, the project brief, and every purchase you come back to.">
+    <AuthFrame
+      title="Open an account in a minute."
+      lead="Checkout, the project brief, and every purchase you come back to live on one account."
+      cardTitle="Create account"
+      cardLead="Use the email you want receipts sent to."
+    >
       <RegisterForm />
     </AuthFrame>
   );

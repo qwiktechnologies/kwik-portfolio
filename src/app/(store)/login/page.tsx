@@ -14,7 +14,12 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   const dest = session && canManageStudio(session.role) ? (requested.startsWith("/admin") ? requested : "/admin") : requested || "/account";
   if (session) redirect(dest);
   return (
-    <AuthFrame title="Welcome back" lead="Sign in to pay, keep the receipt, and send the brief for your purchase.">
+    <AuthFrame
+      title="Your catalog, ready when you are."
+      lead="Sign in to pay, keep the receipt, and send the brief for a purchase."
+      cardTitle="Sign in"
+      cardLead="Orders, briefs, and receipts live here."
+    >
       <LoginForm next={dest} devHint={process.env.NODE_ENV !== "production"} />
     </AuthFrame>
   );

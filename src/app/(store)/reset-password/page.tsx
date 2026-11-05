@@ -7,7 +7,12 @@ export const metadata: Metadata = { title: "Choose a new password", robots: { in
 export default async function ResetPage({ searchParams }: { searchParams: Promise<{ token?: string }> }) {
   const { token } = await searchParams;
   return (
-    <AuthFrame title="Choose a new password" lead="Use at least 8 characters. You can sign in with it straight away.">
+    <AuthFrame
+      title="Choose a new password."
+      lead="At least 8 characters. You can sign in with it straight away."
+      cardTitle="New password"
+      cardLead="This replaces the password on the account."
+    >
       <ResetForm token={token || ""} />
     </AuthFrame>
   );

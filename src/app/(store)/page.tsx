@@ -85,7 +85,7 @@ export default async function HomePage() {
       />
 
       <section className="border-b border-line bg-card">
-        <div className="mx-auto grid max-w-6xl items-end gap-8 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-12 lg:gap-12 lg:py-24">
+        <div className="grid w-full items-start gap-6 px-4 py-8 sm:gap-8 sm:px-5 sm:py-12 lg:grid-cols-12 lg:py-14">
           <div className="lg:col-span-7">
             <p className="text-[11px] uppercase tracking-[0.22em] text-ember">Catalog studio</p>
             <h1 className="mt-4 font-serif text-5xl leading-[1.05] sm:mt-5 sm:text-6xl sm:leading-[0.95] lg:text-7xl">
@@ -113,7 +113,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-12 sm:px-5 sm:py-16" aria-labelledby="formats-heading">
+      <section className="mx-auto w-full px-4 py-12 sm:px-5 sm:py-16" aria-labelledby="formats-heading">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-[11px] uppercase tracking-[0.18em] text-muted">What you can order</p>
@@ -137,7 +137,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 pb-8" aria-labelledby="selected-heading">
+      <section className="mx-auto w-full px-5 pb-8" aria-labelledby="selected-heading">
         <h2 id="selected-heading" className="font-serif text-4xl sm:text-5xl">Selected from the shelf</h2>
         <p className="mt-3 max-w-2xl text-muted">Past trades we have shaped into formats you can buy: shops, logistics, a barbershop, a laundry, a clinic, a firm, a logo, a flyer.</p>
         <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -147,7 +147,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section id="how" className="mx-auto mt-16 max-w-6xl px-5" aria-labelledby="how-heading">
+      <section id="how" className="mx-auto mt-16 w-full px-5" aria-labelledby="how-heading">
         <p className="text-[11px] uppercase tracking-[0.18em] text-muted">Steps to buy</p>
         <h2 id="how-heading" className="mt-2 max-w-2xl font-serif text-4xl sm:text-5xl">Four steps. No pitch meeting to find the price.</h2>
         <ol className="mt-8 grid gap-4 md:grid-cols-4">
@@ -161,7 +161,7 @@ export default async function HomePage() {
         </ol>
       </section>
 
-      <section className="mx-auto mt-16 grid max-w-6xl gap-8 px-5 lg:grid-cols-2" aria-labelledby="brief-heading">
+      <section className="mx-auto mt-16 grid w-full gap-8 px-5 lg:grid-cols-2" aria-labelledby="brief-heading">
         <div className="rounded-[2rem] border border-line bg-card p-8 sm:p-10">
           <p className="text-[11px] uppercase tracking-[0.18em] text-ember">After you pay</p>
           <h2 id="brief-heading" className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">The build starts when we can see the business.</h2>
@@ -174,7 +174,7 @@ export default async function HomePage() {
         </ul>
       </section>
 
-      <section className="mx-auto mt-16 max-w-6xl px-5" aria-labelledby="trust-heading">
+      <section className="mx-auto mt-16 w-full px-5" aria-labelledby="trust-heading">
         <h2 id="trust-heading" className="font-serif text-4xl sm:text-5xl">What you can check before you pay.</h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {signals.map((signal) => (
@@ -186,7 +186,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto mt-16 max-w-6xl px-5" aria-labelledby="fit-heading">
+      <section className="mx-auto mt-16 w-full px-5" aria-labelledby="fit-heading">
         <div className="rounded-[2rem] border border-line bg-card px-6 py-10 sm:px-10">
           <h2 id="fit-heading" className="max-w-3xl font-serif text-4xl sm:text-5xl">For a business that already knows what it sells.</h2>
           <div className="mt-8 grid gap-6 md:grid-cols-3">
@@ -198,7 +198,7 @@ export default async function HomePage() {
       </section>
 
       {posts.length ? (
-        <section className="mx-auto mt-16 max-w-6xl px-5" aria-labelledby="journal-heading">
+        <section className="mx-auto mt-16 w-full px-5" aria-labelledby="journal-heading">
           <div className="flex items-end justify-between gap-4">
             <h2 id="journal-heading" className="font-serif text-4xl">From the blog</h2>
             <Link href="/blog" className="text-sm">All notes <FiArrowUpRight className="inline" /></Link>
@@ -211,7 +211,7 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      <section className="mx-auto mt-16 max-w-6xl px-5" aria-labelledby="faq-heading">
+      <section className="mx-auto mt-16 w-full px-5" aria-labelledby="faq-heading">
         <h2 id="faq-heading" className="font-serif text-4xl">Plain answers</h2>
         <div className="mt-6 divide-y divide-line border-y border-line">
           {faqs.map((faq) => (
@@ -223,7 +223,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto mt-16 max-w-6xl px-5" aria-labelledby="touch-heading">
+      <section className="mx-auto mt-16 w-full px-5" aria-labelledby="touch-heading">
         <div className="flex flex-col items-start justify-between gap-6 rounded-[2rem] border border-line bg-card px-6 py-10 sm:px-10 md:flex-row md:items-end">
           <div>
             <p className="text-[11px] uppercase tracking-[0.18em] text-ember">Get in touch</p>
