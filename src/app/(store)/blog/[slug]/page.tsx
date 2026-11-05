@@ -45,7 +45,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
   const url = `${siteUrl()}/blog/${post.slug}`;
 
   return (
-    <article className="w-full px-5 py-14">
+    <article className="mx-auto max-w-3xl px-5 py-14">
       <JsonLd
         data={{
           "@context": "https://schema.org",
