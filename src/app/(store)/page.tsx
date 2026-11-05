@@ -85,14 +85,14 @@ export default async function HomePage() {
       />
 
       <section className="border-b border-line bg-card">
-        <div className="mx-auto grid w-[90%] items-end gap-8 px-4 py-10 sm:px-5 sm:py-16 lg:grid-cols-12 lg:gap-12 lg:py-24">
-          <div className="lg:col-span-7">
+        <div className="mx-auto grid w-[90%] items-center gap-8 px-4 py-8 sm:px-5 sm:py-10 lg:grid-cols-2 lg:gap-12 lg:py-12">
+          <div>
             <p className="text-[11px] uppercase tracking-[0.22em] text-ember">Catalog studio</p>
-            <h1 className="mt-4 font-serif text-5xl leading-[1.05] sm:mt-5 sm:text-6xl sm:leading-[0.95] lg:text-7xl">
+            <h1 className="mt-4 font-serif text-5xl leading-[1.05] sm:text-6xl sm:leading-[0.98]">
               Creating templates and experiences that drives remarkable <em>change.</em>
             </h1>
-            <p className="mt-4 max-w-xl text-base leading-7 text-muted sm:mt-6 sm:text-lg sm:leading-8">{profile.heroLead}</p>
-            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
+            <p className="mt-4 max-w-xl text-base leading-7 text-muted sm:mt-5 sm:text-lg sm:leading-8">{profile.heroLead}</p>
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link href="/work" className={`${buttonClass.solid} w-full justify-center sm:w-auto`}>
                 Browse the catalog
               </Link>
@@ -100,12 +100,12 @@ export default async function HomePage() {
                 See how buying works
               </a>
             </div>
-            <RateLine className="mt-5 text-sm text-muted sm:mt-6" />
+            <RateLine className="mt-5 text-sm text-muted" />
           </div>
-          <div className="grid grid-cols-3 gap-2 sm:grid-cols-2 sm:gap-3 lg:col-span-5">
-            {shots.map((shot, index) => (
-              <Link key={shot.id} href={`/work/${shot.slug}`} className={`group relative overflow-hidden rounded-2xl ${index === 0 ? "col-span-3 aspect-[16/9] sm:col-span-2 sm:aspect-[16/10]" : "aspect-[4/3] sm:aspect-square"}`}>
-                <Image src={shot.coverImage} alt={`${shot.title}, ${shot.category}`} fill priority={index < 2} className="object-cover transition duration-700 group-hover:scale-105" sizes="(min-width: 1024px) 30vw, 50vw" />
+          <div className="grid grid-cols-2 gap-3">
+            {shots.slice(0, 3).map((shot, index) => (
+              <Link key={shot.id} href={`/work/${shot.slug}`} className={`group relative overflow-hidden rounded-2xl ${index === 0 ? "col-span-2 aspect-[16/8]" : "aspect-[5/4]"}`}>
+                <Image src={shot.coverImage} alt={`${shot.title}, ${shot.category}`} fill priority={index < 2} className="object-cover transition duration-700 group-hover:scale-105" sizes="(min-width: 1024px) 40vw, 90vw" />
                 <span className="absolute bottom-2 left-2 rounded-full bg-night/80 px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] sm:bottom-3 sm:left-3 sm:px-3 sm:text-[11px]">{shot.category}</span>
               </Link>
             ))}
