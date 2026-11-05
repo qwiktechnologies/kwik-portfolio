@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument), Georgia, "Times New Roman", serif;
+  --color-paper: #f3efe6;
+  --color-ink: #16181d;
+  --color-muted: #5e584e;
+  --color-line: #e3daca;
+  --color-ember: #e24a2b;
+  --color-pine: #1c6b45;
+  --color-night: #10140f;
+  --color-card: #fffdf8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #ffd0c4;
+}
+
+h1,
+h2,
+.font-serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ember);
+  outline-offset: 3px;
+}
+
+.field {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1px solid var(--color-line);
+  background: var(--color-card);
+  padding: 0.8rem 0.95rem;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.field:focus {
+  border-color: var(--color-ink);
+}
+
+.prose-quick a,
+.rich-body a,
+.rich-editor a {
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-ember) 70%, transparent);
+  text-underline-offset: 4px;
+}
+
+.rich-body p,
+.rich-editor p,
+.rich-body div,
+.rich-editor div {
+  margin-top: 0.9rem;
+}
+
+.rich-body h2,
+.rich-editor h2,
+.rich-body h3,
+.rich-editor h3 {
+  margin-top: 1.6rem;
+  font-family: var(--font-serif);
+  font-size: 1.85rem;
+  line-height: 1.15;
+  font-weight: 400;
+  color: var(--color-ink);
+}
+
+.rich-body ul,
+.rich-editor ul,
+.rich-body ol,
+.rich-editor ol {
+  margin-top: 0.9rem;
+  padding-left: 1.25rem;
+}
+
+.rich-body ul,
+.rich-editor ul {
+  list-style: disc;
+}
+
+.rich-body ol,
+.rich-editor ol {
+  list-style: decimal;
+}
+
+.rich-body li + li,
+.rich-editor li + li {
+  margin-top: 0.35rem;
+}
+
+.chip-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-right: -1.25rem;
+  margin-left: -1.25rem;
+  overflow-x: auto;
+  padding-right: 1.25rem;
+  padding-left: 1.25rem;
+  scrollbar-width: none;
+}
+
+.chip-row::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .chip-row {
+    margin-right: 0;
+    margin-left: 0;
+    flex-wrap: wrap;
+    overflow: visible;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  h1.font-serif,
+  h1.text-5xl {
+    font-size: 2.15rem;
+    line-height: 1.08;
+  }
+
+  h2.font-serif.text-4xl,
+  h2.text-4xl {
+    font-size: 1.85rem;
+    line-height: 1.15;
+  }
+
+  main .py-14 {
+    padding-top: 2.25rem;
+    padding-bottom: 2.25rem;
+  }
+}

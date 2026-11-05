@@ -1,0 +1,184 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String          @id @default(cuid())
+  name         String
+  email        String          @unique
+  passwordHash String
+  role         String          @default("CUSTOMER")
+  phone        String          @default("")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  orders       Order[]
+  posts        BlogPost[]
+  comments     BlogComment[]
+  likes        BlogLike[]
+  resets       PasswordReset[]
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model PortfolioItem {
+  id          String      @id @default(cuid())
+  title       String
+  slug        String      @unique
+  category    String
+  summary     String
+  description String
+  includes    String
+  coverImage  String
+  gallery     String      @default("[]")
+  priceNgn    Int
+  timeline    String
+  featured    Boolean     @default(false)
+  published   Boolean     @default(true)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id             String        @id @default(cuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id])
+  status         String        @default("PENDING")
+  currency       String
+  fxRate         Float
+  chargeCurrency String        @default("usd")
+  chargeAmount   Int           @default(0)
+  totalNgn       Int
+  totalLocal     Float
+  stripeSessionId String?      @unique
+  createdAt      DateTime      @default(now())
+  paidAt         DateTime?
+  items          OrderItem[]
+  brief          ProjectBrief?
+  payment        Payment?
+}
+
+model OrderItem {
+  id              String         @id @default(cuid())
+  orderId         String
+  order           Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  portfolioItemId String?
+  portfolioItem   PortfolioItem? @relation(fields: [portfolioItemId], references: [id])
+  title           String
+  coverImage      String
+  priceNgn        Int
+  quantity        Int            @default(1)
+}
+
+model ProjectBrief {
+  id              String   @id @default(cuid())
+  orderId         String   @unique
+  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  businessName    String
+  businessDetails String
+  logoData        String   @default("")
+  email           String
+  phone           String
+  socials         String   @default("")
+  notes           String   @default("")
+  createdAt       DateTime @default(now())
+}
+
+model Payment {
+  id              String   @id @default(cuid())
+  orderId         String   @unique
+  order           Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  amountMinor     Int
+  currency        String
+  status          String
+  stripePaymentId String   @default("")
+  createdAt       DateTime @default(now())
+}
+
+model StripeConfig {
+  id               String   @id @default("default")
+  publishableKey   String   @default("")
+  secretKeyEnc     String   @default("")
+  webhookSecretEnc String   @default("")
+  chargeCurrency   String   @default("usd")
+  enabled          Boolean  @default(false)
+  updatedAt        DateTime @updatedAt
+}
+
+model SiteProfile {
+  id            String   @id @default("main")
+  companyName   String
+  tagline       String
+  heroLead      String
+  email         String
+  phone         String
+  address       String
+  whatsapp      String   @default("")
+  hours         String   @default("")
+  instagram     String   @default("")
+  aboutHeadline String
+  aboutBody     String
+  extraJson     String   @default("[]")
+  updatedAt     DateTime @updatedAt
+}
+
+model ContactMessage {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String   @default("")
+  subject   String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model BlogPost {
+  id         String        @id @default(cuid())
+  title      String
+  slug       String        @unique
+  category   String        @default("Studio notes")
+  excerpt    String
+  content    String
+  coverImage String
+  published  Boolean       @default(true)
+  authorId   String?
+  author     User?         @relation(fields: [authorId], references: [id])
+  comments   BlogComment[]
+  likes      BlogLike[]
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model BlogComment {
+  id        String   @id @default(cuid())
+  postId    String
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  body      String
+  createdAt DateTime @default(now())
+}
+
+model BlogLike {
+  id        String   @id @default(cuid())
+  postId    String
+  post      BlogPost @relation(fields: [postId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([postId, userId])
+}
