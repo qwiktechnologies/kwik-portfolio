@@ -9,6 +9,8 @@ import { getProfile } from "@/lib/profile";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 const instrument = Instrument_Serif({
   subsets: ["latin"],
