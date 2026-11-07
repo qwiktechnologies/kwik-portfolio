@@ -5,9 +5,9 @@ export const faqs = [
       "Every catalog price is set in Nigerian naira. When you open the site we read your country and convert that naira price into your local currency with a daily exchange rate. If we guess the country wrong, switch currency from the header. The naira amount stays on the piece so you can see the source.",
   },
   {
-    question: "What will the card actually be charged?",
+    question: "What will I be charged?",
     answer:
-      "Checkout shows two figures: the total in the currency on your screen, and the card total in the currency our Stripe account charges, usually US dollars. Stripe confirms that card total again before you pay. A flyer priced in naira can display in cedis, pounds, or dollars, and the card amount is the converted figure you approve.",
+      "The catalog price is in Nigerian naira, and Paystack collects that naira total. Checkout shows one amount: the price in the currency you have selected. If that currency is naira, you see naira. There is no second dollar figure.",
   },
   {
     question: "What am I buying?",
@@ -35,7 +35,7 @@ export const faqs = [
       "You can browse, read the journal, and contact the studio without one. Paying, seeing past purchases, and sending the brief require a free account so the order stays tied to you.",
   },
   {
-    question: "Who can see the Stripe keys?",
+    question: "Who can see the Paystack keys?",
     answer:
       "Only the studio owner. Admins and staff can run the catalog, read orders, and update contact details according to their role. The payment configuration page is not on their menu.",
   },

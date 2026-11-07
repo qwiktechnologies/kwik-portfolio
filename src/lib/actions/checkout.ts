@@ -4,7 +4,7 @@ import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
 import { getNgnRates } from "@/lib/currency";
-import { getReadyStripe } from "@/lib/payments";
+import { getReadyPaystack, initializePaystack } from "@/lib/payments";
 import { siteUrl } from "@/lib/site";
 
 const lineSchema = z.object({
@@ -43,32 +43,17 @@ export async function startCheckout(lines: { id: string; quantity: number }[], d
   if (!priced.length) return { error: "Those formats are no longer available." };
 
   const { rates } = await getNgnRates();
-  const { config, stripe } = await getReadyStripe();
-  if (!config.enabled || !stripe) {
-    return { error: "Card payments are not open yet. The studio owner still needs to connect Stripe." };
+  const { config, secret } = await getReadyPaystack();
+  if (!config.enabled || !secret) {
+    return { error: "Payments are not open yet. The studio owner still needs to connect Paystack." };
   }
-
-  const chargeCurrency = config.chargeCurrency.toUpperCase();
-  const chargeRate = rates[chargeCurrency];
-  if (!chargeRate) return { error: "We could not price the card currency. Try again in a moment." };
 
   const requested = (displayCurrency || "NGN").toUpperCase();
   const currency = requested !== "NGN" && rates[requested] ? requested : "NGN";
   const fxRate = currency === "NGN" ? 1 : rates[currency];
   const totalNgn = priced.reduce((sum, row) => sum + row.item.priceNgn * row.quantity, 0);
-  const lineItems = priced.map((row) => ({
-    quantity: row.quantity,
-    price_data: {
-      currency: chargeCurrency.toLowerCase(),
-      unit_amount: Math.max(1, Math.round(row.item.priceNgn * chargeRate * 100)),
-      product_data: {
-        name: row.item.title,
-        description: `${row.item.category} · catalog price ₦${row.item.priceNgn.toLocaleString("en-NG")}`,
-      },
-    },
-  }));
-  const chargeAmount = lineItems.reduce((sum, line) => sum + line.price_data.unit_amount * line.quantity, 0);
-  if (chargeAmount < 50) return { error: "This total is below the card minimum." };
+  const chargeAmount = totalNgn * 100;
+  if (chargeAmount < 10000) return { error: "This total is below Paystack's minimum." };
 
   const order = await prisma.order.create({
     data: {
@@ -76,7 +61,7 @@ export async function startCheckout(lines: { id: string; quantity: number }[], d
       status: "PENDING",
       currency,
       fxRate,
-      chargeCurrency: chargeCurrency.toLowerCase(),
+      chargeCurrency: "ngn",
       chargeAmount,
       totalNgn,
       totalLocal: totalNgn * fxRate,
@@ -93,26 +78,24 @@ export async function startCheckout(lines: { id: string; quantity: number }[], d
   });
 
   try {
-    const checkout = await stripe.checkout.sessions.create({
-      mode: "payment",
-      customer_email: session.email,
-      success_url: `${siteUrl()}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${siteUrl()}/payment/cancel?order=${order.id}`,
+    await prisma.order.update({ where: { id: order.id }, data: { stripeSessionId: order.id } });
+    const checkout = await initializePaystack(secret, {
+      email: session.email,
+      amount: chargeAmount,
+      reference: order.id,
+      callback_url: `${siteUrl()}/payment/success`,
       metadata: { orderId: order.id },
-      line_items: lineItems,
     });
-
-    if (!checkout.url) throw new Error("Stripe did not return a checkout URL.");
 
     await prisma.order.update({
       where: { id: order.id },
-      data: { stripeSessionId: checkout.id, chargeAmount: checkout.amount_total ?? chargeAmount },
+      data: { stripeSessionId: checkout.reference, chargeAmount },
     });
 
-    return { url: checkout.url };
+    return { url: checkout.authorization_url };
   } catch (error) {
     console.error(error);
     await prisma.order.update({ where: { id: order.id }, data: { status: "FAILED" } });
-    return { error: "Stripe did not start the payment. The studio owner should check the keys." };
+    return { error: "Paystack did not start the payment. The studio owner should check the keys." };
   }
 }

@@ -102,7 +102,7 @@ function CartTotal({ totalNgn }: { totalNgn: number }) {
     <aside className="h-fit rounded-3xl border border-line bg-card p-6 lg:sticky lg:top-24">
       <p className="text-xs uppercase tracking-[0.16em] text-muted">Cart total</p>
       <Money ngn={totalNgn} base className="mt-3 block font-serif text-4xl" />
-      <p className="mt-4 text-sm leading-6 text-muted">Checkout shows this total in your currency, then the card amount before Stripe.</p>
+      <p className="mt-4 text-sm leading-6 text-muted">Checkout shows this total in your currency. Paystack collects the naira price.</p>
       <Link href="/checkout" className={`${buttonClass.solid} mt-6 w-full`}>
         Checkout
       </Link>

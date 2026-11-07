@@ -30,8 +30,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
           </li>
         ))}
       </ul>
-      <p className="mt-4 text-sm">Shown at checkout: {formatMoney(order.totalLocal, order.currency)}</p>
-      <p className="text-sm text-muted">Card charge: {formatMoney(order.chargeAmount / 100, order.chargeCurrency.toUpperCase())}</p>
+      <p className="mt-4 text-sm">Paid {formatMoney(order.totalNgn, "NGN")}</p>
       {order.brief ? (
         <section className="mt-8 rounded-3xl border border-line bg-card p-5">
           <h2 className="font-serif text-3xl">Brief</h2>

@@ -5,18 +5,22 @@ import { ClearCart } from "@/components/clear-cart";
 import { buttonClass } from "@/components/ui";
 import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { getReadyStripe } from "@/lib/payments";
-import { fulfillCheckoutSession } from "@/lib/payments";
 import { formatMoney } from "@/lib/money";
+import { fulfillPaystackReference, getReadyPaystack } from "@/lib/payments";
 import { orderCode } from "@/lib/site";
 
 export const metadata: Metadata = { title: "Payment received", robots: { index: false, follow: false } };
 
-export default async function SuccessPage({ searchParams }: { searchParams: Promise<{ session_id?: string; order?: string }> }) {
-  const { session_id, order: orderId } = await searchParams;
+export default async function SuccessPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ reference?: string; trxref?: string; order?: string }>;
+}) {
+  const { reference, trxref, order: orderId } = await searchParams;
+  const paidReference = reference || trxref || "";
   const session = await getSession();
   if (!session) {
-    const next = session_id ? `/payment/success?session_id=${encodeURIComponent(session_id)}` : "/account";
+    const next = paidReference ? `/payment/success?reference=${encodeURIComponent(paidReference)}` : "/account";
     return (
       <div className="mx-auto max-w-xl px-5 py-20">
         <h1 className="font-serif text-4xl">Sign in to see this payment.</h1>
@@ -26,21 +30,25 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   }
 
   let order = null;
-  if (session_id) {
-    const { stripe } = await getReadyStripe();
-    if (!stripe) {
-      return <div className="mx-auto max-w-xl px-5 py-20"><h1 className="font-serif text-4xl">Stripe is not connected.</h1></div>;
+  if (paidReference) {
+    const { secret } = await getReadyPaystack();
+    if (!secret) {
+      return <div className="mx-auto max-w-xl px-5 py-20"><h1 className="font-serif text-4xl">Paystack is not connected.</h1></div>;
+    }
+    const owned = await prisma.order.findFirst({ where: { stripeSessionId: paidReference, userId: session.id } });
+    if (!owned) {
+      return <div className="mx-auto max-w-xl px-5 py-20"><h1 className="font-serif text-4xl">This payment is not on your account.</h1></div>;
     }
     try {
-      const checkout = await stripe.checkout.sessions.retrieve(session_id);
-      const owned = await prisma.order.findFirst({ where: { id: checkout.metadata?.orderId || "", userId: session.id } });
-      if (!owned) {
-        return <div className="mx-auto max-w-xl px-5 py-20"><h1 className="font-serif text-4xl">This payment is not on your account.</h1></div>;
-      }
-      if (checkout.payment_status === "paid") order = await fulfillCheckoutSession(checkout);
-      else order = await prisma.order.findFirst({ where: { id: owned.id }, include: { items: true, brief: true, user: true, payment: true } });
+      order = await fulfillPaystackReference(paidReference, secret);
     } catch {
-      return <div className="mx-auto max-w-xl px-5 py-20"><h1 className="font-serif text-4xl">We could not read that payment.</h1></div>;
+      order = null;
+    }
+    if (!order) {
+      order = await prisma.order.findFirst({
+        where: { id: owned.id },
+        include: { items: true, brief: true, user: true, payment: true },
+      });
     }
   } else if (orderId) {
     order = await prisma.order.findFirst({
@@ -61,7 +69,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   if (order.status !== "PAID") {
     return (
       <div className="mx-auto max-w-xl px-5 py-20">
-        <h1 className="font-serif text-4xl">We are still confirming the card.</h1>
+        <h1 className="font-serif text-4xl">We are still confirming the payment.</h1>
         <p className="mt-3 text-muted">If you just paid, refresh in a moment. The order is {orderCode(order.id)}.</p>
       </div>
     );
@@ -69,12 +77,11 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
 
   return (
     <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
-      {session_id ? <ClearCart /> : null}
+      {paidReference ? <ClearCart /> : null}
       <p className="text-[11px] uppercase tracking-[0.18em] text-pine">Payment received</p>
       <h1 className="mt-3 max-w-3xl font-serif text-5xl leading-tight">You are paid. {orderCode(order.id)} is yours.</h1>
       <p className="mt-4 max-w-2xl text-muted">
-        Card charge {formatMoney(order.chargeAmount / 100, order.chargeCurrency.toUpperCase())}. Catalog total {formatMoney(order.totalNgn, "NGN")}.
-        The formats: {order.items.map((item) => item.title).join(", ")}.
+        Paid {formatMoney(order.totalNgn, "NGN")}. The formats: {order.items.map((item) => item.title).join(", ")}.
       </p>
       <div className="mt-10">
         {order.brief ? (

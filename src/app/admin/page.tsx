@@ -27,7 +27,7 @@ export default async function AdminHome() {
   return (
     <div>
       <h1 className="font-serif text-5xl">Overview</h1>
-      <p className="mt-2 max-w-xl text-sm text-muted">Catalog, people, and money. Stripe keys stay on the owner’s page.</p>
+      <p className="mt-2 max-w-xl text-sm text-muted">Catalog, people, and money. Paystack keys stay on the owner’s page.</p>
       <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {stats.map((stat) => (
           <div key={stat.label} className="rounded-3xl border border-line bg-card p-5">

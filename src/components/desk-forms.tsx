@@ -34,42 +34,27 @@ export function PeopleForm({ allowAdmin }: { allowAdmin: boolean }) {
 
 export function StripeForm({
   publishableKey,
-  chargeCurrency,
   enabled,
   hasSecret,
-  hasWebhook,
 }: {
   publishableKey: string;
-  chargeCurrency: string;
   enabled: boolean;
   hasSecret: boolean;
-  hasWebhook: boolean;
 }) {
   const [state, action, pending] = useActionState(saveStripe, { error: "", ok: false });
   return (
     <form action={action} className="max-w-2xl space-y-4">
       {state.error ? <Notice>{state.error}</Notice> : null}
-      {state.ok ? <p className="rounded-2xl bg-[#e8f5ee] px-4 py-3 text-sm text-pine">Stripe settings saved. Secret keys stay encrypted.</p> : null}
+      {state.ok ? <p className="rounded-2xl bg-[#e8f5ee] px-4 py-3 text-sm text-pine">Paystack settings saved. The secret key stays encrypted.</p> : null}
       <label className="flex items-center gap-2 text-sm">
         <input type="checkbox" name="enabled" defaultChecked={enabled} />
-        Accept card payments
+        Accept payments
       </label>
-      <Field label="Publishable key" name="publishableKey" defaultValue={publishableKey} hint="Starts with pk_test_ or pk_live_." />
+      <Field label="Public key" name="publishableKey" defaultValue={publishableKey} hint="Starts with pk_test_ or pk_live_." />
       <Field label="Secret key" name="secretKey" type="password" autoComplete="off" hint={hasSecret ? "A secret key is already saved. Leave blank to keep it." : "Starts with sk_test_ or sk_live_."} />
-      <Field label="Webhook secret" name="webhookSecret" type="password" autoComplete="off" hint={hasWebhook ? "A webhook secret is already saved. Leave blank to keep it." : "Starts with whsec_."} />
-      <label className="block">
-        <span className="mb-1.5 block text-sm font-medium">Card currency</span>
-        <select className="field" name="chargeCurrency" defaultValue={chargeCurrency}>
-          {["usd", "eur", "gbp", "cad", "aud"].map((code) => (
-            <option key={code} value={code}>
-              {code.toUpperCase()}
-            </option>
-          ))}
-        </select>
-        <span className="mt-1.5 block text-xs text-muted">Visitors still see their own currency. Stripe charges this one, and checkout shows that amount first.</span>
-      </label>
+      <p className="text-xs leading-5 text-muted">Paystack charges the naira catalog total. Checkout shows that total in the visitor’s selected currency.</p>
       <button className={buttonClass.solid} disabled={pending}>
-        {pending ? "Saving…" : "Save Stripe"}
+        {pending ? "Saving…" : "Save Paystack"}
       </button>
     </form>
   );

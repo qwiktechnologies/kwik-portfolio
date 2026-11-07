@@ -13,7 +13,7 @@ export default async function PaymentsPage() {
   return (
     <div>
       <h1 className="font-serif text-5xl">Payments</h1>
-      <p className="mt-2 max-w-xl text-sm text-muted">Card payments recorded after Stripe confirms them. Credentials are not on this page.</p>
+      <p className="mt-2 max-w-xl text-sm text-muted">Payments recorded after Paystack confirms them. Credentials are not on this page.</p>
       <div className="mt-8 overflow-x-auto">
         <table className="w-full min-w-[760px] text-left text-sm">
           <thead className="text-xs uppercase tracking-wide text-muted">
@@ -23,7 +23,7 @@ export default async function PaymentsPage() {
               <th>Customer</th>
               <th>Amount</th>
               <th>Status</th>
-              <th>Stripe</th>
+              <th>Paystack</th>
             </tr>
           </thead>
           <tbody>

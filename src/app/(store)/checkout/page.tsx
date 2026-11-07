@@ -13,11 +13,10 @@ export default async function CheckoutPage() {
   return (
     <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
       <h1 className="font-serif text-5xl">Checkout</h1>
-      <p className="mt-3 max-w-2xl text-muted">Two numbers, on purpose. The first is the catalog total in your currency. The second is what the card will be asked to pay.</p>
+      <p className="mt-3 max-w-2xl text-muted">One total, in the currency you have selected. Paystack collects the naira catalog price.</p>
       <div className="mt-8">
         <CheckoutPanel
           email={session?.email || ""}
-          chargeCurrency={config.chargeCurrency || "usd"}
           paymentsOpen={Boolean(config.enabled && config.secretKeyEnc && config.publishableKey)}
         />
       </div>

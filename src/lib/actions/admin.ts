@@ -10,7 +10,7 @@ import { encryptSecret } from "@/lib/crypto";
 import { getStripeConfig } from "@/lib/profile";
 import { saveUpload } from "@/lib/uploads";
 import { slugify } from "@/lib/site";
-import { canEditContact, canManagePeople, canManageStripe, canManageStudio, CHARGE_CURRENCIES, isBlogCategory } from "@/lib/constants";
+import { canEditContact, canManagePeople, canManageStripe, canManageStudio, isBlogCategory } from "@/lib/constants";
 import { plainText, sanitizeRichHtml } from "@/lib/rich-html";
 
 async function allowStudio() {
@@ -284,26 +284,19 @@ export async function createPerson(_prev: { error: string; ok: boolean }, formDa
 
 export async function saveStripe(_prev: { error: string; ok: boolean }, formData: FormData) {
   const session = await getSession();
-  if (!session || !canManageStripe(session.role)) return { error: "Only the owner can change Stripe.", ok: false };
+  if (!session || !canManageStripe(session.role)) return { error: "Only the owner can change Paystack.", ok: false };
 
   const publishable = String(formData.get("publishableKey") || "").trim();
   const secret = String(formData.get("secretKey") || "").trim();
-  const webhook = String(formData.get("webhookSecret") || "").trim();
-  const chargeCurrency = String(formData.get("chargeCurrency") || "usd").toLowerCase();
   const enabled = formData.get("enabled") === "on";
 
-  if (publishable && !publishable.startsWith("pk_")) return { error: "The publishable key should start with pk_.", ok: false };
+  if (publishable && !publishable.startsWith("pk_")) return { error: "The public key should start with pk_.", ok: false };
   if (secret && !secret.startsWith("sk_")) return { error: "The secret key should start with sk_.", ok: false };
-  if (webhook && !webhook.startsWith("whsec_")) return { error: "The webhook secret should start with whsec_.", ok: false };
-  if (!CHARGE_CURRENCIES.includes(chargeCurrency as (typeof CHARGE_CURRENCIES)[number])) {
-    return { error: "Choose a supported card currency.", ok: false };
-  }
 
   const current = await getStripeConfig();
   const secretKeyEnc = secret ? encryptSecret(secret) : current.secretKeyEnc;
-  const webhookSecretEnc = webhook ? encryptSecret(webhook) : current.webhookSecretEnc;
   if (enabled && (!publishable || !secretKeyEnc)) {
-    return { error: "Add a publishable key and a secret key before turning payments on.", ok: false };
+    return { error: "Add a public key and a secret key before turning payments on.", ok: false };
   }
 
   await prisma.stripeConfig.update({
@@ -311,8 +304,7 @@ export async function saveStripe(_prev: { error: string; ok: boolean }, formData
     data: {
       publishableKey: publishable,
       secretKeyEnc,
-      webhookSecretEnc,
-      chargeCurrency,
+      chargeCurrency: "ngn",
       enabled,
     },
   });

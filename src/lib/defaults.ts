@@ -16,7 +16,7 @@ export const defaultProfile = {
 
 We design a structure once: an online store, a service site, a landing page, a company portfolio, a logo, or a flyer. That structure goes on the catalog. When you buy it, we adapt it to your name, your offer, your pictures, and the words you send us.
 
-The number on each piece is set in Nigerian naira. Visitors see that number in their own currency, using a live exchange rate. The card payment is taken by Stripe in the currency the studio owner configures, and checkout shows that card amount before you leave this site.
+The number on each piece is set in Nigerian naira. Visitors see that number in their own currency, using a live exchange rate. Paystack collects the naira total. Checkout shows one amount, in the currency the visitor has selected.
 
 You can look through the catalog without an account. Paying, keeping the receipt, and sending the project brief require one, so the order stays yours. After payment we ask for the business name, what the business does, a logo, an email, a phone number, and the social profiles the site should mention.
 
