@@ -38,7 +38,7 @@ export default async function WorkDetail({ params }: { params: Promise<Params> }
   const url = `${siteUrl()}/work/${item.slug}`;
 
   return (
-    <article className="mx-auto w-[90%] px-5 py-12">
+    <article className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -58,7 +58,7 @@ export default async function WorkDetail({ params }: { params: Promise<Params> }
         }}
       />
       <nav className="text-sm text-muted" aria-label="Breadcrumb">
-        <Link href="/work">Catalog</Link>
+        <Link href="/work">Templates</Link>
         <span aria-hidden> / </span>
         <span>{item.title}</span>
       </nav>

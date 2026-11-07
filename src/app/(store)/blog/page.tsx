@@ -24,7 +24,7 @@ export default async function BlogPage({ searchParams }: { searchParams: Promise
   const counts = new Map(grouped.map((row) => [row.category, row._count._all]));
 
   return (
-    <div className="mx-auto w-[90%] px-5 py-14">
+    <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
       <p className="text-[11px] uppercase tracking-[0.18em] text-muted">Blog</p>
       <h1 className="mt-3 font-serif text-5xl sm:text-6xl">Notes from the studio</h1>
       <p className="mt-4 max-w-2xl text-muted">Every category the studio writes in. Pick one, or read them all.</p>

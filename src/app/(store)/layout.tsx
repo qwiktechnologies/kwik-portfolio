@@ -6,10 +6,15 @@ import { getProfile } from "@/lib/profile";
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
   const [session, profile] = await Promise.all([getSession(), getProfile()]);
   return (
-    <>
-      <Header companyName={profile.companyName} session={session ? { name: session.name, role: session.role } : null} />
+    <div className="min-h-screen bg-white text-[#1c1915]">
+      <Header
+        companyName={profile.companyName}
+        email={profile.email}
+        instagram={profile.instagram}
+        session={session ? { name: session.name, role: session.role } : null}
+      />
       <main id="main">{children}</main>
       <Footer profile={profile} />
-    </>
+    </div>
   );
 }

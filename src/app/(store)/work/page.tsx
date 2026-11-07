@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { RateLine } from "@/components/money";
 import { WorkCard } from "@/components/work-card";
@@ -6,44 +7,89 @@ import { prisma } from "@/lib/db";
 import { CATEGORIES } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Catalog of websites, stores, and brands",
-  description: "Buy a fixed-price ecommerce site, service website, landing page, company portfolio, logo, or flyer. Prices set in naira and shown in your currency.",
+  title: "Templates",
+  description: "Browse Qwik Technologies templates. Prices are set in naira and shown in your currency.",
   alternates: { canonical: "/work" },
 };
 
-export default async function WorkPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
-  const { category } = await searchParams;
+export default async function WorkPage({ searchParams }: { searchParams: Promise<{ category?: string; q?: string }> }) {
+  const { category, q } = await searchParams;
   const active = category && CATEGORIES.includes(category as (typeof CATEGORIES)[number]) ? category : "";
+  const query = (q || "").trim();
   const items = await prisma.portfolioItem.findMany({
-    where: { published: true, ...(active ? { category: active } : {}) },
+    where: {
+      published: true,
+      ...(active ? { category: active } : {}),
+      ...(query
+        ? {
+            OR: [
+              { title: { contains: query, mode: "insensitive" } },
+              { summary: { contains: query, mode: "insensitive" } },
+              { category: { contains: query, mode: "insensitive" } },
+            ],
+          }
+        : {}),
+    },
     orderBy: [{ featured: "desc" }, { priceNgn: "desc" }],
   });
+  const covers = await prisma.portfolioItem.findMany({
+    where: { published: true },
+    orderBy: { createdAt: "asc" },
+    select: { category: true, coverImage: true },
+  });
+  const categories = new Map<string, string>();
+  for (const piece of covers) {
+    if (!categories.has(piece.category)) categories.set(piece.category, piece.coverImage);
+  }
 
   return (
-    <div className="mx-auto w-[90%] px-5 py-14">
-      <p className="text-[11px] uppercase tracking-[0.18em] text-muted">Catalog</p>
-      <h1 className="mt-3 max-w-3xl font-serif text-5xl leading-tight sm:text-6xl">Formats you can buy.</h1>
-      <p className="mt-4 max-w-2xl text-muted">Each card is a past kind of work, shaped into a scope with a naira price. The photograph is the trade. The list on the next page is what you actually buy.</p>
-      <RateLine className="mt-3 text-sm text-muted" />
-      <div className="chip-row mt-8">
-        <Link href="/work" className={`shrink-0 rounded-full px-4 py-2 text-sm ${active === "" ? "bg-night text-paper" : "border border-line bg-card"}`}>
-          All
-        </Link>
-        {CATEGORIES.map((item) => (
-          <Link key={item} href={`/work?category=${encodeURIComponent(item)}`} className={`shrink-0 rounded-full px-4 py-2 text-sm ${active === item ? "bg-night text-paper" : "border border-line bg-card"}`}>
-            {item}
+    <div className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="font-serif text-4xl sm:text-5xl">Templates</h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#5c5648]">The formats already on the shelf. Each one keeps its naira price, shown in your currency.</p>
+        </div>
+        <RateLine className="text-sm text-[#6b655c]" />
+      </div>
+      <form action="/work" className="mt-6">
+        <label className="sr-only" htmlFor="template-search">Search category</label>
+        <input id="template-search" name="q" defaultValue={query} placeholder="Search category" className="h-11 w-full max-w-md rounded-md border border-[#e4dfd4] px-4 text-sm outline-none focus:border-[#1d4e9e]" />
+      </form>
+      <div className="mt-6">
+        <p className="text-sm font-medium">All Categories</p>
+        <div className="chip-row mt-3">
+          <Link href="/work" className={`shrink-0 rounded-md px-4 py-2 text-sm ${active === "" ? "bg-[#0c1220] text-white" : "border border-[#e4dfd4] bg-white"}`}>
+            All
           </Link>
-        ))}
+          {CATEGORIES.map((item) => (
+            <Link key={item} href={`/work?category=${encodeURIComponent(item)}`} className={`shrink-0 rounded-md px-4 py-2 text-sm ${active === item ? "bg-[#0c1220] text-white" : "border border-[#e4dfd4] bg-white"}`}>
+              {item}
+            </Link>
+          ))}
+        </div>
       </div>
       {items.length ? (
-        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
             <WorkCard key={item.id} item={item} />
           ))}
         </div>
       ) : (
-        <p className="mt-10 text-muted">Nothing in this category yet.</p>
+        <p className="mt-10 text-[#5c5648]">Nothing in this category yet.</p>
       )}
+      {!query && !active ? (
+        <section className="mt-16" aria-labelledby="top-categories">
+          <h2 id="top-categories" className="font-serif text-3xl">Top categories</h2>
+          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[...categories.entries()].map(([name, cover]) => (
+              <Link key={name} href={`/work?category=${encodeURIComponent(name)}`} className="group relative aspect-[16/9] overflow-hidden rounded-md bg-[#10243a]">
+                <Image src={cover} alt="" fill className="object-cover opacity-80 transition duration-500 group-hover:scale-105" sizes="30vw" />
+                <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0c1220] to-transparent p-4 text-lg text-white">{name}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

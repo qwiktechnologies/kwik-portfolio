@@ -15,7 +15,7 @@ export function AddToCart({ id }: { id: string }) {
     <div className="space-y-3">
       <button
         type="button"
-        className={`${buttonClass.solid} w-full`}
+        className={`${buttonClass.orange} w-full rounded-md`}
         onClick={() => {
           add(id);
           setNote("Added to the cart.");

@@ -20,7 +20,7 @@ const instrument = Instrument_Serif({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#f3efe6",
+  themeColor: "#0c1220",
   width: "device-width",
   initialScale: 1,
 };

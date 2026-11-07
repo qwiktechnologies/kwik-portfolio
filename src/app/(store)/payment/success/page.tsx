@@ -68,7 +68,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   }
 
   return (
-    <div className="mx-auto w-[90%] px-5 py-14">
+    <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
       {session_id ? <ClearCart /> : null}
       <p className="text-[11px] uppercase tracking-[0.18em] text-pine">Payment received</p>
       <h1 className="mt-3 max-w-3xl font-serif text-5xl leading-tight">You are paid. {orderCode(order.id)} is yours.</h1>

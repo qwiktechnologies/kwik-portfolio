@@ -1,54 +1,74 @@
-import { BlogCard } from "@/components/blog-card";
 import Image from "next/image";
 import Link from "next/link";
-import { FiArrowUpRight } from "react-icons/fi";
+import { FiCheck } from "react-icons/fi";
+import { HeroDevices } from "@/components/hero-devices";
 import { JsonLd } from "@/components/json-ld";
-import { RateLine } from "@/components/money";
+import { NewsletterForm } from "@/components/newsletter-form";
 import { buttonClass } from "@/components/ui";
-import { WorkCard } from "@/components/work-card";
-import { prisma } from "@/lib/db";
 import { faqs } from "@/lib/faq";
 import { getProfile } from "@/lib/profile";
 import { siteUrl } from "@/lib/site";
 
-const steps = [
-  { n: "01", title: "Choose a format", body: "Open a piece and read what is included. The price beside it is the price." },
-  { n: "02", title: "Add it to the cart", body: "One format, or several. A logo can travel with the website that will use it." },
-  { n: "03", title: "See the card amount, then pay", body: "Your currency is on the screen. The Stripe charge is shown before you leave this site." },
-  { n: "04", title: "Send the brief", body: "Business name, what you do, logo, email, phone, and socials. The build starts from that, not from a guess." },
+const services = [
+  {
+    title: "Web Development Solutions",
+    body: "Websites should not only look great but also deliver measurable results. Our team ensures that your website performs optimally, turning visitors into local customers.",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+    alt: "Laptop with a website layout on the screen",
+  },
+  {
+    title: "UI/UX Design for Seamless User Experience",
+    body: "Great design goes beyond aesthetics. We craft intuitive, user-friendly interfaces that engage your audience and provide them with a seamless experience, keeping them coming back for more.",
+    image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=1200&q=80",
+    alt: "Designer reviewing an interface on a laptop",
+  },
+  {
+    title: "Graphics and Branding",
+    body: "Your brand's visual identity is key to making a strong first impression. Our expert designers create eye-catching logos, branding materials, and graphics that resonate with your audience and distinguish your business.",
+    image: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=80",
+    alt: "Color swatches and branding materials on a desk",
+  },
+  {
+    title: "Digital Marketing Strategies",
+    body: "With data-driven digital marketing campaigns, we help you reach the right audience at the right time. From SEO to social media advertising, our tailored strategies drive traffic, increase conversions, and grow your brand.",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+    alt: "Team planning a campaign at a whiteboard",
+  },
+  {
+    title: "Expert Consultation to Guide Your Digital Journey",
+    body: "Whether you're just starting out or looking to scale, our team provides expert consultation to help you navigate the digital space. We offer insights and strategies that empower you to make informed decisions and achieve your business goals.",
+    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=80",
+    alt: "Two people in a consultation meeting",
+  },
+  {
+    title: "Tech Gadgets at Your Fingertips",
+    body: "From the latest gadgets to essential tech tools, we offer a curated selection for your business or personal setup.",
+    image: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=80",
+    alt: "Phone, earbuds, and other tech gadgets on a desk",
+  },
 ];
 
-const signals = [
-  { title: "Scope before payment", body: "Every format lists its pages, its timeline, and what you need to send." },
-  { title: "Naira, then your currency", body: "The catalog price is set in naira and converted for the country you are visiting from." },
-  { title: "Card amount in the open", body: "Checkout shows the Stripe currency before you pay. The receipt stays on your account." },
-  { title: "Keys stay with the owner", body: "Staff can run orders. Only the studio owner can see or change the Stripe credentials." },
+const reasons = [
+  {
+    title: "Tailored Solutions:",
+    body: "We understand that every business is unique, which is why we offer customized services that fit your specific needs and goals.",
+  },
+  {
+    title: "Proven Results",
+    body: "With a track record of successful projects, our solutions are designed to deliver tangible results and long-term value.",
+  },
+  {
+    title: "Expert Team",
+    body: "Our diverse team of experts brings a wealth of experience in web development, design, marketing, and technology, ensuring you get the best solutions.",
+  },
+  {
+    title: "Client-Centric Approach",
+    body: "We put your needs first, working closely with you to ensure that our services not only meet but exceed your expectations.",
+  },
 ];
 
 export default async function HomePage() {
-  const [profile, featuredRaw, posts, pieces] = await Promise.all([
-    getProfile(),
-    prisma.portfolioItem.findMany({ where: { published: true, featured: true }, orderBy: { priceNgn: "desc" }, take: 6 }),
-    prisma.blogPost.findMany({ where: { published: true }, orderBy: { createdAt: "desc" }, take: 3 }),
-    prisma.portfolioItem.findMany({
-      where: { published: true },
-      orderBy: { createdAt: "asc" },
-      select: { category: true, coverImage: true },
-    }),
-  ]);
-
-  const featured = featuredRaw.length
-    ? featuredRaw
-    : await prisma.portfolioItem.findMany({ where: { published: true }, take: 6, orderBy: { createdAt: "desc" } });
-
-  const categories = new Map<string, { cover: string; count: number }>();
-  for (const piece of pieces) {
-    const current = categories.get(piece.category);
-    if (!current) categories.set(piece.category, { cover: piece.coverImage, count: 1 });
-    else current.count += 1;
-  }
-
-  const shots = featured.slice(0, 4);
+  const profile = await getProfile();
   const url = siteUrl();
 
   return (
@@ -84,154 +104,132 @@ export default async function HomePage() {
         ]}
       />
 
-      <section className="border-b border-line bg-card">
-        <div className="mx-auto grid w-[90%] items-center gap-8 px-4 py-8 sm:px-5 sm:py-10 lg:grid-cols-2 lg:gap-12 lg:py-12">
+      <section className="bg-[linear-gradient(102deg,#d7e4f8_0%,#8eace8_46%,#2f56c3_100%)]">
+        <div className="mx-auto grid w-full max-w-[1280px] items-center gap-4 px-5 py-8 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:py-10">
           <div>
-            <p className="text-[11px] uppercase tracking-[0.22em] text-ember">Catalog studio</p>
-            <h1 className="mt-4 font-serif text-5xl leading-[1.05] sm:text-6xl sm:leading-[0.98]">
-              Creating templates and experiences that drives remarkable <em>change.</em>
+            <h1 className="font-serif text-[2.35rem] leading-[1.08] text-[#f6f3ec] sm:text-[2.85rem] lg:text-[3.05rem]">
+              Empower Your Brand with
+              <br />
+              Tailored Digital Solutions
             </h1>
-            <p className="mt-4 max-w-xl text-base leading-7 text-muted sm:mt-5 sm:text-lg sm:leading-8">{profile.heroLead}</p>
-            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <Link href="/work" className={`${buttonClass.solid} w-full justify-center sm:w-auto`}>
-                Browse the catalog
-              </Link>
-              <a href="#how" className={`${buttonClass.line} w-full justify-center sm:w-auto`}>
-                See how buying works
-              </a>
-            </div>
-            <RateLine className="mt-5 text-sm text-muted" />
-          </div>
-          <div className="grid grid-cols-2 gap-3">
-            {shots.slice(0, 3).map((shot, index) => (
-              <Link key={shot.id} href={`/work/${shot.slug}`} className={`group relative overflow-hidden rounded-2xl ${index === 0 ? "col-span-2 aspect-[16/8]" : "aspect-[5/4]"}`}>
-                <Image src={shot.coverImage} alt={`${shot.title}, ${shot.category}`} fill priority={index < 2} className="object-cover transition duration-700 group-hover:scale-105" sizes="(min-width: 1024px) 40vw, 90vw" />
-                <span className="absolute bottom-2 left-2 rounded-full bg-night/80 px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] sm:bottom-3 sm:left-3 sm:px-3 sm:text-[11px]">{shot.category}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto w-[90%] px-4 py-12 sm:px-5 sm:py-16" aria-labelledby="formats-heading">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.18em] text-muted">What you can order</p>
-            <h2 id="formats-heading" className="mt-2 font-serif text-4xl sm:text-5xl">Formats with a price on them.</h2>
-          </div>
-          <Link href="/work" className="inline-flex items-center gap-2 text-sm">
-            Full catalog <FiArrowUpRight />
-          </Link>
-        </div>
-        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[...categories.entries()].map(([category, info]) => (
-            <Link key={category} href={`/work?category=${encodeURIComponent(category)}`} className="group relative aspect-[16/10] overflow-hidden rounded-3xl bg-night sm:min-h-44 sm:aspect-auto">
-              <Image src={info.cover} alt="" fill className="object-cover opacity-70 transition duration-700 group-hover:scale-105" sizes="30vw" />
-              <div className="absolute inset-0 bg-gradient-to-t from-night via-night/20 to-transparent" />
-              <div className="absolute bottom-0 p-5 text-paper">
-                <h3 className="font-serif text-2xl sm:text-3xl">{category}</h3>
-                <p className="text-sm text-paper/70">{info.count} in the catalog</p>
-              </div>
+            <p className="mt-3 max-w-md text-[13px] leading-5 text-[#f6f3ec]/80 sm:text-sm sm:leading-6">
+              From stunning websites and compelling designs to expert marketing and tech solutions, we bring your vision to life. Let&apos;s build, design, and grow your digital presence.
+            </p>
+            <Link href="/work" className="mt-5 inline-flex rounded-[4px] bg-[#f15a22] px-4 py-2 font-serif text-[15px] italic text-white shadow-sm transition hover:bg-[#d94e1c]">
+              Explore Now
             </Link>
-          ))}
+          </div>
+          <HeroDevices />
         </div>
       </section>
 
-      <section className="mx-auto w-[90%] px-5 pb-8" aria-labelledby="selected-heading">
-        <h2 id="selected-heading" className="font-serif text-4xl sm:text-5xl">Selected from the shelf</h2>
-        <p className="mt-3 max-w-2xl text-muted">Past trades we have shaped into formats you can buy: shops, logistics, a barbershop, a laundry, a clinic, a firm, a logo, a flyer.</p>
-        <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((item) => (
-            <WorkCard key={item.id} item={item} />
-          ))}
-        </div>
-      </section>
-
-      <section id="how" className="mx-auto mt-16 w-[90%] px-5" aria-labelledby="how-heading">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-muted">Steps to buy</p>
-        <h2 id="how-heading" className="mt-2 max-w-2xl font-serif text-4xl sm:text-5xl">Four steps. No pitch meeting to find the price.</h2>
-        <ol className="mt-8 grid gap-4 md:grid-cols-4">
-          {steps.map((step) => (
-            <li key={step.n} className="rounded-3xl border border-line bg-card p-5">
-              <p className="font-serif text-3xl text-ember">{step.n}</p>
-              <h3 className="mt-4 font-serif text-2xl">{step.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-muted">{step.body}</p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="mx-auto mt-16 grid w-[90%] gap-8 px-5 lg:grid-cols-2" aria-labelledby="brief-heading">
-        <div className="rounded-[2rem] border border-line bg-card p-8 sm:p-10">
-          <p className="text-[11px] uppercase tracking-[0.18em] text-ember">After you pay</p>
-          <h2 id="brief-heading" className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">The build starts when we can see the business.</h2>
-          <p className="mt-5 text-muted">The success page asks you to send the materials. They stay on the purchase, so nobody is hunting through an inbox.</p>
-        </div>
-        <ul className="grid content-center gap-3">
-          {["Business name", "What you do, who it is for, and what the site must do", "Logo, sent as an image", "Public email and phone", "Social handles", "Hours, address, prices, and anything we should not guess"].map((item) => (
-            <li key={item} className="rounded-2xl border border-line bg-card px-4 py-3 text-sm">{item}</li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="mx-auto mt-16 w-[90%] px-5" aria-labelledby="trust-heading">
-        <h2 id="trust-heading" className="font-serif text-4xl sm:text-5xl">What you can check before you pay.</h2>
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          {signals.map((signal) => (
-            <article key={signal.title} className="rounded-3xl border border-line p-6">
-              <h3 className="font-serif text-3xl">{signal.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-muted">{signal.body}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto mt-16 w-[90%] px-5" aria-labelledby="fit-heading">
-        <div className="rounded-[2rem] border border-line bg-card px-6 py-10 sm:px-10">
-          <h2 id="fit-heading" className="max-w-3xl font-serif text-4xl sm:text-5xl">For a business that already knows what it sells.</h2>
-          <div className="mt-8 grid gap-6 md:grid-cols-3">
-            <p className="text-sm leading-6 text-muted">A shop with products. A clinic with services. A freight company with lanes. A room with chairs, tables, or washing machines.</p>
-            <p className="text-sm leading-6 text-muted">You want the public face to look finished, and you want the number before a sales call. The catalog is that number.</p>
-            <p className="text-sm leading-6 text-muted">If the shelf does not have your shape, the contact page is the honest door. We would rather say so than sell the wrong format.</p>
+      <section className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-6" aria-labelledby="who-heading">
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <div>
+            <h2 id="who-heading" className="font-serif text-4xl text-[#1c1915]">Who We Are</h2>
+            <div className="mt-5 space-y-4 text-sm leading-7 text-[#5c5648]">
+              <p>
+                At Qwiktechnologies, we are a team of passionate digital innovators dedicated to helping businesses thrive in the ever-evolving digital landscape. Our goal is to transform your vision into reality by providing a full suite of customized digital solutions that drive results and deliver lasting value.
+              </p>
+              <p>
+                Whether you need a stunning website, seamless user experiences, or strategies to grow your brand, we are here to guide you every step of the way.
+              </p>
+              <p>Our team of seasoned designers and strategists bring a wealth of experience and a creative edge to every project.</p>
+            </div>
+            <Link href="/about" className={`${buttonClass.orange} mt-6`}>See More</Link>
+          </div>
+          <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-[#e7e3da]">
+            <Image src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1400&q=80" alt="The Qwik Technologies team around a laptop" fill className="object-cover" sizes="(min-width: 1024px) 40vw, 100vw" />
           </div>
         </div>
+        <dl className="mt-12 grid gap-8 sm:grid-cols-2">
+          <div>
+            <dt className="font-serif text-4xl text-[#1d4e9e]">5+</dt>
+            <dd className="text-lg text-[#1d4e9e]">Years of Experience</dd>
+          </div>
+          <div>
+            <dt className="font-serif text-4xl text-[#1d4e9e]">13k</dt>
+            <dd className="text-lg text-[#1d4e9e]">Customer Satisfaction</dd>
+          </div>
+        </dl>
       </section>
 
-      {posts.length ? (
-        <section className="mx-auto mt-16 w-[90%] px-5" aria-labelledby="journal-heading">
-          <div className="flex items-end justify-between gap-4">
-            <h2 id="journal-heading" className="font-serif text-4xl">From the blog</h2>
-            <Link href="/blog" className="text-sm">All notes <FiArrowUpRight className="inline" /></Link>
-          </div>
-          <div className="mt-6 grid gap-6 md:grid-cols-3">
-            {posts.map((post) => (
-              <BlogCard key={post.id} layout="stack" post={post} />
+      <section className="bg-[#f7f6f3] py-16" aria-labelledby="do-heading">
+        <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6">
+          <h2 id="do-heading" className="text-center font-serif text-4xl">What We Do</h2>
+          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {services.map((service) => (
+              <article key={service.title} className="flex flex-col bg-[#f3f0e8]">
+                <div className="relative aspect-[16/10]">
+                  <Image src={service.image} alt={service.alt} fill className="object-cover" sizes="(min-width: 1024px) 30vw, 100vw" />
+                </div>
+                <div className="flex flex-1 flex-col px-5 py-6 text-center">
+                  <h3 className="text-base font-semibold">{service.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-[#5c5648]">{service.body}</p>
+                  <Link href="/contact" className="mx-auto mt-5 inline-flex rounded-md border border-[#2b2926] px-4 py-2 text-sm hover:bg-[#2b2926] hover:text-white">
+                    Get In Touch
+                  </Link>
+                </div>
+              </article>
             ))}
           </div>
-        </section>
-      ) : null}
-
-      <section className="mx-auto mt-16 w-[90%] px-5" aria-labelledby="faq-heading">
-        <h2 id="faq-heading" className="font-serif text-4xl">Plain answers</h2>
-        <div className="mt-6 divide-y divide-line border-y border-line">
-          {faqs.map((faq) => (
-            <details key={faq.question} className="group py-4">
-              <summary className="cursor-pointer list-none font-medium">{faq.question}</summary>
-              <p className="max-w-3xl pt-3 text-sm leading-6 text-muted">{faq.answer}</p>
-            </details>
-          ))}
         </div>
       </section>
 
-      <section className="mx-auto mt-16 w-[90%] px-5" aria-labelledby="touch-heading">
-        <div className="flex flex-col items-start justify-between gap-6 rounded-[2rem] border border-line bg-card px-6 py-10 sm:px-10 md:flex-row md:items-end">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.18em] text-ember">Get in touch</p>
-            <h2 id="touch-heading" className="mt-2 max-w-xl font-serif text-4xl leading-tight sm:text-5xl">If the shelf does not have it, tell us what the business does.</h2>
+      <section className="mx-auto w-full max-w-[1200px] px-4 py-14 text-center sm:px-6">
+        <h2 className="font-serif text-3xl text-[#1d4e9e] sm:text-4xl">Ready to Elevate Your Digital Presence?</h2>
+        <p className="mt-2 text-[#1d4e9e]">Let&apos;s work together to build something extraordinary.</p>
+        <Link href="/contact" className="mt-5 inline-flex rounded-md border border-[#f15a22] px-5 py-2.5 text-sm text-[#f15a22] hover:bg-[#f15a22] hover:text-white">
+          Get Started Today
+        </Link>
+      </section>
+
+      <section aria-labelledby="why-heading">
+        <div className="mx-auto w-full max-w-[1200px] px-4 pb-6 pt-4 text-right sm:px-6">
+          <h2 id="why-heading" className="font-serif text-4xl">Why Choose Us</h2>
+          <p className="mt-2 text-sm text-[#c4beb4]">Empowering your business with technology, innovation, and a customer-first approach.</p>
+        </div>
+        <div className="relative min-h-[560px] overflow-hidden bg-[#10131a]">
+          <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1800&q=80" alt="Analyst reviewing business dashboards" fill className="object-cover object-right" sizes="100vw" />
+          <div className="relative mx-auto grid w-full max-w-[1200px] px-4 py-16 sm:px-6 lg:grid-cols-2">
+            <div className="max-w-md bg-[#16181d]/92 p-8 text-white sm:p-10">
+              <ul className="space-y-7">
+                {reasons.map((reason) => (
+                  <li key={reason.title}>
+                    <h3 className="flex items-center gap-2 text-lg font-semibold">
+                      <FiCheck aria-hidden /> {reason.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-white/80">{reason.body}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-          <Link href="/contact" className={buttonClass.solid}>
-            Contact the studio
-          </Link>
+        </div>
+      </section>
+
+      <section className="mx-auto grid w-full max-w-[1200px] items-center gap-6 px-4 py-16 sm:px-6 lg:grid-cols-2">
+        <h2 className="max-w-sm font-serif text-3xl leading-snug text-[#1d4e9e] sm:text-4xl">
+          Subribe to our newsletter to get free brand Guide
+        </h2>
+        <NewsletterForm />
+      </section>
+
+      <section className="mx-auto w-full max-w-[1200px] px-4 pb-16 text-center sm:px-6" aria-labelledby="stories-heading">
+        <h2 id="stories-heading" className="text-sm text-[#6b655c]">Client Testimonial</h2>
+      </section>
+
+      <section id="faq" className="border-t border-[#ece8df] bg-white">
+        <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
+          <h2 className="font-serif text-4xl">FAQ</h2>
+          <div className="mt-6 divide-y divide-[#ece8df] border-y border-[#ece8df]">
+            {faqs.map((faq) => (
+              <details key={faq.question} className="group py-4">
+                <summary className="cursor-pointer list-none font-medium">{faq.question}</summary>
+                <p className="max-w-3xl pt-3 text-sm leading-6 text-[#5c5648]">{faq.answer}</p>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
     </>

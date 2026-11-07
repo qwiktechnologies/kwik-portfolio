@@ -17,7 +17,7 @@ export function ContactForm() {
       <Field label="Phone" name="phone" autoComplete="tel" />
       <Field label="Subject" name="subject" required />
       <TextArea label="Message" name="message" required rows={6} />
-      <button className={buttonClass.solid} disabled={pending}>
+      <button className={buttonClass.orange} disabled={pending}>
         {pending ? "Sending…" : "Send message"}
       </button>
     </form>

@@ -2,6 +2,7 @@ import Link from "next/link";
 
 export const buttonClass = {
   solid: "inline-flex items-center justify-center gap-2 rounded-full bg-night px-5 py-3 text-sm font-medium text-paper transition hover:bg-[#262b24] disabled:opacity-60",
+  orange: "inline-flex items-center justify-center gap-2 rounded-md bg-[#f15a22] px-5 py-3 text-sm font-medium text-white transition hover:bg-[#d94e1c] disabled:opacity-60",
   light: "inline-flex items-center justify-center gap-2 rounded-full bg-paper px-5 py-3 text-sm font-medium text-night transition hover:bg-white disabled:opacity-60",
   line: "inline-flex items-center justify-center gap-2 rounded-full border border-line bg-card px-5 py-3 text-sm font-medium text-ink transition hover:border-ink disabled:opacity-60",
   lineLight: "inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-medium text-paper transition hover:border-white/60 disabled:opacity-60",
