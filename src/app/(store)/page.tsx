@@ -13,37 +13,37 @@ const services = [
   {
     title: "Web Development Solutions",
     body: "Websites should not only look great but also deliver measurable results. Our team ensures that your website performs optimally, turning visitors into local customers.",
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+    image: "/brand/service-web.jpg",
     alt: "Laptop with a website layout on the screen",
   },
   {
     title: "UI/UX Design for Seamless User Experience",
     body: "Great design goes beyond aesthetics. We craft intuitive, user-friendly interfaces that engage your audience and provide them with a seamless experience, keeping them coming back for more.",
-    image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=1200&q=80",
+    image: "/brand/service-ux.jpg",
     alt: "Designer reviewing an interface on a laptop",
   },
   {
     title: "Graphics and Branding",
     body: "Your brand's visual identity is key to making a strong first impression. Our expert designers create eye-catching logos, branding materials, and graphics that resonate with your audience and distinguish your business.",
-    image: "https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1200&q=80",
+    image: "/brand/service-brand.jpg",
     alt: "Color swatches and branding materials on a desk",
   },
   {
     title: "Digital Marketing Strategies",
     body: "With data-driven digital marketing campaigns, we help you reach the right audience at the right time. From SEO to social media advertising, our tailored strategies drive traffic, increase conversions, and grow your brand.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+    image: "/brand/service-marketing.jpg",
     alt: "Team planning a campaign at a whiteboard",
   },
   {
     title: "Expert Consultation to Guide Your Digital Journey",
     body: "Whether you're just starting out or looking to scale, our team provides expert consultation to help you navigate the digital space. We offer insights and strategies that empower you to make informed decisions and achieve your business goals.",
-    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1200&q=80",
+    image: "/brand/service-consult.jpg",
     alt: "Two people in a consultation meeting",
   },
   {
     title: "Tech Gadgets at Your Fingertips",
     body: "From the latest gadgets to essential tech tools, we offer a curated selection for your business or personal setup.",
-    image: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=1200&q=80",
+    image: "/brand/service-gadgets.jpg",
     alt: "Phone, earbuds, and other tech gadgets on a desk",
   },
 ];
@@ -107,7 +107,7 @@ export default async function HomePage() {
       <section className="bg-[linear-gradient(102deg,#d7e4f8_0%,#8eace8_46%,#2f56c3_100%)]">
         <div className="mx-auto grid w-full max-w-[1280px] items-center gap-4 px-5 py-8 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:py-10">
           <div>
-            <h1 className="font-serif text-[2.35rem] leading-[1.08] text-[#f6f3ec] sm:text-[2.85rem] lg:text-[3.05rem]">
+            <h1 className="font-serif text-[1.85rem] leading-[1.12] text-[#f6f3ec] sm:text-[2.45rem] lg:text-[3.05rem]">
               Empower Your Brand with
               <br />
               Tailored Digital Solutions
@@ -139,7 +139,7 @@ export default async function HomePage() {
             <Link href="/about" className={`${buttonClass.orange} mt-6`}>See More</Link>
           </div>
           <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-[#e7e3da]">
-            <Image src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1400&q=80" alt="The Qwik Technologies team around a laptop" fill className="object-cover" sizes="(min-width: 1024px) 40vw, 100vw" />
+            <Image src="/brand/who-we-are.png" alt="The Qwik Technologies team in a client meeting" fill className="object-cover" sizes="(min-width: 1024px) 40vw, 100vw" />
           </div>
         </div>
         <dl className="mt-12 grid gap-8 sm:grid-cols-2">
@@ -185,12 +185,12 @@ export default async function HomePage() {
       </section>
 
       <section aria-labelledby="why-heading">
-        <div className="mx-auto w-full max-w-[1200px] px-4 pb-6 pt-4 text-right sm:px-6">
+        <div className="mx-auto w-full max-w-[1200px] px-4 pb-6 pt-4 text-left sm:px-6 lg:text-right">
           <h2 id="why-heading" className="font-serif text-4xl">Why Choose Us</h2>
           <p className="mt-2 text-sm text-[#c4beb4]">Empowering your business with technology, innovation, and a customer-first approach.</p>
         </div>
         <div className="relative min-h-[560px] overflow-hidden bg-[#10131a]">
-          <Image src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1800&q=80" alt="Analyst reviewing business dashboards" fill className="object-cover object-right" sizes="100vw" />
+          <Image src="/brand/why-choose.png" alt="Analyst reviewing business dashboards" fill className="object-cover object-right" sizes="100vw" />
           <div className="relative mx-auto grid w-full max-w-[1200px] px-4 py-16 sm:px-6 lg:grid-cols-2">
             <div className="max-w-md bg-[#16181d]/92 p-8 text-white sm:p-10">
               <ul className="space-y-7">

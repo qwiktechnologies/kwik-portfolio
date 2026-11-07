@@ -42,11 +42,22 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
     if (!categories.has(piece.category)) categories.set(piece.category, piece.coverImage);
   }
 
+  const sellers = items.filter((item) => item.featured);
+
   return (
+    <>
+    <section className="relative min-h-[280px] overflow-hidden bg-[#10243a]">
+      <Image src="/brand/catalog-banner.jpg" alt="" fill className="object-cover opacity-45" sizes="100vw" priority />
+      <div className="relative mx-auto flex w-full max-w-[1200px] flex-col items-start px-4 py-16 text-white sm:px-6">
+        <h1 className="max-w-xl font-serif text-3xl leading-tight sm:text-5xl">Have a Project in mind?</h1>
+        <p className="mt-3 max-w-lg text-sm leading-6 text-white/85">We can help you bring your ideas to life. Let&apos;s talk about what we can build and raise together.</p>
+        <Link href="/contact" className="mt-6 inline-flex rounded-md bg-[#f15a22] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#d94e1c]">Get in touch</Link>
+      </div>
+    </section>
     <div className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="font-serif text-4xl sm:text-5xl">Templates</h1>
+          <h2 className="font-serif text-4xl sm:text-5xl">Templates</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[#5c5648]">The formats already on the shelf. Each one keeps its naira price, shown in your currency.</p>
         </div>
         <RateLine className="text-sm text-[#6b655c]" />
@@ -68,8 +79,19 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
           ))}
         </div>
       </div>
+      {!query && !active && sellers.length ? (
+        <section className="mt-10" aria-labelledby="best-sellers">
+          <h2 id="best-sellers" className="font-serif text-3xl">Best Sellers</h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {sellers.map((item) => (
+              <WorkCard key={item.id} item={item} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+      <h2 className="mt-12 font-serif text-3xl">All Templates</h2>
       {items.length ? (
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
             <WorkCard key={item.id} item={item} />
           ))}
@@ -91,5 +113,6 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
         </section>
       ) : null}
     </div>
+    </>
   );
 }

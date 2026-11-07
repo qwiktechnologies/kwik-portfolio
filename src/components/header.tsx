@@ -28,11 +28,13 @@ export function Header({
   const { count } = useCart();
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState<"template" | "course" | null>(null);
+  const [section, setSection] = useState<"template" | "course" | null>(null);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     setOpen(false);
     setMenu(null);
+    setSection(null);
   }, [pathname]);
 
   function search(event: FormEvent) {
@@ -45,17 +47,17 @@ export function Header({
   return (
     <header className="sticky top-0 z-40">
       <div className="bg-[#0c1220] text-white">
-        <div className="mx-auto flex h-10 w-full max-w-[1200px] items-center justify-between px-4 text-xs sm:px-6">
-          <Link href="/#faq" className="inline-flex items-center gap-1.5 hover:text-white/80">
+        <div className="mx-auto flex h-10 w-full max-w-[1200px] items-center justify-between gap-3 px-4 text-xs sm:px-6">
+          <Link href="/#faq" className="inline-flex shrink-0 items-center gap-1.5 hover:text-white/80">
             <FiMessageCircle aria-hidden />
             FAQ
           </Link>
-          <div className="flex items-center gap-4">
-            <a href={`mailto:${email}`} className="hidden items-center gap-1.5 sm:inline-flex hover:text-white/80">
+          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+            <a href={`mailto:${email}`} className="hidden items-center gap-1.5 truncate hover:text-white/80 lg:inline-flex">
               <FiMessageCircle aria-hidden />
               @Qwiktechnologies.com
             </a>
-            <div className="flex items-center gap-3 text-sm">
+            <div className="flex shrink-0 items-center gap-3 text-sm">
               <Social href="https://www.linkedin.com" label="LinkedIn"><FaLinkedinIn /></Social>
               <Social href="https://x.com" label="X"><FaXTwitter /></Social>
               <Social href={instagram || "https://www.instagram.com"} label="Instagram"><FaInstagram /></Social>
@@ -65,11 +67,11 @@ export function Header({
         </div>
       </div>
       <div className="border-b border-[#ece8df] bg-white">
-        <div className="mx-auto flex h-[72px] w-full max-w-[1200px] items-center gap-3 px-4 sm:gap-5 sm:px-6">
+        <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-2 px-4 sm:h-[72px] sm:gap-4 sm:px-6">
           <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
-            <Image src="/brand/logo.png" alt={companyName} width={70} height={80} className="h-11 w-auto" priority />
+            <Image src="/brand/logo.png" alt={companyName} width={70} height={80} className="h-10 w-auto sm:h-11" priority />
           </Link>
-          <form onSubmit={search} className="hidden min-w-0 flex-1 items-center md:flex lg:max-w-xs">
+          <form onSubmit={search} className="hidden min-w-0 flex-1 items-center sm:flex xl:max-w-xs">
             <label className="relative block w-full">
               <span className="sr-only">Search category</span>
               <FiSearch className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#8a8478]" aria-hidden />
@@ -81,7 +83,7 @@ export function Header({
               />
             </label>
           </form>
-          <nav className="ml-auto hidden items-center gap-6 text-sm text-[#3d3a33] lg:flex" aria-label="Primary">
+          <nav className="ml-auto hidden items-center gap-5 text-sm text-[#3d3a33] xl:flex" aria-label="Primary">
             <Link href="/" className={pathname === "/" ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>Home</Link>
             <div className="relative" onMouseEnter={() => setMenu("template")} onMouseLeave={() => setMenu(null)}>
               <Link href="/work" className="inline-flex items-center gap-1 hover:text-[#1d4e9e]">
@@ -97,26 +99,26 @@ export function Header({
             </div>
             <Link href="/about" className={pathname.startsWith("/about") ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>Who we are</Link>
           </nav>
-          <Link href="/contact" className="hidden rounded-md border border-[#2b2926] px-4 py-2 text-sm text-[#2b2926] hover:bg-[#2b2926] hover:text-white lg:inline-flex">
+          <Link href="/contact" className="hidden shrink-0 rounded-md border border-[#2b2926] px-4 py-2 text-sm text-[#2b2926] hover:bg-[#2b2926] hover:text-white xl:inline-flex">
             Get in touch
           </Link>
-          <div className="flex items-center gap-1">
+          <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-0">
             <CurrencySwitcher />
             <Link href="/cart" className="relative grid h-10 w-10 place-items-center rounded-md hover:bg-[#f6f3ec]" aria-label={`Cart, ${count} ${count === 1 ? "item" : "items"}`}>
               <FiShoppingBag />
               {count > 0 ? <span className="absolute right-0.5 top-0.5 grid h-4 min-w-4 place-items-center rounded-full bg-[#f15a22] px-1 text-[10px] text-white">{count}</span> : null}
             </Link>
             {session ? <AccountMenu session={session} /> : (
-              <Link href="/login" className="hidden text-sm hover:text-[#1d4e9e] lg:inline">Sign in</Link>
+              <Link href="/login" className="hidden px-2 text-sm hover:text-[#1d4e9e] xl:inline">Sign in</Link>
             )}
-            <button className="grid h-10 w-10 place-items-center rounded-md hover:bg-[#f6f3ec] lg:hidden" aria-label="Menu" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
+            <button type="button" className="grid h-10 w-10 place-items-center rounded-md hover:bg-[#f6f3ec] xl:hidden" aria-label="Menu" aria-expanded={open} onClick={() => setOpen((value) => !value)}>
               {open ? <FiX /> : <FiMenu />}
             </button>
           </div>
         </div>
         {open ? (
-          <div className="border-t border-[#ece8df] bg-white px-4 py-4 lg:hidden">
-            <form onSubmit={search} className="mb-3">
+          <div className="max-h-[calc(100dvh-6.5rem)] overflow-y-auto border-t border-[#ece8df] bg-white px-4 py-4 xl:hidden">
+            <form onSubmit={search} className="mb-3 sm:hidden">
               <label className="relative block">
                 <span className="sr-only">Search category</span>
                 <FiSearch className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#8a8478]" aria-hidden />
@@ -124,12 +126,32 @@ export function Header({
               </label>
             </form>
             <div className="flex flex-col gap-1 text-sm">
-              <Link href="/" className="rounded-md px-2 py-2.5" onClick={() => setOpen(false)}>Home</Link>
-              <Link href="/work" className="rounded-md px-2 py-2.5" onClick={() => setOpen(false)}>Template</Link>
-              <Link href="/blog" className="rounded-md px-2 py-2.5" onClick={() => setOpen(false)}>Course</Link>
-              <Link href="/about" className="rounded-md px-2 py-2.5" onClick={() => setOpen(false)}>Who we are</Link>
+              <Link href="/" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Home</Link>
+              <button type="button" className="flex items-center justify-between rounded-md px-2 py-2.5 text-left hover:bg-[#f6f3ec]" aria-expanded={section === "template"} onClick={() => setSection((value) => (value === "template" ? null : "template"))}>
+                Template <FiChevronDown className={`text-xs transition ${section === "template" ? "rotate-180" : ""}`} aria-hidden />
+              </button>
+              {section === "template" ? (
+                <div className="mb-1 ml-2 flex flex-col border-l border-[#ece8df] pl-2">
+                  <Link href="/work" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All templates</Link>
+                  {CATEGORIES.map((item) => (
+                    <Link key={item} href={`/work?category=${encodeURIComponent(item)}`} className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>{item}</Link>
+                  ))}
+                </div>
+              ) : null}
+              <button type="button" className="flex items-center justify-between rounded-md px-2 py-2.5 text-left hover:bg-[#f6f3ec]" aria-expanded={section === "course"} onClick={() => setSection((value) => (value === "course" ? null : "course"))}>
+                Course <FiChevronDown className={`text-xs transition ${section === "course" ? "rotate-180" : ""}`} aria-hidden />
+              </button>
+              {section === "course" ? (
+                <div className="mb-1 ml-2 flex flex-col border-l border-[#ece8df] pl-2">
+                  <Link href="/blog" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All courses</Link>
+                  {BLOG_CATEGORIES.map((item) => (
+                    <Link key={item} href={`/blog?category=${encodeURIComponent(item)}`} className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>{item}</Link>
+                  ))}
+                </div>
+              ) : null}
+              <Link href="/about" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Who we are</Link>
               <Link href="/contact" className="mt-1 rounded-md border border-[#2b2926] px-3 py-2.5 text-center" onClick={() => setOpen(false)}>Get in touch</Link>
-              {session ? null : <Link href="/login" className="rounded-md px-2 py-2.5" onClick={() => setOpen(false)}>Sign in</Link>}
+              {session ? null : <Link href="/login" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Sign in</Link>}
             </div>
           </div>
         ) : null}

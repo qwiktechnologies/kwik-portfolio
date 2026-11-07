@@ -24,10 +24,13 @@ export function WorkCard({
           <Link href={`/work/${item.slug}`}>{item.title}</Link>
         </h3>
         <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#5c5648]">{item.summary}</p>
-        <div className="mt-4 flex items-center justify-between gap-3">
-          <Money ngn={item.priceNgn} className="text-sm font-semibold text-[#1d4e9e]" />
-          <Link href={`/work/${item.slug}`} className="rounded-md bg-[#f15a22] px-3 py-2 text-xs font-medium text-white hover:bg-[#d94e1c]">
-            Explore
+        <Money ngn={item.priceNgn} className="mt-4 text-lg font-semibold text-[#1c1915]" />
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link href={`/work/${item.slug}`} className="rounded-md bg-[#f15a22] px-4 py-2 text-sm font-medium text-white hover:bg-[#d94e1c]">
+            Buy Now
+          </Link>
+          <Link href={`/work/${item.slug}`} className="rounded-md border border-[#f15a22] px-4 py-2 text-sm font-medium text-[#f15a22] hover:bg-[#fff1eb]">
+            Preview
           </Link>
         </div>
       </div>
