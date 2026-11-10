@@ -43,6 +43,7 @@ model PortfolioItem {
   coverImage  String
   gallery     String      @default("[]")
   priceNgn    Int
+  pricesJson  String      @default("{}")
   timeline    String
   featured    Boolean     @default(false)
   published   Boolean     @default(true)
@@ -122,12 +123,17 @@ model SiteProfile {
   companyName   String
   tagline       String
   heroLead      String
+  heroHeadline  String   @default("")
+  heroSubline   String   @default("")
   email         String
   phone         String
   address       String
   whatsapp      String   @default("")
   hours         String   @default("")
   instagram     String   @default("")
+  facebook      String   @default("")
+  tiktok        String   @default("")
+  twitter       String   @default("")
   aboutHeadline String
   aboutBody     String
   extraJson     String   @default("[]")

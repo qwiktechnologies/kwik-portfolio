@@ -10,7 +10,10 @@ export default async function StoreLayout({ children }: { children: React.ReactN
       <Header
         companyName={profile.companyName}
         email={profile.email}
+        facebook={profile.facebook}
         instagram={profile.instagram}
+        tiktok={profile.tiktok}
+        twitter={profile.twitter}
         session={session ? { name: session.name, role: session.role } : null}
       />
       <main id="main">{children}</main>

@@ -4,7 +4,8 @@ import { cookies } from "next/headers";
 import { CartProvider } from "@/components/cart-provider";
 import { CurrencyProvider } from "@/components/currency-provider";
 import { GeoSync } from "@/components/geo-sync";
-import { detectVisitorCurrency, getNgnRates } from "@/lib/currency";
+import { detectVisitorCurrency } from "@/lib/currency";
+import { isMarketCurrency } from "@/lib/markets";
 import { getProfile } from "@/lib/profile";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -71,18 +72,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [profile, fx, jar] = await Promise.all([getProfile(), getNgnRates(), cookies()]);
+  const [profile, jar] = await Promise.all([getProfile(), cookies()]);
   const chosen = jar.get("qt_currency")?.value?.toUpperCase();
-  let currency = "NGN";
+  let currency = "USD";
   let persist = false;
-  if (chosen && (chosen === "NGN" || fx.rates[chosen])) {
+  if (chosen && isMarketCurrency(chosen)) {
     currency = chosen;
   } else {
-    const detected = await detectVisitorCurrency();
-    if (detected && (detected === "NGN" || fx.rates[detected])) {
-      currency = detected;
-      persist = true;
-    }
+    currency = await detectVisitorCurrency();
+    persist = true;
   }
 
   return (
@@ -91,7 +89,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-paper focus:px-4 focus:py-2">
           Skip to content
         </a>
-        <CurrencyProvider initialCurrency={currency} rates={fx.rates} source={fx.source}>
+        <CurrencyProvider initialCurrency={currency}>
           <CartProvider>
             <GeoSync currency={currency} persist={persist} />
             {children}

@@ -1,105 +1,6 @@
 import { headers } from "next/headers";
 import { isRealCurrency } from "./money";
-
-export const COUNTRY_CURRENCY: Record<string, string> = {
-  NG: "NGN",
-  GH: "GHS",
-  US: "USD",
-  GB: "GBP",
-  CA: "CAD",
-  AU: "AUD",
-  NZ: "NZD",
-  ZA: "ZAR",
-  KE: "KES",
-  UG: "UGX",
-  TZ: "TZS",
-  RW: "RWF",
-  EG: "EGP",
-  MA: "MAD",
-  AE: "AED",
-  SA: "SAR",
-  QA: "QAR",
-  KW: "KWD",
-  BH: "BHD",
-  OM: "OMR",
-  IN: "INR",
-  PK: "PKR",
-  BD: "BDT",
-  LK: "LKR",
-  NP: "NPR",
-  CN: "CNY",
-  JP: "JPY",
-  KR: "KRW",
-  SG: "SGD",
-  MY: "MYR",
-  TH: "THB",
-  ID: "IDR",
-  PH: "PHP",
-  VN: "VND",
-  HK: "HKD",
-  TW: "TWD",
-  BR: "BRL",
-  MX: "MXN",
-  AR: "ARS",
-  CL: "CLP",
-  CO: "COP",
-  PE: "PEN",
-  CH: "CHF",
-  SE: "SEK",
-  NO: "NOK",
-  DK: "DKK",
-  PL: "PLN",
-  CZ: "CZK",
-  HU: "HUF",
-  RO: "RON",
-  TR: "TRY",
-  DE: "EUR",
-  FR: "EUR",
-  ES: "EUR",
-  IT: "EUR",
-  NL: "EUR",
-  BE: "EUR",
-  AT: "EUR",
-  PT: "EUR",
-  IE: "EUR",
-  FI: "EUR",
-  GR: "EUR",
-  SK: "EUR",
-  SI: "EUR",
-  LT: "EUR",
-  LV: "EUR",
-  EE: "EUR",
-  LU: "EUR",
-  MT: "EUR",
-  CY: "EUR",
-  HR: "EUR",
-  SN: "XOF",
-  CI: "XOF",
-  BJ: "XOF",
-  BF: "XOF",
-  ML: "XOF",
-  NE: "XOF",
-  TG: "XOF",
-  GW: "XOF",
-  CM: "XAF",
-  GA: "XAF",
-  CG: "XAF",
-  TD: "XAF",
-  CF: "XAF",
-  GQ: "XAF",
-  IL: "ILS",
-  UA: "UAH",
-  JM: "JMD",
-  TT: "TTD",
-  ET: "ETB",
-  ZM: "ZMW",
-  MZ: "MZN",
-  BW: "BWP",
-  NA: "ZAR",
-  MU: "MUR",
-  SC: "SCR",
-  IS: "ISK",
-};
+import { marketForCountry } from "./markets";
 
 const FALLBACK: Record<string, number> = {
   ngn: 1,
@@ -209,16 +110,10 @@ export async function getNgnRates() {
   return { rates, source: "fallback" as const };
 }
 
-function currencyFromCountry(country: string | null | undefined) {
-  if (!country) return null;
-  return COUNTRY_CURRENCY[country.toUpperCase()] || null;
-}
-
 export async function detectVisitorCurrency() {
   const h = await headers();
   const headerCountry = h.get("x-vercel-ip-country") || h.get("cf-ipcountry");
-  const fromHeader = currencyFromCountry(headerCountry);
-  if (fromHeader) return fromHeader;
+  if (headerCountry) return marketForCountry(headerCountry).currency;
 
   const forwarded = (h.get("x-forwarded-for") || "").split(",")[0]?.trim() || "";
   const realIp = h.get("x-real-ip") || "";
@@ -228,16 +123,10 @@ export async function detectVisitorCurrency() {
 
   try {
     const response = await fetch(endpoint, { signal: AbortSignal.timeout(2500), cache: "no-store" });
-    const data = (await response.json()) as {
-      success?: boolean;
-      country_code?: string;
-      currency?: { code?: string } | string;
-    };
-    if (!data.success) return null;
-    const rawCode = typeof data.currency === "object" ? data.currency?.code : data.currency;
-    if (typeof rawCode === "string" && /^[A-Za-z]{3}$/.test(rawCode)) return rawCode.toUpperCase();
-    return currencyFromCountry(data.country_code);
+    const data = (await response.json()) as { success?: boolean; country_code?: string };
+    if (!data.success || !data.country_code) return "USD";
+    return marketForCountry(data.country_code).currency;
   } catch {
-    return null;
+    return "USD";
   }
 }

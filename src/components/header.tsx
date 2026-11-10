@@ -4,23 +4,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState, type ReactNode } from "react";
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
 import { FiChevronDown, FiMenu, FiMessageCircle, FiSearch, FiShoppingBag, FiX } from "react-icons/fi";
 import { logoutAction } from "@/lib/actions/auth";
 import { BLOG_CATEGORIES, CATEGORIES, canManageStudio } from "@/lib/constants";
-import { currencyName } from "@/lib/money";
+import { MARKETS, marketByCurrency } from "@/lib/markets";
 import { useCart } from "./cart-provider";
 import { useCurrency } from "./currency-provider";
 
 export function Header({
   companyName,
   email,
+  facebook,
   instagram,
+  tiktok,
+  twitter,
   session,
 }: {
   companyName: string;
   email: string;
+  facebook: string;
   instagram: string;
+  tiktok: string;
+  twitter: string;
   session: { name: string; role: string } | null;
 }) {
   const pathname = usePathname();
@@ -58,10 +64,10 @@ export function Header({
               @Qwiktechnologies.com
             </a>
             <div className="flex shrink-0 items-center gap-3 text-sm">
-              <Social href="https://www.linkedin.com" label="LinkedIn"><FaLinkedinIn /></Social>
-              <Social href="https://x.com" label="X"><FaXTwitter /></Social>
+              <Social href={facebook || "https://www.facebook.com"} label="Facebook"><FaFacebookF /></Social>
               <Social href={instagram || "https://www.instagram.com"} label="Instagram"><FaInstagram /></Social>
-              <Social href="https://www.facebook.com" label="Facebook"><FaFacebookF /></Social>
+              <Social href={tiktok || "https://www.tiktok.com"} label="TikTok"><FaTiktok /></Social>
+              <Social href={twitter || "https://x.com"} label="Twitter"><FaXTwitter /></Social>
             </div>
           </div>
         </div>
@@ -87,20 +93,20 @@ export function Header({
             <Link href="/" className={pathname === "/" ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>Home</Link>
             <div className="relative" onMouseEnter={() => setMenu("template")} onMouseLeave={() => setMenu(null)}>
               <Link href="/work" className="inline-flex items-center gap-1 hover:text-[#1d4e9e]">
-                Template <FiChevronDown className="text-xs" aria-hidden />
+                Our Work <FiChevronDown className="text-xs" aria-hidden />
               </Link>
               {menu === "template" ? <Drop links={CATEGORIES.map((item) => ({ href: `/work?category=${encodeURIComponent(item)}`, label: item }))} /> : null}
             </div>
             <div className="relative" onMouseEnter={() => setMenu("course")} onMouseLeave={() => setMenu(null)}>
               <Link href="/blog" className="inline-flex items-center gap-1 hover:text-[#1d4e9e]">
-                Course <FiChevronDown className="text-xs" aria-hidden />
+                Blog <FiChevronDown className="text-xs" aria-hidden />
               </Link>
               {menu === "course" ? <Drop links={BLOG_CATEGORIES.map((item) => ({ href: `/blog?category=${encodeURIComponent(item)}`, label: item }))} /> : null}
             </div>
-            <Link href="/about" className={pathname.startsWith("/about") ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>Who we are</Link>
+            <Link href="/about" className={pathname.startsWith("/about") ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>Who We Are</Link>
           </nav>
           <Link href="/contact" className="hidden shrink-0 rounded-md border border-[#2b2926] px-4 py-2 text-sm text-[#2b2926] hover:bg-[#2b2926] hover:text-white xl:inline-flex">
-            Get in touch
+            Get In Touch
           </Link>
           <div className="ml-auto flex shrink-0 items-center gap-1 xl:ml-0">
             <CurrencySwitcher />
@@ -128,29 +134,29 @@ export function Header({
             <div className="flex flex-col gap-1 text-sm">
               <Link href="/" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Home</Link>
               <button type="button" className="flex items-center justify-between rounded-md px-2 py-2.5 text-left hover:bg-[#f6f3ec]" aria-expanded={section === "template"} onClick={() => setSection((value) => (value === "template" ? null : "template"))}>
-                Template <FiChevronDown className={`text-xs transition ${section === "template" ? "rotate-180" : ""}`} aria-hidden />
+                Our Work <FiChevronDown className={`text-xs transition ${section === "template" ? "rotate-180" : ""}`} aria-hidden />
               </button>
               {section === "template" ? (
                 <div className="mb-1 ml-2 flex flex-col border-l border-[#ece8df] pl-2">
-                  <Link href="/work" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All templates</Link>
+                  <Link href="/work" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All work</Link>
                   {CATEGORIES.map((item) => (
                     <Link key={item} href={`/work?category=${encodeURIComponent(item)}`} className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>{item}</Link>
                   ))}
                 </div>
               ) : null}
               <button type="button" className="flex items-center justify-between rounded-md px-2 py-2.5 text-left hover:bg-[#f6f3ec]" aria-expanded={section === "course"} onClick={() => setSection((value) => (value === "course" ? null : "course"))}>
-                Course <FiChevronDown className={`text-xs transition ${section === "course" ? "rotate-180" : ""}`} aria-hidden />
+                Blog <FiChevronDown className={`text-xs transition ${section === "course" ? "rotate-180" : ""}`} aria-hidden />
               </button>
               {section === "course" ? (
                 <div className="mb-1 ml-2 flex flex-col border-l border-[#ece8df] pl-2">
-                  <Link href="/blog" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All courses</Link>
+                  <Link href="/blog" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All posts</Link>
                   {BLOG_CATEGORIES.map((item) => (
                     <Link key={item} href={`/blog?category=${encodeURIComponent(item)}`} className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>{item}</Link>
                   ))}
                 </div>
               ) : null}
-              <Link href="/about" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Who we are</Link>
-              <Link href="/contact" className="mt-1 rounded-md border border-[#2b2926] px-3 py-2.5 text-center" onClick={() => setOpen(false)}>Get in touch</Link>
+              <Link href="/about" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Who We Are</Link>
+              <Link href="/contact" className="mt-1 rounded-md border border-[#2b2926] px-3 py-2.5 text-center" onClick={() => setOpen(false)}>Get In Touch</Link>
               {session ? null : <Link href="/login" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Sign in</Link>}
             </div>
           </div>
@@ -212,45 +218,33 @@ function AccountMenu({ session }: { session: { name: string; role: string } }) {
 }
 
 function CurrencySwitcher() {
-  const { currency, setCurrency, rates } = useCurrency();
+  const { currency, setCurrency } = useCurrency();
   const [open, setOpen] = useState(false);
-  const [query, setQuery] = useState("");
-  const preferred = ["NGN", "USD", "GHS", "GBP", "EUR", "CAD", "AUD", "ZAR", "KES", "XOF", "INR", "AED"];
-  const codes = Object.keys(rates);
-  const filtered = query.trim()
-    ? codes.filter((code) => {
-        const needle = query.trim().toLowerCase();
-        return code.toLowerCase().includes(needle) || currencyName(code).toLowerCase().includes(needle);
-      }).slice(0, 12)
-    : preferred.filter((code) => code === "NGN" || rates[code]);
+  const active = marketByCurrency(currency);
 
   return (
     <div className="relative">
-      <button type="button" className="rounded-md border border-[#e4dfd4] px-2.5 py-2 text-xs tracking-wide" aria-expanded={open} aria-haspopup="listbox" onClick={() => setOpen((value) => !value)}>
-        {currency}
+      <button type="button" className="max-w-28 truncate rounded-md border border-[#e4dfd4] px-2.5 py-2 text-xs tracking-wide" aria-expanded={open} aria-haspopup="listbox" onClick={() => setOpen((value) => !value)}>
+        {active.label}
       </button>
       {open ? (
-        <div className="absolute right-0 z-50 mt-2 w-64 max-w-[calc(100vw-2rem)] rounded-md border border-[#ece8df] bg-white p-3 text-[#1c1915] shadow-xl">
-          <label className="sr-only" htmlFor="currency-search">Search currencies</label>
-          <input id="currency-search" className="field !rounded-md !py-2 text-sm" placeholder="Search currency" value={query} onChange={(event) => setQuery(event.target.value)} autoFocus />
-          <ul className="mt-2 max-h-64 overflow-auto" role="listbox">
-            {filtered.map((code) => (
-              <li key={code}>
+        <div className="absolute right-0 z-50 mt-2 w-56 max-w-[calc(100vw-2rem)] rounded-md border border-[#ece8df] bg-white p-2 text-[#1c1915] shadow-xl">
+          <ul role="listbox">
+            {MARKETS.map((market) => (
+              <li key={market.id}>
                 <button
                   type="button"
                   className="flex w-full items-center justify-between rounded px-2 py-2 text-left text-sm hover:bg-[#f6f3ec]"
                   onClick={() => {
-                    setCurrency(code);
+                    setCurrency(market.currency);
                     setOpen(false);
-                    setQuery("");
                   }}
                 >
-                  <span>{currencyName(code)}</span>
-                  <span className="text-xs text-[#6b655c]">{code}</span>
+                  <span>{market.label}</span>
+                  <span className="text-xs text-[#6b655c]">{market.currency}</span>
                 </button>
               </li>
             ))}
-            {filtered.length === 0 ? <li className="px-2 py-3 text-sm text-[#6b655c]">No currency matches.</li> : null}
           </ul>
         </div>
       ) : null}

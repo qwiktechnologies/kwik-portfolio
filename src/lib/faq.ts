@@ -1,13 +1,13 @@
 export const faqs = [
   {
-    question: "Why is the price not only in naira?",
+    question: "Why does the price change with my country?",
     answer:
-      "Every catalog price is set in Nigerian naira. When you open the site we read your country and convert that naira price into your local currency with a daily exchange rate. If we guess the country wrong, switch currency from the header. The naira amount stays on the piece so you can see the source.",
+      "Each format has its own price for Nigeria, Ghana, South Africa, Europe, the USA, Canada, the UK, Australia, and Dubai. We read your country and show that price. If your country is not on the list, you see the US dollar price. You can switch country from the header.",
   },
   {
     question: "What will I be charged?",
     answer:
-      "The catalog price is in Nigerian naira, and Paystack collects that naira total. Checkout shows one amount: the price in the currency you have selected. If that currency is naira, you see naira. There is no second dollar figure.",
+      "You see the price entered for your country. Paystack collects the Nigeria price. Checkout shows one amount, the price for the country selected in the header.",
   },
   {
     question: "What am I buying?",

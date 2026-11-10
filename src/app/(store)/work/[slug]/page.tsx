@@ -85,7 +85,7 @@ export default async function WorkDetail({ params }: { params: Promise<Params> }
         </div>
         <aside className="h-fit rounded-[1.6rem] border border-line bg-card p-6 lg:sticky lg:top-24 lg:col-span-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted">Catalog price</p>
-          <Money ngn={item.priceNgn} base className="mt-2 block font-serif text-5xl" />
+          <Money prices={item.pricesJson} ngn={item.priceNgn} className="mt-2 block font-serif text-5xl" />
           <RateLine className="mt-3 text-sm text-muted" />
           <p className="mt-4 text-sm">Timeline: {item.timeline}</p>
           <div className="mt-6">

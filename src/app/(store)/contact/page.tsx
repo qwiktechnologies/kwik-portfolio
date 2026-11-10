@@ -23,7 +23,10 @@ export default async function ContactPage() {
           <p><a className="underline underline-offset-4" href={`mailto:${profile.email}`}>{profile.email}</a></p>
           {profile.whatsapp ? <p>WhatsApp {profile.whatsapp}</p> : null}
           {profile.hours ? <p>{profile.hours}</p> : null}
+          {profile.facebook ? <p><a className="underline underline-offset-4" href={profile.facebook}>Facebook</a></p> : null}
           {profile.instagram ? <p><a className="underline underline-offset-4" href={profile.instagram}>Instagram</a></p> : null}
+          {profile.tiktok ? <p><a className="underline underline-offset-4" href={profile.tiktok}>TikTok</a></p> : null}
+          {profile.twitter ? <p><a className="underline underline-offset-4" href={profile.twitter}>Twitter</a></p> : null}
           {extra.map((row) => (
             <p key={row.label}><span className="text-muted">{row.label}: </span>{row.value}</p>
           ))}

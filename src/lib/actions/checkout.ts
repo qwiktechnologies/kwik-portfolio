@@ -3,7 +3,7 @@
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { getSession } from "@/lib/auth";
-import { getNgnRates } from "@/lib/currency";
+import { isMarketCurrency, parsePrices, priceForMarket, marketByCurrency } from "@/lib/markets";
 import { getReadyPaystack, initializePaystack } from "@/lib/payments";
 import { siteUrl } from "@/lib/site";
 
@@ -17,7 +17,7 @@ export async function getCartDetails(ids: string[]) {
   if (!unique.length) return [];
   const items = await prisma.portfolioItem.findMany({
     where: { id: { in: unique }, published: true },
-    select: { id: true, title: true, slug: true, category: true, coverImage: true, priceNgn: true, timeline: true },
+    select: { id: true, title: true, slug: true, category: true, coverImage: true, priceNgn: true, pricesJson: true, timeline: true },
   });
   return items;
 }
@@ -42,15 +42,17 @@ export async function startCheckout(lines: { id: string; quantity: number }[], d
 
   if (!priced.length) return { error: "Those formats are no longer available." };
 
-  const { rates } = await getNgnRates();
   const { config, secret } = await getReadyPaystack();
   if (!config.enabled || !secret) {
     return { error: "Payments are not open yet. The studio owner still needs to connect Paystack." };
   }
 
-  const requested = (displayCurrency || "NGN").toUpperCase();
-  const currency = requested !== "NGN" && rates[requested] ? requested : "NGN";
-  const fxRate = currency === "NGN" ? 1 : rates[currency];
+  const requested = (displayCurrency || "USD").toUpperCase();
+  const currency = isMarketCurrency(requested) ? requested : "USD";
+  const marketId = marketByCurrency(currency).id;
+  const shown = priced.map((row) => priceForMarket(parsePrices(row.item.pricesJson, row.item.priceNgn), marketId));
+  const shownCurrency = shown.find((quote) => quote.currency === currency)?.currency || shown[0]?.currency || currency;
+  const totalLocal = shown.reduce((sum, quote, index) => sum + (quote.currency === shownCurrency ? quote.amount * priced[index].quantity : 0), 0);
   const totalNgn = priced.reduce((sum, row) => sum + row.item.priceNgn * row.quantity, 0);
   const chargeAmount = totalNgn * 100;
   if (chargeAmount < 10000) return { error: "This total is below Paystack's minimum." };
@@ -59,12 +61,12 @@ export async function startCheckout(lines: { id: string; quantity: number }[], d
     data: {
       userId: session.id,
       status: "PENDING",
-      currency,
-      fxRate,
+      currency: shownCurrency,
+      fxRate: 1,
       chargeCurrency: "ngn",
       chargeAmount,
       totalNgn,
-      totalLocal: totalNgn * fxRate,
+      totalLocal,
       items: {
         create: priced.map((row) => ({
           portfolioItemId: row.item.id,

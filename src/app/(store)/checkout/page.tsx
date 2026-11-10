@@ -13,7 +13,7 @@ export default async function CheckoutPage() {
   return (
     <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
       <h1 className="font-serif text-5xl">Checkout</h1>
-      <p className="mt-3 max-w-2xl text-muted">One total, in the currency you have selected. Paystack collects the naira catalog price.</p>
+      <p className="mt-3 max-w-2xl text-muted">One total, the price set for your country. Paystack collects the Nigeria price.</p>
       <div className="mt-8">
         <CheckoutPanel
           email={session?.email || ""}

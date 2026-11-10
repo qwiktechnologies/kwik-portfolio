@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { createPerson, saveContact, saveStripe } from "@/lib/actions/admin";
+import { HERO_HEADLINE, HERO_SUBLINE, pageCopy } from "@/lib/page-copy";
 import { buttonClass, Field, Notice, TextArea } from "./ui";
 import { ExtraFields } from "./extra-fields";
 import { logoutAction } from "@/lib/actions/auth";
@@ -74,19 +75,27 @@ export function ContactSettingsForm({
     whatsapp: string;
     hours: string;
     instagram: string;
+    facebook: string;
+    tiktok: string;
+    twitter: string;
+    heroHeadline: string;
+    heroSubline: string;
     aboutHeadline: string;
     aboutBody: string;
   };
   extra: { label: string; value: string }[];
 }) {
   const [state, action, pending] = useActionState(saveContact, { error: "", ok: false });
+  const copy = pageCopy(profile);
   return (
     <form action={action} className="max-w-3xl space-y-4">
       {state.error ? <Notice>{state.error}</Notice> : null}
-      {state.ok ? <p className="rounded-2xl bg-[#e8f5ee] px-4 py-3 text-sm text-pine">Contact details updated on the public site.</p> : null}
+      {state.ok ? <p className="rounded-2xl bg-[#e8f5ee] px-4 py-3 text-sm text-pine">Page settings updated on the public site.</p> : null}
       <Field label="Company name" name="companyName" required defaultValue={profile.companyName} />
       <TextArea label="Short description" name="tagline" required defaultValue={profile.tagline} rows={3} />
-      <TextArea label="Homepage lead" name="heroLead" required defaultValue={profile.heroLead} rows={4} />
+      <TextArea label="Homepage headline" name="heroHeadline" defaultValue={copy.heroHeadline} rows={2} hint={`Shown on the landing page. Use a new line for the second line. Default: ${HERO_HEADLINE.replace("\n", " / ")}`} />
+      <Field label="Homepage line" name="heroSubline" defaultValue={copy.heroSubline} hint={HERO_SUBLINE} />
+      <TextArea label="Homepage note" name="heroLead" required defaultValue={profile.heroLead} rows={4} />
       <div className="grid gap-4 md:grid-cols-2">
         <Field label="Email" name="email" type="email" required defaultValue={profile.email} />
         <Field label="Phone" name="phone" required defaultValue={profile.phone} />
@@ -96,9 +105,14 @@ export function ContactSettingsForm({
         <Field label="WhatsApp" name="whatsapp" defaultValue={profile.whatsapp} />
         <Field label="Hours" name="hours" defaultValue={profile.hours} />
       </div>
-      <Field label="Instagram URL" name="instagram" defaultValue={profile.instagram} />
-      <Field label="About headline" name="aboutHeadline" required defaultValue={profile.aboutHeadline} />
-      <TextArea label="About page" name="aboutBody" required defaultValue={profile.aboutBody} rows={10} hint="Blank line between paragraphs." />
+      <div className="grid gap-4 md:grid-cols-2">
+        <Field label="Facebook URL" name="facebook" defaultValue={profile.facebook} />
+        <Field label="Instagram URL" name="instagram" defaultValue={profile.instagram} />
+        <Field label="TikTok URL" name="tiktok" defaultValue={profile.tiktok} />
+        <Field label="Twitter URL" name="twitter" defaultValue={profile.twitter} />
+      </div>
+      <Field label="About headline" name="aboutHeadline" required defaultValue={copy.aboutHeadline} />
+      <TextArea label="About page" name="aboutBody" required defaultValue={copy.aboutBody} rows={10} hint="Blank line between paragraphs. This text is the Who We Are section on the homepage and the about page." />
       <ExtraFields initial={extra} />
       <button className={buttonClass.solid} disabled={pending}>
         {pending ? "Saving…" : "Save contact details"}

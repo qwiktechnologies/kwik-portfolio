@@ -11,6 +11,7 @@ import { getStripeConfig } from "@/lib/profile";
 import { saveUpload } from "@/lib/uploads";
 import { slugify } from "@/lib/site";
 import { canEditContact, canManagePeople, canManageStripe, canManageStudio, isBlogCategory } from "@/lib/constants";
+import { MARKETS } from "@/lib/markets";
 import { plainText, sanitizeRichHtml } from "@/lib/rich-html";
 
 async function allowStudio() {
@@ -35,7 +36,6 @@ const portfolioSchema = z.object({
   description: z.string().min(40).max(8000),
   includes: z.string().min(4).max(4000),
   timeline: z.string().min(2).max(120),
-  priceNgn: z.coerce.number().int().positive().max(100_000_000),
   coverImage: z.string().max(2000),
   gallery: z.string().max(8000),
 });
@@ -54,11 +54,22 @@ export async function savePortfolio(_prev: { error: string }, formData: FormData
     description: String(formData.get("description") || "").trim(),
     includes: String(formData.get("includes") || "").trim(),
     timeline: String(formData.get("timeline") || "").trim(),
-    priceNgn: formData.get("priceNgn"),
     coverImage: String(formData.get("coverImage") || "").trim(),
     gallery: String(formData.get("gallery") || ""),
   });
   if (!parsed.success) return { error: parsed.error.issues[0]?.message || "Check the catalog form." };
+
+  const countryPrices: Record<string, number> = {};
+  for (const market of MARKETS) {
+    const raw = String(formData.get(`price_${market.id}`) || "").trim();
+    if (!raw) continue;
+    const amount = Number(raw);
+    if (!Number.isInteger(amount) || amount < 1 || amount > 100_000_000) {
+      return { error: `Enter a whole number for the ${market.label} price.` };
+    }
+    countryPrices[market.id] = amount;
+  }
+  if (!countryPrices.NG) return { error: "Enter the Nigeria price. Paystack collects that amount." };
 
   let cover = parsed.data.coverImage;
   const file = formData.get("coverFile");
@@ -79,7 +90,8 @@ export async function savePortfolio(_prev: { error: string }, formData: FormData
     description: parsed.data.description,
     includes: parsed.data.includes,
     timeline: parsed.data.timeline,
-    priceNgn: parsed.data.priceNgn,
+    priceNgn: countryPrices.NG,
+    pricesJson: JSON.stringify(countryPrices),
     coverImage: cover,
     gallery: galleryValue(parsed.data.gallery),
     featured: formData.get("featured") === "on",
@@ -199,6 +211,11 @@ export async function saveContact(_prev: { error: string; ok: boolean }, formDat
       whatsapp: z.string().max(40),
       hours: z.string().max(120),
       instagram: z.string().max(200),
+      facebook: z.string().max(200),
+      tiktok: z.string().max(200),
+      twitter: z.string().max(200),
+      heroHeadline: z.string().max(180),
+      heroSubline: z.string().max(180),
       aboutHeadline: z.string().min(8).max(180),
       aboutBody: z.string().min(40).max(8000),
       extraJson: z.string().max(8000),
@@ -213,6 +230,11 @@ export async function saveContact(_prev: { error: string; ok: boolean }, formDat
       whatsapp: String(formData.get("whatsapp") || "").trim(),
       hours: String(formData.get("hours") || "").trim(),
       instagram: String(formData.get("instagram") || "").trim(),
+      facebook: String(formData.get("facebook") || "").trim(),
+      tiktok: String(formData.get("tiktok") || "").trim(),
+      twitter: String(formData.get("twitter") || "").trim(),
+      heroHeadline: String(formData.get("heroHeadline") || "").trim(),
+      heroSubline: String(formData.get("heroSubline") || "").trim(),
       aboutHeadline: String(formData.get("aboutHeadline") || "").trim(),
       aboutBody: String(formData.get("aboutBody") || "").trim(),
       extraJson: String(formData.get("extraJson") || "[]"),
@@ -237,7 +259,7 @@ export async function saveContact(_prev: { error: string; ok: boolean }, formDat
     update: { ...parsed.data, extraJson: extra },
     create: { id: "main", ...parsed.data, extraJson: extra },
   });
-  revalidatePath("/");
+  revalidatePath("/", "layout");
   revalidatePath("/contact");
   revalidatePath("/about");
   return { error: "", ok: true };

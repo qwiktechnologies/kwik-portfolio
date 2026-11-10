@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { deletePortfolio, savePortfolio } from "@/lib/actions/admin";
 import { CATEGORIES } from "@/lib/constants";
+import { MARKETS, parsePrices } from "@/lib/markets";
 import { buttonClass, Field, Notice, TextArea } from "./ui";
 
 type Item = {
@@ -16,6 +17,7 @@ type Item = {
   coverImage: string;
   gallery: string;
   priceNgn: number;
+  pricesJson?: string | null;
   timeline: string;
   featured: boolean;
   published: boolean;
@@ -24,6 +26,7 @@ type Item = {
 export function PortfolioForm({ item }: { item?: Item }) {
   const [state, action, pending] = useActionState(savePortfolio, { error: "" });
   const categories = item && !CATEGORIES.includes(item.category as (typeof CATEGORIES)[number]) ? [item.category, ...CATEGORIES] : [...CATEGORIES];
+  const prices = parsePrices(item?.pricesJson, item?.priceNgn || 0);
   return (
     <form action={action} className="grid gap-4">
       {item ? <input type="hidden" name="id" value={item.id} /> : null}
@@ -43,10 +46,22 @@ export function PortfolioForm({ item }: { item?: Item }) {
       <TextArea label="Summary" name="summary" required defaultValue={item?.summary} rows={3} />
       <TextArea label="Description" name="description" required defaultValue={item?.description} rows={8} />
       <TextArea label="What is included" name="includes" required defaultValue={item?.includes} rows={6} hint="One line per item." />
-      <div className="grid gap-4 md:grid-cols-2">
-        <Field label="Price in naira" name="priceNgn" type="number" min={1} required defaultValue={item?.priceNgn} />
-        <Field label="Timeline" name="timeline" required defaultValue={item?.timeline} />
-      </div>
+      <fieldset className="grid gap-4 rounded-2xl border border-line p-4 md:grid-cols-2">
+        <legend className="px-1 text-sm font-medium">Price for each country</legend>
+        {MARKETS.map((market) => (
+          <Field
+            key={market.id}
+            label={`${market.label} (${market.currency})`}
+            name={`price_${market.id}`}
+            type="number"
+            min={1}
+            required={market.id === "NG"}
+            defaultValue={prices[market.id] || ""}
+            hint={market.id === "US" ? "Visitors outside this list see the USA price." : market.id === "NG" ? "Paystack collects this naira amount." : undefined}
+          />
+        ))}
+      </fieldset>
+      <Field label="Timeline" name="timeline" required defaultValue={item?.timeline} />
       <Field label="Cover image URL" name="coverImage" defaultValue={item?.coverImage} hint="Paste an image URL, or upload a file below. Upload wins." />
       <label className="block">
         <span className="mb-1.5 block text-sm font-medium">Upload cover</span>

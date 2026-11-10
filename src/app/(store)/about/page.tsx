@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { buttonClass } from "@/components/ui";
+import { pageCopy, paragraphs } from "@/lib/page-copy";
 import { getProfile } from "@/lib/profile";
 
 export const metadata: Metadata = {
@@ -19,22 +20,19 @@ const reasons = [
 
 export default async function AboutPage() {
   const profile = await getProfile();
+  const copy = pageCopy(profile);
   return (
     <article>
       <section className="bg-[linear-gradient(105deg,#d7e3f8_0%,#8ea6e0_100%)]">
         <div className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-6">
-          <h1 className="max-w-3xl font-serif text-5xl leading-tight text-[#f7f4ee] sm:text-6xl">Who We Are</h1>
+          <h1 className="max-w-3xl font-serif text-5xl leading-tight text-[#f7f4ee] sm:text-6xl">{copy.aboutHeadline}</h1>
         </div>
       </section>
       <div className="mx-auto grid w-full max-w-[1200px] items-start gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2">
-        <div className="space-y-4 text-sm leading-7 text-[#5c5648]">
-          <p>
-            At Qwiktechnologies, we are a team of passionate digital innovators dedicated to helping businesses thrive in the ever-evolving digital landscape. Our goal is to transform your vision into reality by providing a full suite of customized digital solutions that drive results and deliver lasting value.
-          </p>
-          <p>
-            Whether you need a stunning website, seamless user experiences, or strategies to grow your brand, we are here to guide you every step of the way.
-          </p>
-          <p>Our team of seasoned designers and strategists bring a wealth of experience and a creative edge to every project.</p>
+        <div className="space-y-4 text-sm leading-7 text-[#16181d]">
+          {paragraphs(copy.aboutBody).map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
           <dl className="grid gap-4 pt-4 sm:grid-cols-2">
             <div>
               <dt className="text-xs uppercase tracking-[0.14em] text-[#6b655c]">Studio</dt>

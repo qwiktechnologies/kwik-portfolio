@@ -4,8 +4,11 @@ import { FiCheck } from "react-icons/fi";
 import { HeroDevices } from "@/components/hero-devices";
 import { JsonLd } from "@/components/json-ld";
 import { NewsletterForm } from "@/components/newsletter-form";
+import { WorkCard } from "@/components/work-card";
 import { buttonClass } from "@/components/ui";
+import { prisma } from "@/lib/db";
 import { faqs } from "@/lib/faq";
+import { pageCopy, paragraphs } from "@/lib/page-copy";
 import { getProfile } from "@/lib/profile";
 import { siteUrl } from "@/lib/site";
 
@@ -69,7 +72,21 @@ const reasons = [
 
 export default async function HomePage() {
   const profile = await getProfile();
+  const copy = pageCopy(profile);
   const url = siteUrl();
+  let featured = await prisma.portfolioItem.findMany({
+    where: { published: true, featured: true },
+    orderBy: { updatedAt: "desc" },
+    take: 6,
+  });
+  if (!featured.length) {
+    featured = await prisma.portfolioItem.findMany({
+      where: { published: true },
+      orderBy: { createdAt: "desc" },
+      take: 3,
+    });
+  }
+  const heroLines = copy.heroHeadline.split(/\n+/).map((line) => line.trim()).filter(Boolean);
 
   return (
     <>
@@ -107,14 +124,12 @@ export default async function HomePage() {
       <section className="bg-[linear-gradient(102deg,#d7e4f8_0%,#8eace8_46%,#2f56c3_100%)]">
         <div className="mx-auto grid w-full max-w-[1280px] items-center gap-4 px-5 py-8 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:py-10">
           <div>
-            <h1 className="font-serif text-[1.85rem] leading-[1.12] text-[#f6f3ec] sm:text-[2.45rem] lg:text-[3.05rem]">
-              Empower Your Brand with
-              <br />
-              Tailored Digital Solutions
+            <h1 className="font-serif text-[1.85rem] leading-[1.12] text-[#16181d] sm:text-[2.45rem] lg:text-[3.05rem]">
+              {heroLines.map((line) => (
+                <span key={line} className="block">{line}</span>
+              ))}
             </h1>
-            <p className="mt-3 max-w-md text-[13px] leading-5 text-[#f6f3ec]/80 sm:text-sm sm:leading-6">
-              From stunning websites and compelling designs to expert marketing and tech solutions, we bring your vision to life. Let&apos;s build, design, and grow your digital presence.
-            </p>
+            <p className="mt-3 text-base text-[#f6f3ec] sm:text-lg">{copy.heroSubline}</p>
             <Link href="/work" className="mt-5 inline-flex rounded-[4px] bg-[#f15a22] px-4 py-2 font-serif text-[15px] italic text-white shadow-sm transition hover:bg-[#d94e1c]">
               Explore Now
             </Link>
@@ -123,18 +138,25 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {featured.length ? (
+        <section className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6" aria-labelledby="featured-heading">
+          <h2 id="featured-heading" className="font-serif text-4xl text-[#1d4e9e]">Featured website templates</h2>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((item) => (
+              <WorkCard key={item.id} item={item} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <section className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-6" aria-labelledby="who-heading">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
-            <h2 id="who-heading" className="font-serif text-4xl text-[#1c1915]">Who We Are</h2>
-            <div className="mt-5 space-y-4 text-sm leading-7 text-[#5c5648]">
-              <p>
-                At Qwiktechnologies, we are a team of passionate digital innovators dedicated to helping businesses thrive in the ever-evolving digital landscape. Our goal is to transform your vision into reality by providing a full suite of customized digital solutions that drive results and deliver lasting value.
-              </p>
-              <p>
-                Whether you need a stunning website, seamless user experiences, or strategies to grow your brand, we are here to guide you every step of the way.
-              </p>
-              <p>Our team of seasoned designers and strategists bring a wealth of experience and a creative edge to every project.</p>
+            <h2 id="who-heading" className="font-serif text-4xl text-[#1d4e9e]">Who We Are</h2>
+            <div className="mt-5 space-y-4 text-sm leading-7 text-[#16181d]">
+              {paragraphs(copy.aboutBody).map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
             </div>
             <Link href="/about" className={`${buttonClass.orange} mt-6`}>See More</Link>
           </div>
@@ -156,7 +178,7 @@ export default async function HomePage() {
 
       <section className="bg-[#f7f6f3] py-16" aria-labelledby="do-heading">
         <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6">
-          <h2 id="do-heading" className="text-center font-serif text-4xl">What We Do</h2>
+          <h2 id="do-heading" className="text-center font-serif text-4xl text-[#16181d]">What We Do</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
               <article key={service.title} className="flex flex-col bg-[#f3f0e8]">

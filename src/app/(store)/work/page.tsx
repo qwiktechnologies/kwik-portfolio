@@ -7,8 +7,8 @@ import { prisma } from "@/lib/db";
 import { CATEGORIES } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Templates",
-  description: "Browse Qwik Technologies templates. Prices are set in naira and shown in your currency.",
+  title: "Our Work",
+  description: "Browse Qwik Technologies templates. Each country has its own price, and anywhere else sees US dollars.",
   alternates: { canonical: "/work" },
 };
 
@@ -57,8 +57,8 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
     <div className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="font-serif text-4xl sm:text-5xl">Templates</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#5c5648]">The formats already on the shelf. Each one keeps its naira price, shown in your currency.</p>
+          <h2 className="font-serif text-4xl text-[#1d4e9e] sm:text-5xl">Our Work</h2>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#16181d]">The formats already on the shelf. You see the price set for your country.</p>
         </div>
         <RateLine className="text-sm text-[#6b655c]" />
       </div>
@@ -89,7 +89,7 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
           </div>
         </section>
       ) : null}
-      <h2 className="mt-12 font-serif text-3xl">All Templates</h2>
+      <h2 className="mt-12 font-serif text-3xl text-[#16181d]">All work</h2>
       {items.length ? (
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
@@ -112,6 +112,11 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
           </div>
         </section>
       ) : null}
+      <section className="mt-16 rounded-md bg-[#0c1220] px-6 py-10 text-white sm:px-10">
+        <h2 className="font-serif text-3xl text-[#f6f3ec] sm:text-4xl">Explain to us what you want and we deliver</h2>
+        <p className="mt-3 max-w-xl text-sm leading-6 text-white/80">Tell us the business, the pages, and the result you need. We will build it.</p>
+        <Link href="/contact" className="mt-6 inline-flex rounded-md bg-[#f15a22] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#d94e1c]">Contact us</Link>
+      </section>
     </div>
     </>
   );

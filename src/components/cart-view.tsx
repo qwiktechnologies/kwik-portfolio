@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getCartDetails } from "@/lib/actions/checkout";
+import { sumQuotes } from "@/lib/markets";
 import { formatMoney } from "@/lib/money";
 import { useCart } from "./cart-provider";
 import { Money } from "./money";
@@ -16,6 +17,7 @@ type Item = {
   category: string;
   coverImage: string;
   priceNgn: number;
+  pricesJson?: string | null;
   timeline: string;
 };
 
@@ -39,7 +41,10 @@ export function CartView() {
   }
 
   const byId = new Map(items.map((item) => [item.id, item]));
-  const total = lines.reduce((sum, line) => sum + (byId.get(line.id)?.priceNgn || 0) * line.quantity, 0);
+  const priced = lines.flatMap((line) => {
+    const item = byId.get(line.id);
+    return item ? [{ pricesJson: item.pricesJson, priceNgn: item.priceNgn, quantity: line.quantity }] : [];
+  });
   const missing = lines.filter((line) => items.length && !byId.get(line.id));
 
   return (
@@ -81,7 +86,7 @@ export function CartView() {
                       onChange={(event) => setQuantity(line.id, Number(event.target.value))}
                     />
                   </label>
-                  <Money ngn={item.priceNgn * line.quantity} className="text-sm font-medium" />
+                  <Money prices={item.pricesJson} ngn={item.priceNgn} quantity={line.quantity} className="text-sm font-medium" />
                 </div>
                 <button className="mt-3 text-xs text-muted underline" type="button" onClick={() => remove(line.id)}>
                   Remove
@@ -92,21 +97,22 @@ export function CartView() {
         })}
         {missing.length ? null : null}
       </ul>
-      <CartTotal totalNgn={total} />
+      <CartTotal lines={priced} />
     </div>
   );
 }
 
-function CartTotal({ totalNgn }: { totalNgn: number }) {
+function CartTotal({ lines }: { lines: { pricesJson?: string | null; priceNgn: number; quantity: number }[] }) {
+  const { currency } = useCurrency();
+  const total = sumQuotes(lines, currency);
   return (
     <aside className="h-fit rounded-3xl border border-line bg-card p-6 lg:sticky lg:top-24">
       <p className="text-xs uppercase tracking-[0.16em] text-muted">Cart total</p>
-      <Money ngn={totalNgn} base className="mt-3 block font-serif text-4xl" />
-      <p className="mt-4 text-sm leading-6 text-muted">Checkout shows this total in your currency. Paystack collects the naira price.</p>
+      <p className="mt-3 font-serif text-4xl">{formatMoney(total.amount, total.currency)}</p>
+      <p className="mt-4 text-sm leading-6 text-muted">This is the price for your country. Paystack collects the Nigeria price.</p>
       <Link href="/checkout" className={`${buttonClass.solid} mt-6 w-full`}>
         Checkout
       </Link>
-      <p className="mt-3 text-center text-xs text-muted">{formatMoney(totalNgn, "NGN")} catalog</p>
     </aside>
   );
 }

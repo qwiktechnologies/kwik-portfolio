@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getCartDetails, startCheckout } from "@/lib/actions/checkout";
+import { sumQuotes } from "@/lib/markets";
+import { formatMoney } from "@/lib/money";
 import { useCart } from "./cart-provider";
 import { Money, RateLine } from "./money";
 import { useCurrency } from "./currency-provider";
 import { buttonClass, EmptyState, Notice } from "./ui";
 
-type Item = { id: string; title: string; priceNgn: number; quantity: number };
+type Item = { id: string; title: string; priceNgn: number; pricesJson?: string | null; quantity: number };
 
 export function CheckoutPanel({
   email,
@@ -42,7 +44,7 @@ export function CheckoutPanel({
     return <EmptyState title="Nothing to pay for yet." body="Add a format from the catalog, then come back to checkout." href="/work" action="Browse the catalog" />;
   }
 
-  const totalNgn = items.reduce((sum, item) => sum + item.priceNgn * item.quantity, 0);
+  const shown = sumQuotes(items, currency);
 
   async function pay() {
     setPending(true);
@@ -74,7 +76,7 @@ export function CheckoutPanel({
                 <p className="font-medium">{item.title}</p>
                 <p className="text-sm text-muted">Qty {item.quantity}</p>
               </div>
-              <Money ngn={item.priceNgn * item.quantity} className="text-sm" />
+              <Money prices={item.pricesJson} ngn={item.priceNgn} quantity={item.quantity} className="text-sm" />
             </li>
           ))}
         </ul>
@@ -84,8 +86,8 @@ export function CheckoutPanel({
         <RateLine className="mt-4 text-sm text-muted" />
         <div className="mt-6 border-t border-line pt-5">
           <p className="text-xs uppercase tracking-[0.16em] text-muted">Total</p>
-          <Money ngn={totalNgn} className="mt-1 block font-serif text-4xl" />
-          <p className="mt-2 text-sm leading-6 text-muted">Paystack collects the naira catalog total on the next page.</p>
+          <p className="mt-1 font-serif text-4xl">{formatMoney(shown.amount, shown.currency)}</p>
+          <p className="mt-2 text-sm leading-6 text-muted">This is the price for your country. Paystack collects the Nigeria price.</p>
         </div>
         {error ? <div className="mt-4"><Notice>{error}</Notice></div> : null}
         {!paymentsOpen ? <p className="mt-4 text-sm text-muted">Payments are not open yet. The studio owner still needs to connect Paystack.</p> : null}

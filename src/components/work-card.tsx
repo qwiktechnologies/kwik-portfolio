@@ -5,7 +5,7 @@ import { Money } from "./money";
 export function WorkCard({
   item,
 }: {
-  item: { slug: string; title: string; category: string; summary: string; coverImage: string; priceNgn: number };
+  item: { slug: string; title: string; category: string; summary: string; coverImage: string; priceNgn: number; pricesJson?: string | null };
 }) {
   return (
     <article className="flex flex-col overflow-hidden rounded-md border border-[#ece8df] bg-white">
@@ -24,7 +24,7 @@ export function WorkCard({
           <Link href={`/work/${item.slug}`}>{item.title}</Link>
         </h3>
         <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#5c5648]">{item.summary}</p>
-        <Money ngn={item.priceNgn} className="mt-4 text-lg font-semibold text-[#1c1915]" />
+        <Money prices={item.pricesJson} ngn={item.priceNgn} className="mt-4 text-lg font-semibold text-[#1c1915]" />
         <div className="mt-3 flex flex-wrap gap-2">
           <Link href={`/work/${item.slug}`} className="rounded-md bg-[#f15a22] px-4 py-2 text-sm font-medium text-white hover:bg-[#d94e1c]">
             Buy Now

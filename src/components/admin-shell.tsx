@@ -13,7 +13,7 @@ const links = [
   { href: "/admin/messages", label: "Messages", icon: FiMail },
   { href: "/admin/blog", label: "Blog", icon: FiBookOpen },
   { href: "/admin/people", label: "People", icon: FiUsers, roles: ["SUPER_ADMIN", "ADMIN"] },
-  { href: "/admin/contact", label: "Contact", icon: FiMapPin, roles: ["SUPER_ADMIN", "ADMIN"] },
+  { href: "/admin/contact", label: "Page settings", icon: FiMapPin, roles: ["SUPER_ADMIN", "ADMIN"] },
   { href: "/admin/stripe", label: "Paystack", icon: FiKey, roles: ["SUPER_ADMIN"] },
 ];
 
