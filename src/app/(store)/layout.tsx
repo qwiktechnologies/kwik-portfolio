@@ -6,7 +6,7 @@ import { getProfile } from "@/lib/profile";
 export default async function StoreLayout({ children }: { children: React.ReactNode }) {
   const [session, profile] = await Promise.all([getSession(), getProfile()]);
   return (
-    <div className="min-h-screen bg-white text-[#1c1915]">
+    <div className="store-theme min-h-screen bg-[#071018] text-[#f4f7fb]">
       <Header
         companyName={profile.companyName}
         email={profile.email}

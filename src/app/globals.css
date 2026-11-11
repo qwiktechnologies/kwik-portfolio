@@ -17,6 +17,16 @@ html {
   scroll-behavior: smooth;
 }
 
+.store-theme {
+  --color-muted: #c5d0e0;
+  --color-ink: #f4f7fb;
+  --color-card: #122033;
+  --color-line: #1d4e9e;
+  --color-paper: #f4f7fb;
+  background: #071018;
+  color: #f4f7fb;
+}
+
 body {
   background: var(--color-paper);
   color: var(--color-ink);

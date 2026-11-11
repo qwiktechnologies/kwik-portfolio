@@ -121,26 +121,28 @@ export default async function HomePage() {
         ]}
       />
 
-      <section className="bg-[linear-gradient(102deg,#d7e4f8_0%,#8eace8_46%,#2f56c3_100%)]">
-        <div className="mx-auto grid w-full max-w-[1280px] items-center gap-4 px-5 py-8 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:py-10">
-          <div>
-            <h1 className="font-serif text-[1.85rem] leading-[1.12] text-[#16181d] sm:text-[2.45rem] lg:text-[3.05rem]">
+      <section className="bg-[#1d4e9e]">
+        <div className="mx-auto grid w-full max-w-[1280px] items-center lg:grid-cols-[1.15fr_0.85fr]">
+          <div className="bg-[#f15a22] px-5 py-10 sm:px-10 lg:py-14">
+            <h1 className="font-serif text-[1.85rem] leading-[1.12] text-[#0c1220] sm:text-[2.45rem] lg:text-[3.05rem]">
               {heroLines.map((line) => (
                 <span key={line} className="block">{line}</span>
               ))}
             </h1>
-            <p className="mt-3 text-base text-[#f6f3ec] sm:text-lg">{copy.heroSubline}</p>
-            <Link href="/work" className="mt-5 inline-flex rounded-[4px] bg-[#f15a22] px-4 py-2 font-serif text-[15px] italic text-white shadow-sm transition hover:bg-[#d94e1c]">
+            <p className="mt-3 text-base font-medium text-[#0c1220] sm:text-lg">{copy.heroSubline}</p>
+            <Link href="/work" className="mt-5 inline-flex rounded-[4px] bg-[#0c1220] px-4 py-2 font-serif text-[15px] italic text-white shadow-sm transition hover:bg-[#1d4e9e]">
               Explore Now
             </Link>
           </div>
-          <HeroDevices />
+          <div className="flex items-center justify-center px-5 py-8">
+            <HeroDevices />
+          </div>
         </div>
       </section>
 
       {featured.length ? (
         <section className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6" aria-labelledby="featured-heading">
-          <h2 id="featured-heading" className="font-serif text-4xl text-[#1d4e9e]">Featured website templates</h2>
+          <h2 id="featured-heading" className="font-serif text-4xl text-[#f15a22]">Featured website templates</h2>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((item) => (
               <WorkCard key={item.id} item={item} />
@@ -152,8 +154,8 @@ export default async function HomePage() {
       <section className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-6" aria-labelledby="who-heading">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
-            <h2 id="who-heading" className="font-serif text-4xl text-[#1d4e9e]">Who We Are</h2>
-            <div className="mt-5 space-y-4 text-sm leading-7 text-[#16181d]">
+            <h2 id="who-heading" className="font-serif text-4xl text-[#9ec0ff]">Who We Are</h2>
+            <div className="mt-5 space-y-4 text-sm leading-7 text-[#f4f7fb]">
               {paragraphs(copy.aboutBody).map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
@@ -166,29 +168,29 @@ export default async function HomePage() {
         </div>
         <dl className="mt-12 grid gap-8 sm:grid-cols-2">
           <div>
-            <dt className="font-serif text-4xl text-[#1d4e9e]">5+</dt>
-            <dd className="text-lg text-[#1d4e9e]">Years of Experience</dd>
+            <dt className="font-serif text-4xl text-[#f15a22]">5+</dt>
+            <dd className="text-lg text-[#9ec0ff]">Years of Experience</dd>
           </div>
           <div>
-            <dt className="font-serif text-4xl text-[#1d4e9e]">13k</dt>
-            <dd className="text-lg text-[#1d4e9e]">Customer Satisfaction</dd>
+            <dt className="font-serif text-4xl text-[#f15a22]">13k</dt>
+            <dd className="text-lg text-[#9ec0ff]">Customer Satisfaction</dd>
           </div>
         </dl>
       </section>
 
-      <section className="bg-[#f7f6f3] py-16" aria-labelledby="do-heading">
+      <section className="bg-[#1d4e9e] py-16" aria-labelledby="do-heading">
         <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6">
-          <h2 id="do-heading" className="text-center font-serif text-4xl text-[#16181d]">What We Do</h2>
+          <h2 id="do-heading" className="text-center font-serif text-4xl text-[#0c1220]">What We Do</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {services.map((service) => (
-              <article key={service.title} className="flex flex-col bg-[#f3f0e8]">
+              <article key={service.title} className="flex flex-col bg-[#0c1220] text-white">
                 <div className="relative aspect-[16/10]">
                   <Image src={service.image} alt={service.alt} fill className="object-cover" sizes="(min-width: 1024px) 30vw, 100vw" />
                 </div>
                 <div className="flex flex-1 flex-col px-5 py-6 text-center">
                   <h3 className="text-base font-semibold">{service.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-[#5c5648]">{service.body}</p>
-                  <Link href="/contact" className="mx-auto mt-5 inline-flex rounded-md border border-[#2b2926] px-4 py-2 text-sm hover:bg-[#2b2926] hover:text-white">
+                  <p className="mt-3 text-sm leading-6 text-[#d5deee]">{service.body}</p>
+                  <Link href="/contact" className="mx-auto mt-5 inline-flex rounded-md bg-[#f15a22] px-4 py-2 text-sm font-medium text-[#0c1220] hover:bg-[#ff7a45]">
                     Get In Touch
                   </Link>
                 </div>
@@ -199,8 +201,8 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto w-full max-w-[1200px] px-4 py-14 text-center sm:px-6">
-        <h2 className="font-serif text-3xl text-[#1d4e9e] sm:text-4xl">Ready to Elevate Your Digital Presence?</h2>
-        <p className="mt-2 text-[#1d4e9e]">Let&apos;s work together to build something extraordinary.</p>
+        <h2 className="font-serif text-3xl text-[#f15a22] sm:text-4xl">Ready to Elevate Your Digital Presence?</h2>
+        <p className="mt-2 text-[#9ec0ff]">Let&apos;s work together to build something extraordinary.</p>
         <Link href="/contact" className="mt-5 inline-flex rounded-md border border-[#f15a22] px-5 py-2.5 text-sm text-[#f15a22] hover:bg-[#f15a22] hover:text-white">
           Get Started Today
         </Link>
@@ -208,7 +210,7 @@ export default async function HomePage() {
 
       <section aria-labelledby="why-heading">
         <div className="mx-auto w-full max-w-[1200px] px-4 pb-6 pt-4 text-left sm:px-6 lg:text-right">
-          <h2 id="why-heading" className="font-serif text-4xl">Why Choose Us</h2>
+          <h2 id="why-heading" className="font-serif text-4xl text-[#f15a22]">Why Choose Us</h2>
           <p className="mt-2 text-sm text-[#c4beb4]">Empowering your business with technology, innovation, and a customer-first approach.</p>
         </div>
         <div className="relative min-h-[560px] overflow-hidden bg-[#10131a]">
@@ -231,24 +233,24 @@ export default async function HomePage() {
       </section>
 
       <section className="mx-auto grid w-full max-w-[1200px] items-center gap-6 px-4 py-16 sm:px-6 lg:grid-cols-2">
-        <h2 className="max-w-sm font-serif text-3xl leading-snug text-[#1d4e9e] sm:text-4xl">
+        <h2 className="max-w-sm font-serif text-3xl leading-snug text-[#f15a22] sm:text-4xl">
           Subribe to our newsletter to get free brand Guide
         </h2>
         <NewsletterForm />
       </section>
 
       <section className="mx-auto w-full max-w-[1200px] px-4 pb-16 text-center sm:px-6" aria-labelledby="stories-heading">
-        <h2 id="stories-heading" className="text-sm text-[#6b655c]">Client Testimonial</h2>
+        <h2 id="stories-heading" className="text-sm text-[#9ec0ff]">Client Testimonial</h2>
       </section>
 
-      <section id="faq" className="border-t border-[#ece8df] bg-white">
+      <section id="faq" className="border-t border-[#1d4e9e] bg-[#0c1220]">
         <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
-          <h2 className="font-serif text-4xl">FAQ</h2>
-          <div className="mt-6 divide-y divide-[#ece8df] border-y border-[#ece8df]">
+          <h2 className="font-serif text-4xl text-[#f15a22]">FAQ</h2>
+          <div className="mt-6 divide-y divide-[#1d4e9e] border-y border-[#1d4e9e]">
             {faqs.map((faq) => (
               <details key={faq.question} className="group py-4">
-                <summary className="cursor-pointer list-none font-medium">{faq.question}</summary>
-                <p className="max-w-3xl pt-3 text-sm leading-6 text-[#5c5648]">{faq.answer}</p>
+                <summary className="cursor-pointer list-none font-medium text-white">{faq.question}</summary>
+                <p className="max-w-3xl pt-3 text-sm leading-6 text-[#d5deee]">{faq.answer}</p>
               </details>
             ))}
           </div>

@@ -57,23 +57,23 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
     <div className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="font-serif text-4xl text-[#1d4e9e] sm:text-5xl">Our Work</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#16181d]">The formats already on the shelf. You see the price set for your country.</p>
+          <h2 className="font-serif text-4xl text-[#f15a22] sm:text-5xl">Our Work</h2>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-[#f4f7fb]">The formats already on the shelf. You see the price set for your country.</p>
         </div>
-        <RateLine className="text-sm text-[#6b655c]" />
+        <RateLine className="text-sm text-[#9ec0ff]" />
       </div>
       <form action="/work" className="mt-6">
         <label className="sr-only" htmlFor="template-search">Search category</label>
-        <input id="template-search" name="q" defaultValue={query} placeholder="Search category" className="h-11 w-full max-w-md rounded-md border border-[#e4dfd4] px-4 text-sm outline-none focus:border-[#1d4e9e]" />
+        <input id="template-search" name="q" defaultValue={query} placeholder="Search category" className="h-11 w-full max-w-md rounded-md border border-[#1d4e9e] bg-[#122033] px-4 text-sm text-white outline-none placeholder:text-[#9aa8c0] focus:border-[#f15a22]" />
       </form>
       <div className="mt-6">
         <p className="text-sm font-medium">All Categories</p>
         <div className="chip-row mt-3">
-          <Link href="/work" className={`shrink-0 rounded-md px-4 py-2 text-sm ${active === "" ? "bg-[#0c1220] text-white" : "border border-[#e4dfd4] bg-white"}`}>
+          <Link href="/work" className={`shrink-0 rounded-md px-4 py-2 text-sm ${active === "" ? "bg-[#f15a22] text-[#0c1220]" : "border border-[#1d4e9e] bg-[#122033] text-white"}`}>
             All
           </Link>
           {CATEGORIES.map((item) => (
-            <Link key={item} href={`/work?category=${encodeURIComponent(item)}`} className={`shrink-0 rounded-md px-4 py-2 text-sm ${active === item ? "bg-[#0c1220] text-white" : "border border-[#e4dfd4] bg-white"}`}>
+            <Link key={item} href={`/work?category=${encodeURIComponent(item)}`} className={`shrink-0 rounded-md px-4 py-2 text-sm ${active === item ? "bg-[#f15a22] text-[#0c1220]" : "border border-[#1d4e9e] bg-[#122033] text-white"}`}>
               {item}
             </Link>
           ))}
@@ -89,7 +89,7 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
           </div>
         </section>
       ) : null}
-      <h2 className="mt-12 font-serif text-3xl text-[#16181d]">All work</h2>
+      <h2 className="mt-12 font-serif text-3xl text-[#9ec0ff]">All work</h2>
       {items.length ? (
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (
@@ -97,7 +97,7 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
           ))}
         </div>
       ) : (
-        <p className="mt-10 text-[#5c5648]">Nothing in this category yet.</p>
+        <p className="mt-10 text-[#d5deee]">Nothing in this category yet.</p>
       )}
       {!query && !active ? (
         <section className="mt-16" aria-labelledby="top-categories">
@@ -113,7 +113,7 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
         </section>
       ) : null}
       <section className="mt-16 rounded-md bg-[#0c1220] px-6 py-10 text-white sm:px-10">
-        <h2 className="font-serif text-3xl text-[#f6f3ec] sm:text-4xl">Explain to us what you want and we deliver</h2>
+        <h2 className="font-serif text-3xl text-[#f15a22] sm:text-4xl">Explain to us what you want and we deliver</h2>
         <p className="mt-3 max-w-xl text-sm leading-6 text-white/80">Tell us the business, the pages, and the result you need. We will build it.</p>
         <Link href="/contact" className="mt-6 inline-flex rounded-md bg-[#f15a22] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#d94e1c]">Contact us</Link>
       </section>

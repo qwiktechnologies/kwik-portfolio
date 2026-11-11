@@ -16,7 +16,7 @@ export default async function ContactPage() {
     <div className="mx-auto grid w-full max-w-[1200px] gap-12 px-4 py-14 sm:px-6 lg:grid-cols-12">
       <div className="lg:col-span-5">
         <h1 className="font-serif text-5xl leading-tight">Contact us</h1>
-        <p className="mt-4 text-sm leading-7 text-[#5c5648]">Have a project in mind? Tell us what the business does. If a template fits, we will point you at it.</p>
+        <p className="mt-4 text-sm leading-7 text-[#d5deee]">Have a project in mind? Tell us what the business does. If a template fits, we will point you at it.</p>
         <address className="mt-8 space-y-3 text-sm not-italic leading-6">
           <p>{profile.address}</p>
           <p><a className="underline underline-offset-4" href={`tel:${profile.phone.replace(/[^\d+]/g, "")}`}>{profile.phone}</a></p>
