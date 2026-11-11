@@ -35,7 +35,7 @@ export function Footer({ profile }: { profile: Profile }) {
 
   return (
     <footer className="bg-[#14161c] text-[#d7d3cb]">
-      <div className="mx-auto grid w-full max-w-[1200px] gap-10 px-4 py-14 sm:px-6 md:grid-cols-12">
+      <div className="mx-auto grid w-[90%] gap-10 py-14 md:grid-cols-12">
         <div className="md:col-span-6">
           <Link href="/" className="inline-flex max-w-full items-center gap-3 text-white">
             <Image src="/brand/logo.png" alt="" width={48} height={56} className="h-12 w-auto" />

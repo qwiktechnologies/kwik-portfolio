@@ -24,11 +24,11 @@ export default async function AboutPage() {
   return (
     <article>
       <section className="bg-[#1d4e9e]">
-        <div className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-6">
+        <div className="mx-auto w-[90%] py-16">
           <h1 className="max-w-3xl font-serif text-5xl leading-tight text-[#0c1220] sm:text-6xl">{copy.aboutHeadline}</h1>
         </div>
       </section>
-      <div className="mx-auto grid w-full max-w-[1200px] items-start gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2">
+      <div className="mx-auto grid w-[90%] items-start gap-10 py-14 lg:grid-cols-2">
         <div className="space-y-4 text-sm leading-7 text-[#f4f7fb]">
           {paragraphs(copy.aboutBody).map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
@@ -50,7 +50,7 @@ export default async function AboutPage() {
         </div>
       </div>
       <section className="bg-[#16181d] text-white">
-        <div className="mx-auto grid w-full max-w-[1200px] gap-8 px-4 py-14 sm:px-6 md:grid-cols-2">
+        <div className="mx-auto grid w-[90%] gap-8 py-14 md:grid-cols-2">
           {reasons.map(([title, body]) => (
             <article key={title}>
               <h2 className="text-xl">{title}</h2>

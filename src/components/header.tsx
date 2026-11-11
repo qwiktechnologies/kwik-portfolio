@@ -53,7 +53,7 @@ export function Header({
   return (
     <header className="sticky top-0 z-40">
       <div className="bg-[#0c1220] text-white">
-        <div className="mx-auto flex h-10 w-full max-w-[1200px] items-center justify-between gap-3 px-4 text-xs sm:px-6">
+        <div className="mx-auto flex h-10 w-[90%] items-center justify-between gap-3 text-xs">
           <Link href="/#faq" className="inline-flex shrink-0 items-center gap-1.5 hover:text-white/80">
             <FiMessageCircle aria-hidden />
             FAQ
@@ -73,7 +73,7 @@ export function Header({
         </div>
       </div>
       <div className="border-b border-[#1d4e9e] bg-[#0c1220] text-white">
-        <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-2 px-4 sm:h-[72px] sm:gap-4 sm:px-6">
+        <div className="mx-auto flex h-16 w-[90%] items-center gap-2 sm:h-[72px] sm:gap-4">
           <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
             <Image src="/brand/logo.png" alt={companyName} width={70} height={80} className="h-10 w-auto sm:h-11" priority />
           </Link>

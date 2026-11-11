@@ -48,13 +48,13 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
     <>
     <section className="relative min-h-[280px] overflow-hidden bg-[#10243a]">
       <Image src="/brand/catalog-banner.jpg" alt="" fill className="object-cover opacity-45" sizes="100vw" priority />
-      <div className="relative mx-auto flex w-full max-w-[1200px] flex-col items-start px-4 py-16 text-white sm:px-6">
+      <div className="relative mx-auto flex w-[90%] flex-col items-start py-16 text-white">
         <h1 className="max-w-xl font-serif text-3xl leading-tight sm:text-5xl">Have a Project in mind?</h1>
         <p className="mt-3 max-w-lg text-sm leading-6 text-white/85">We can help you bring your ideas to life. Let&apos;s talk about what we can build and raise together.</p>
         <Link href="/contact" className="mt-6 inline-flex rounded-md bg-[#f15a22] px-5 py-2.5 text-sm font-medium text-white hover:bg-[#d94e1c]">Get in touch</Link>
       </div>
     </section>
-    <div className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6">
+    <div className="mx-auto w-[90%] py-12">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 className="font-serif text-4xl text-[#f15a22] sm:text-5xl">Our Work</h2>

@@ -18,7 +18,7 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
   if (!order) notFound();
 
   return (
-    <article className="mx-auto max-w-3xl px-5 py-14">
+    <article className="mx-auto w-[90%] py-14">
       <Link href="/account" className="text-sm text-muted">All purchases</Link>
       <h1 className="mt-3 font-serif text-5xl">{orderCode(order.id)}</h1>
       <p className="mt-2 text-sm text-muted">{formatDate(order.createdAt)} · {order.status}</p>

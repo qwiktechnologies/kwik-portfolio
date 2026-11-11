@@ -76,7 +76,7 @@ export default async function SuccessPage({
   }
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
+    <div className="mx-auto w-[90%] py-14">
       {paidReference ? <ClearCart /> : null}
       <p className="text-[11px] uppercase tracking-[0.18em] text-pine">Payment received</p>
       <h1 className="mt-3 max-w-3xl font-serif text-5xl leading-tight">You are paid. {orderCode(order.id)} is yours.</h1>

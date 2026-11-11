@@ -13,7 +13,7 @@ export default async function ContactPage() {
   const profile = await getProfile();
   const extra = parseExtra(profile.extraJson);
   return (
-    <div className="mx-auto grid w-full max-w-[1200px] gap-12 px-4 py-14 sm:px-6 lg:grid-cols-12">
+    <div className="mx-auto grid w-[90%] gap-12 py-14 lg:grid-cols-12">
       <div className="lg:col-span-5">
         <h1 className="font-serif text-5xl leading-tight">Contact us</h1>
         <p className="mt-4 text-sm leading-7 text-[#d5deee]">Have a project in mind? Tell us what the business does. If a template fits, we will point you at it.</p>
