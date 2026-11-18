@@ -23,24 +23,24 @@ export default async function AboutPage() {
   const copy = pageCopy(profile);
   return (
     <article>
-      <section className="bg-[#1d4e9e]">
-        <div className="mx-auto w-[90%] py-16">
-          <h1 className="max-w-3xl font-serif text-5xl leading-tight text-[#0c1220] sm:text-6xl">{copy.aboutHeadline}</h1>
+      <section className="bg-[linear-gradient(105deg,#d7e3f8_0%,#8ea6e0_100%)]">
+        <div className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-6">
+          <h1 className="max-w-3xl font-serif text-5xl leading-tight text-[#f7f4ee] sm:text-6xl">{copy.aboutHeadline}</h1>
         </div>
       </section>
-      <div className="mx-auto grid w-[90%] items-start gap-10 py-14 lg:grid-cols-2">
-        <div className="space-y-4 text-sm leading-7 text-[#f4f7fb]">
+      <div className="mx-auto grid w-full max-w-[1200px] items-start gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2">
+        <div className="space-y-4 text-sm leading-7 text-[#16181d]">
           {paragraphs(copy.aboutBody).map((paragraph) => (
             <p key={paragraph}>{paragraph}</p>
           ))}
           <dl className="grid gap-4 pt-4 sm:grid-cols-2">
             <div>
-              <dt className="text-xs uppercase tracking-[0.14em] text-[#9ec0ff]">Studio</dt>
-              <dd className="mt-2 text-sm text-[#f4f7fb]">{profile.address}</dd>
+              <dt className="text-xs uppercase tracking-[0.14em] text-[#6b655c]">Studio</dt>
+              <dd className="mt-2 text-sm text-[#1c1915]">{profile.address}</dd>
             </div>
             <div>
-              <dt className="text-xs uppercase tracking-[0.14em] text-[#9ec0ff]">Hours</dt>
-              <dd className="mt-2 text-sm text-[#f4f7fb]">{profile.hours || "By appointment"}</dd>
+              <dt className="text-xs uppercase tracking-[0.14em] text-[#6b655c]">Hours</dt>
+              <dd className="mt-2 text-sm text-[#1c1915]">{profile.hours || "By appointment"}</dd>
             </div>
           </dl>
           <Link href="/contact" className={`${buttonClass.orange} mt-2`}>Get in touch</Link>
@@ -50,7 +50,7 @@ export default async function AboutPage() {
         </div>
       </div>
       <section className="bg-[#16181d] text-white">
-        <div className="mx-auto grid w-[90%] gap-8 py-14 md:grid-cols-2">
+        <div className="mx-auto grid w-full max-w-[1200px] gap-8 px-4 py-14 sm:px-6 md:grid-cols-2">
           {reasons.map(([title, body]) => (
             <article key={title}>
               <h2 className="text-xl">{title}</h2>
