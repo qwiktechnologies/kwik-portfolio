@@ -15,9 +15,11 @@ export async function getProfile() {
     address: staleAddress ? COMPANY_ADDRESS : profile.address,
     phone: stalePhone ? COMPANY_PHONE : profile.phone,
     whatsapp: stalePhone ? COMPANY_PHONE : profile.whatsapp,
-    heroHeadline: profile.heroHeadline?.includes("Your Digital Partner")
-      ? defaultProfile.heroHeadline
-      : profile.heroHeadline,
+    heroHeadline:
+      profile.heroHeadline?.includes("Your Digital Partner") ||
+      profile.heroHeadline?.includes("Experiences That\nMove")
+        ? defaultProfile.heroHeadline
+        : profile.heroHeadline,
     heroSubline:
       profile.heroSubline === "Think. Design. Develop. Thrive" ? defaultProfile.heroSubline : profile.heroSubline,
   };

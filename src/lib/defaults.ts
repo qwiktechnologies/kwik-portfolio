@@ -7,7 +7,7 @@ export const defaultProfile = {
     "Creating templates and experiences that drives remarkable change. Reliable digital services, priced in naira and shown in your currency.",
   heroLead:
     "Creating templates and experiences that drives remarkable change. Pick a format, see the price for your country, pay, and send your brand details.",
-  heroHeadline: "We Build Digital Experiences That\nMove Businesses Forward.",
+  heroHeadline: "We Build Digital Experiences\nThat Move Businesses Forward.",
   heroSubline:
     "From exceptional websites and digital products to strategic branding and digital marketing, we help businesses build, grow and compete in the digital world.",
   email: "hello@quicktech.studio",

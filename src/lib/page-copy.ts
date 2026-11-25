@@ -1,4 +1,4 @@
-export const HERO_HEADLINE = "We Build Digital Experiences That\nMove Businesses Forward.";
+export const HERO_HEADLINE = "We Build Digital Experiences\nThat Move Businesses Forward.";
 export const HERO_SUBLINE =
   "From exceptional websites and digital products to strategic branding and digital marketing, we help businesses build, grow and compete in the digital world.";
 

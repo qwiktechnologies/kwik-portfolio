@@ -70,11 +70,14 @@ export function HomeHero({
             <p className="inline-flex w-fit items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/90">
               Qwik Technologies
             </p>
-            <h1 className="mt-6 text-[2rem] font-semibold leading-[1.08] tracking-tight sm:text-[2.65rem] lg:text-[3.05rem] xl:text-[3.35rem]">
-              {headline.map((line, index) => (
-                <span key={line} className="block">
-                  {index === headline.length - 1 ? (
-                    <span className="text-gradient-accent">{line}</span>
+            <h1 className="mt-6 max-w-2xl text-[2rem] font-semibold leading-[1.08] tracking-tight text-balance sm:text-[2.65rem] lg:max-w-xl lg:text-[3.05rem] xl:max-w-2xl xl:text-[3.35rem]">
+              {headline.slice(0, 2).map((line, index) => (
+                <span key={`${index}-${line}`} className="block lg:whitespace-nowrap">
+                  {index === 1 && line.startsWith("That Move ") ? (
+                    <>
+                      That{" "}
+                      <span className="text-gradient-accent">Move Businesses Forward.</span>
+                    </>
                   ) : (
                     line
                   )}
