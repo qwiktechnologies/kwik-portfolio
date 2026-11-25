@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { catalog, journal } from "./catalog";
+import { COMPANY_ADDRESS, COMPANY_PHONE } from "../src/lib/company-contact";
 import { SUPER_ADMIN, defaultProfile } from "../src/lib/defaults";
 
 const prisma = new PrismaClient();
@@ -23,7 +24,13 @@ async function main() {
 
   await prisma.siteProfile.upsert({
     where: { id: "main" },
-    update: {},
+    update: {
+      address: COMPANY_ADDRESS,
+      phone: COMPANY_PHONE,
+      whatsapp: COMPANY_PHONE,
+      heroHeadline: defaultProfile.heroHeadline,
+      heroSubline: defaultProfile.heroSubline,
+    },
     create: defaultProfile,
   });
 

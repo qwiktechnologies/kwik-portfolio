@@ -7,7 +7,7 @@ import { prisma } from "@/lib/db";
 import { CATEGORIES } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Our Work",
+  title: "Portfolio",
   description: "Browse Qwik Technologies templates. Each country has its own price, and anywhere else sees US dollars.",
   alternates: { canonical: "/work" },
 };
@@ -57,7 +57,7 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
     <div className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="font-serif text-4xl text-[#1d4e9e] sm:text-5xl">Our Work</h2>
+          <h2 className="font-serif text-4xl text-[#1d4e9e] sm:text-5xl">Portfolio</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[#16181d]">The formats already on the shelf. You see the price set for your country.</p>
         </div>
         <RateLine className="text-sm text-[#6b655c]" />
@@ -89,7 +89,7 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
           </div>
         </section>
       ) : null}
-      <h2 className="mt-12 font-serif text-3xl text-[#16181d]">All work</h2>
+      <h2 className="mt-12 font-serif text-3xl text-[#16181d]">All portfolio</h2>
       {items.length ? (
         <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((item) => (

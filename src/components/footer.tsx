@@ -19,7 +19,7 @@ type Profile = {
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/work", label: "Our Work" },
+  { href: "/work", label: "Portfolio" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "Who We Are" },
   { href: "/contact", label: "Get In Touch" },
@@ -34,14 +34,13 @@ export function Footer({ profile }: { profile: Profile }) {
   ];
 
   return (
-    <footer className="bg-[#14161c] text-[#d7d3cb]">
+    <footer className="hero-surface text-[#e8edf5]">
       <div className="mx-auto grid w-full max-w-[1200px] gap-10 px-4 py-14 sm:px-6 md:grid-cols-12">
         <div className="md:col-span-6">
-          <Link href="/" className="inline-flex max-w-full items-center gap-3 text-white">
-            <Image src="/brand/logo.png" alt="" width={48} height={56} className="h-12 w-auto" />
-            <span className="font-serif text-2xl">{profile.companyName}</span>
+          <Link href="/" className="inline-flex max-w-full">
+            <Image src="/brand/logo.png" alt={profile.companyName} width={909} height={271} className="h-16 w-auto sm:h-[4.5rem]" />
           </Link>
-          <p className="mt-5 max-w-md text-sm leading-7 text-[#b7b3ab]">
+          <p className="mt-5 max-w-md text-sm leading-7 text-white/75">
             Technology needs to support human initiatives not substitute them. Only when you have the courage to lose sight of the shore, you will discover new oceans!
           </p>
           <div className="mt-6 flex items-center gap-4 text-lg">
@@ -59,11 +58,20 @@ export function Footer({ profile }: { profile: Profile }) {
           </ul>
         </div>
         <div className="md:col-span-3">
-          <p className="text-base text-white">Socials</p>
-          <ul className="mt-4 space-y-2 text-sm">
-            {socials.map((item) => (
-              <li key={item.label}><a href={item.href} className="hover:text-white" target="_blank" rel="noreferrer">{item.label}</a></li>
-            ))}
+          <p className="text-base text-white">Contact</p>
+          <ul className="mt-4 space-y-2 text-sm text-white/80">
+            <li>{profile.address}</li>
+            <li>
+              <a className="hover:text-white" href={`tel:${profile.phone.replace(/[^\d+]/g, "")}`}>
+                {profile.phone}
+              </a>
+            </li>
+            <li>
+              <a className="hover:text-white" href={`mailto:${profile.email}`}>
+                {profile.email}
+              </a>
+            </li>
+            {profile.hours ? <li>{profile.hours}</li> : null}
           </ul>
         </div>
       </div>

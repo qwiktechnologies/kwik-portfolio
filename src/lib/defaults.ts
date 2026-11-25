@@ -1,3 +1,5 @@
+import { COMPANY_ADDRESS, COMPANY_PHONE } from "@/lib/company-contact";
+
 export const defaultProfile = {
   id: "main",
   companyName: "Qwik Technologies",
@@ -5,12 +7,13 @@ export const defaultProfile = {
     "Creating templates and experiences that drives remarkable change. Reliable digital services, priced in naira and shown in your currency.",
   heroLead:
     "Creating templates and experiences that drives remarkable change. Pick a format, see the price for your country, pay, and send your brand details.",
-  heroHeadline: "Your Digital Partner\nfor Business Growth",
-  heroSubline: "Think. Design. Develop. Thrive",
+  heroHeadline: "We Build Digital Experiences That\nMove Businesses Forward.",
+  heroSubline:
+    "From exceptional websites and digital products to strategic branding and digital marketing, we help businesses build, grow and compete in the digital world.",
   email: "hello@quicktech.studio",
-  phone: "+234 809 442 1180",
-  address: "18 Admiralty Way, Lekki Phase 1, Lagos, Nigeria",
-  whatsapp: "+234 809 442 1180",
+  phone: COMPANY_PHONE,
+  address: COMPANY_ADDRESS,
+  whatsapp: COMPANY_PHONE,
   hours: "Monday to Friday, 9:00–17:00 WAT",
   instagram: "https://instagram.com/quicktech.studio",
   facebook: "https://facebook.com",

@@ -1,5 +1,6 @@
-export const HERO_HEADLINE = "Your Digital Partner\nfor Business Growth";
-export const HERO_SUBLINE = "Think. Design. Develop. Thrive";
+export const HERO_HEADLINE = "We Build Digital Experiences That\nMove Businesses Forward.";
+export const HERO_SUBLINE =
+  "From exceptional websites and digital products to strategic branding and digital marketing, we help businesses build, grow and compete in the digital world.";
 
 export const WHO_WE_ARE = `At Qwiktechnologies, we are a team of passionate digital innovators dedicated to helping businesses thrive in the ever-evolving digital landscape. Our goal is to transform your vision into reality by providing a full suite of customized digital solutions that drive results and deliver lasting value.
 

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FiCheck } from "react-icons/fi";
-import { HeroDevices } from "@/components/hero-devices";
+import { HomeHero } from "@/components/home-hero";
 import { JsonLd } from "@/components/json-ld";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { WorkCard } from "@/components/work-card";
@@ -16,37 +16,37 @@ const services = [
   {
     title: "Web Development Solutions",
     body: "Websites should not only look great but also deliver measurable results. Our team ensures that your website performs optimally, turning visitors into local customers.",
-    image: "/brand/service-web.jpg",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=85",
     alt: "Laptop with a website layout on the screen",
   },
   {
     title: "UI/UX Design for Seamless User Experience",
     body: "Great design goes beyond aesthetics. We craft intuitive, user-friendly interfaces that engage your audience and provide them with a seamless experience, keeping them coming back for more.",
-    image: "/brand/service-ux.jpg",
+    image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?auto=format&fit=crop&w=1200&q=85",
     alt: "Designer reviewing an interface on a laptop",
   },
   {
     title: "Graphics and Branding",
     body: "Your brand's visual identity is key to making a strong first impression. Our expert designers create eye-catching logos, branding materials, and graphics that resonate with your audience and distinguish your business.",
-    image: "/brand/service-brand.jpg",
+    image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=1200&q=85",
     alt: "Color swatches and branding materials on a desk",
   },
   {
     title: "Digital Marketing Strategies",
     body: "With data-driven digital marketing campaigns, we help you reach the right audience at the right time. From SEO to social media advertising, our tailored strategies drive traffic, increase conversions, and grow your brand.",
-    image: "/brand/service-marketing.jpg",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=85",
     alt: "Team planning a campaign at a whiteboard",
   },
   {
     title: "Expert Consultation to Guide Your Digital Journey",
     body: "Whether you're just starting out or looking to scale, our team provides expert consultation to help you navigate the digital space. We offer insights and strategies that empower you to make informed decisions and achieve your business goals.",
-    image: "/brand/service-consult.jpg",
+    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=85",
     alt: "Two people in a consultation meeting",
   },
   {
     title: "Tech Gadgets at Your Fingertips",
     body: "From the latest gadgets to essential tech tools, we offer a curated selection for your business or personal setup.",
-    image: "/brand/service-gadgets.jpg",
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
     alt: "Phone, earbuds, and other tech gadgets on a desk",
   },
 ];
@@ -121,22 +121,12 @@ export default async function HomePage() {
         ]}
       />
 
-      <section className="bg-[linear-gradient(102deg,#d7e4f8_0%,#8eace8_46%,#2f56c3_100%)]">
-        <div className="mx-auto grid w-full max-w-[1280px] items-center gap-4 px-5 py-8 sm:px-8 lg:grid-cols-[1.15fr_0.85fr] lg:py-10">
-          <div>
-            <h1 className="font-serif text-[1.85rem] leading-[1.12] text-[#16181d] sm:text-[2.45rem] lg:text-[3.05rem]">
-              {heroLines.map((line) => (
-                <span key={line} className="block">{line}</span>
-              ))}
-            </h1>
-            <p className="mt-3 text-base text-[#f6f3ec] sm:text-lg">{copy.heroSubline}</p>
-            <Link href="/work" className="mt-5 inline-flex rounded-[4px] bg-[#f15a22] px-4 py-2 font-serif text-[15px] italic text-white shadow-sm transition hover:bg-[#d94e1c]">
-              Explore Now
-            </Link>
-          </div>
-          <HeroDevices />
-        </div>
-      </section>
+      <HomeHero
+        headline={heroLines}
+        subline={copy.heroSubline}
+        phone={profile.phone}
+        phoneHref={`tel:${profile.phone.replace(/[^\d+]/g, "")}`}
+      />
 
       {featured.length ? (
         <section className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6" aria-labelledby="featured-heading">
@@ -161,7 +151,13 @@ export default async function HomePage() {
             <Link href="/about" className={`${buttonClass.orange} mt-6`}>See More</Link>
           </div>
           <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-[#e7e3da]">
-            <Image src="/brand/who-we-are.png" alt="The Qwik Technologies team in a client meeting" fill className="object-cover" sizes="(min-width: 1024px) 40vw, 100vw" />
+            <Image
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=85"
+              alt="The Qwik Technologies team collaborating in a modern workspace"
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 40vw, 100vw"
+            />
           </div>
         </div>
         <dl className="mt-12 grid gap-8 sm:grid-cols-2">
@@ -212,7 +208,13 @@ export default async function HomePage() {
           <p className="mt-2 text-sm text-[#c4beb4]">Empowering your business with technology, innovation, and a customer-first approach.</p>
         </div>
         <div className="relative min-h-[560px] overflow-hidden bg-[#10131a]">
-          <Image src="/brand/why-choose.png" alt="Analyst reviewing business dashboards" fill className="object-cover object-right" sizes="100vw" />
+          <Image
+            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85"
+            alt="Analyst reviewing business dashboards and growth metrics"
+            fill
+            className="object-cover object-right"
+            sizes="100vw"
+          />
           <div className="relative mx-auto grid w-full max-w-[1200px] px-4 py-16 sm:px-6 lg:grid-cols-2">
             <div className="max-w-md bg-[#16181d]/92 p-8 text-white sm:p-10">
               <ul className="space-y-7">

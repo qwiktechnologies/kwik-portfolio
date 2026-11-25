@@ -75,7 +75,7 @@ export function Header({
       <div className="border-b border-[#ece8df] bg-white">
         <div className="mx-auto flex h-16 w-full max-w-[1200px] items-center gap-2 px-4 sm:h-[72px] sm:gap-4 sm:px-6">
           <Link href="/" className="shrink-0" onClick={() => setOpen(false)}>
-            <Image src="/brand/logo.png" alt={companyName} width={70} height={80} className="h-10 w-auto sm:h-11" priority />
+            <Image src="/brand/logo.png" alt={companyName} width={909} height={271} className="h-12 w-auto sm:h-14 md:h-16" priority />
           </Link>
           <form onSubmit={search} className="hidden min-w-0 flex-1 items-center sm:flex xl:max-w-xs">
             <label className="relative block w-full">
@@ -93,7 +93,7 @@ export function Header({
             <Link href="/" className={pathname === "/" ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>Home</Link>
             <div className="relative" onMouseEnter={() => setMenu("template")} onMouseLeave={() => setMenu(null)}>
               <Link href="/work" className="inline-flex items-center gap-1 hover:text-[#1d4e9e]">
-                Our Work <FiChevronDown className="text-xs" aria-hidden />
+                Portfolio <FiChevronDown className="text-xs" aria-hidden />
               </Link>
               {menu === "template" ? <Drop links={CATEGORIES.map((item) => ({ href: `/work?category=${encodeURIComponent(item)}`, label: item }))} /> : null}
             </div>
@@ -134,11 +134,11 @@ export function Header({
             <div className="flex flex-col gap-1 text-sm">
               <Link href="/" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Home</Link>
               <button type="button" className="flex items-center justify-between rounded-md px-2 py-2.5 text-left hover:bg-[#f6f3ec]" aria-expanded={section === "template"} onClick={() => setSection((value) => (value === "template" ? null : "template"))}>
-                Our Work <FiChevronDown className={`text-xs transition ${section === "template" ? "rotate-180" : ""}`} aria-hidden />
+                Portfolio <FiChevronDown className={`text-xs transition ${section === "template" ? "rotate-180" : ""}`} aria-hidden />
               </button>
               {section === "template" ? (
                 <div className="mb-1 ml-2 flex flex-col border-l border-[#ece8df] pl-2">
-                  <Link href="/work" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All work</Link>
+                  <Link href="/work" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All portfolio</Link>
                   {CATEGORIES.map((item) => (
                     <Link key={item} href={`/work?category=${encodeURIComponent(item)}`} className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>{item}</Link>
                   ))}
