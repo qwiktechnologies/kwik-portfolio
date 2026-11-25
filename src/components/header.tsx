@@ -7,7 +7,7 @@ import { FormEvent, useEffect, useState, type ReactNode } from "react";
 import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
 import { FiChevronDown, FiMenu, FiMessageCircle, FiSearch, FiShoppingBag, FiX } from "react-icons/fi";
 import { logoutAction } from "@/lib/actions/auth";
-import { BLOG_CATEGORIES, CATEGORIES, canManageStudio } from "@/lib/constants";
+import { CATEGORIES, canManageStudio } from "@/lib/constants";
 import { MARKETS, marketByCurrency } from "@/lib/markets";
 import { useCart } from "./cart-provider";
 import { useCurrency } from "./currency-provider";
@@ -97,12 +97,9 @@ export function Header({
               </Link>
               {menu === "template" ? <Drop links={CATEGORIES.map((item) => ({ href: `/work?category=${encodeURIComponent(item)}`, label: item }))} /> : null}
             </div>
-            <div className="relative" onMouseEnter={() => setMenu("course")} onMouseLeave={() => setMenu(null)}>
-              <Link href="/blog" className="inline-flex items-center gap-1 hover:text-[#1d4e9e]">
-                Blog <FiChevronDown className="text-xs" aria-hidden />
-              </Link>
-              {menu === "course" ? <Drop links={BLOG_CATEGORIES.map((item) => ({ href: `/blog?category=${encodeURIComponent(item)}`, label: item }))} /> : null}
-            </div>
+            <Link href="/blog" className={pathname.startsWith("/blog") ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>
+              Blog
+            </Link>
             <Link href="/about" className={pathname.startsWith("/about") ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>Who We Are</Link>
           </nav>
           <Link href="/contact" className="hidden shrink-0 rounded-md border border-[#2b2926] px-4 py-2 text-sm text-[#2b2926] hover:bg-[#2b2926] hover:text-white xl:inline-flex">
@@ -144,17 +141,7 @@ export function Header({
                   ))}
                 </div>
               ) : null}
-              <button type="button" className="flex items-center justify-between rounded-md px-2 py-2.5 text-left hover:bg-[#f6f3ec]" aria-expanded={section === "course"} onClick={() => setSection((value) => (value === "course" ? null : "course"))}>
-                Blog <FiChevronDown className={`text-xs transition ${section === "course" ? "rotate-180" : ""}`} aria-hidden />
-              </button>
-              {section === "course" ? (
-                <div className="mb-1 ml-2 flex flex-col border-l border-[#ece8df] pl-2">
-                  <Link href="/blog" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All posts</Link>
-                  {BLOG_CATEGORIES.map((item) => (
-                    <Link key={item} href={`/blog?category=${encodeURIComponent(item)}`} className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>{item}</Link>
-                  ))}
-                </div>
-              ) : null}
+              <Link href="/blog" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Blog</Link>
               <Link href="/about" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Who We Are</Link>
               <Link href="/contact" className="mt-1 rounded-md border border-[#2b2926] px-3 py-2.5 text-center" onClick={() => setOpen(false)}>Get In Touch</Link>
               {session ? null : <Link href="/login" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Sign in</Link>}

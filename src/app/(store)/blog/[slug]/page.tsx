@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
+import { BlogCoverImage } from "@/components/blog-cover-image";
 import { notFound } from "next/navigation";
 import { CommentForm, CommentList, LikeButton, ShareBar, SignInPrompt } from "@/components/blog-engage";
 import { JsonLd } from "@/components/json-ld";
@@ -78,7 +78,7 @@ export default async function BlogPostPage({ params }: { params: Promise<Params>
         <ShareBar url={url} title={post.title} />
       </div>
       <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-[1.4rem] bg-night">
-        <Image src={post.coverImage} alt="" fill priority className="object-cover" sizes="(min-width: 768px) 720px, 100vw" />
+        <BlogCoverImage coverImage={post.coverImage} alt={post.title} fill priority className="object-cover" sizes="(min-width: 768px) 720px, 100vw" />
       </div>
       <div className="mt-8">
         <ArticleBody text={post.content} />

@@ -1,57 +1,78 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { BlogCard } from "@/components/blog-card";
+import { BlogCategoryFilters } from "@/components/blog-category-filters";
+import { BlogFeatured } from "@/components/blog-featured";
 import { EmptyState } from "@/components/ui";
-import { BLOG_CATEGORIES, isBlogCategory } from "@/lib/constants";
+import { isBlogCategory, type BlogCategory } from "@/lib/constants";
 import { prisma } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Notes on landing pages, ecommerce, service websites, logos, and what to send after you pay for a Qwik Technologies format.",
+  description:
+    "Latest notes from Qwik Technologies on websites, ecommerce, branding, and how to buy from the catalog.",
   alternates: { canonical: "/blog" },
 };
 
 export default async function BlogPage({ searchParams }: { searchParams: Promise<{ category?: string }> }) {
   const { category: requested } = await searchParams;
   const category = requested && isBlogCategory(requested) ? requested : undefined;
-  const [posts, grouped] = await Promise.all([
+  const categoryFilter = category ? { category } : {};
+
+  const featured = await prisma.blogPost.findFirst({
+    where: { published: true, ...categoryFilter },
+    orderBy: [{ updatedAt: "desc" }, { createdAt: "desc" }],
+  });
+
+  const [rest, grouped] = await Promise.all([
     prisma.blogPost.findMany({
-      where: { published: true, ...(category ? { category } : {}) },
-      orderBy: { createdAt: "desc" },
+      where: {
+        published: true,
+        ...categoryFilter,
+        ...(featured ? { id: { not: featured.id } } : {}),
+      },
+      orderBy: [{ updatedAt: "desc" }, { createdAt: "desc" }],
     }),
     prisma.blogPost.groupBy({ by: ["category"], where: { published: true }, _count: { _all: true } }),
+    prisma.blogPost.count({ where: { published: true, ...categoryFilter } }),
   ]);
-  const counts = new Map(grouped.map((row) => [row.category, row._count._all]));
+
+  const counts = new Map<string, number>(grouped.map((row) => [row.category, row._count._all]));
+  const allTotal = await prisma.blogPost.count({ where: { published: true } });
+  counts.set("__all", allTotal);
+
+  const sectionBlurb = category
+    ? `The most recent post in ${category.toLowerCase()} is featured above. Older posts in this category follow below.`
+    : "The newest published article is featured above. Earlier posts are listed below, newest first.";
 
   return (
-    <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
-      <p className="text-[11px] uppercase tracking-[0.18em] text-muted">Blog</p>
-      <h1 className="mt-3 font-serif text-5xl sm:text-6xl">Notes from the studio</h1>
-      <p className="mt-4 max-w-2xl text-muted">Every category the studio writes in. Pick one, or read them all.</p>
-      <div className="chip-row mt-8" aria-label="Blog categories">
-        <Link href="/blog" className={`${chip(!category)} shrink-0`}>All</Link>
-        {BLOG_CATEGORIES.map((item) => (
-          <Link key={item} href={`/blog?category=${encodeURIComponent(item)}`} className={`${chip(category === item)} shrink-0`}>
-            {item}
-            <span className={category === item ? "text-paper/70" : "text-muted"}>{counts.get(item) || 0}</span>
-          </Link>
-        ))}
-      </div>
-      {posts.length ? (
-        <div className="mt-10 grid gap-10">
-          {posts.map((post) => (
-            <BlogCard key={post.id} layout="row" post={post} />
-          ))}
-        </div>
-      ) : (
-        <div className="mt-10">
-          <EmptyState title="Nothing in this category yet" body="The studio has not published an article here. The other categories are still open." href="/blog" action="See every article" />
-        </div>
-      )}
-    </div>
-  );
-}
+    <>
+      {featured ? <BlogFeatured post={featured} /> : null}
 
-function chip(active: boolean) {
-  return `inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs ${active ? "border-night bg-night text-paper" : "border-line bg-card"}`;
+      <div className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6 lg:py-14">
+        <header className="max-w-2xl">
+          <h1 className="font-serif text-4xl text-[#16181d] sm:text-5xl">Latest blogs</h1>
+          <p className="mt-3 text-base leading-7 text-[#5e584e]">{sectionBlurb}</p>
+        </header>
+
+        <BlogCategoryFilters active={category as BlogCategory | undefined} counts={counts} />
+
+        {rest.length > 0 ? (
+          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-6 lg:gap-y-10">
+            {rest.map((post) => (
+              <BlogCard key={post.id} layout="grid" post={post} />
+            ))}
+          </div>
+        ) : featured ? null : (
+          <div className="mt-10">
+            <EmptyState
+              title="Nothing in this category yet"
+              body="The studio has not published an article here yet. Browse all blogs or pick another category."
+              href="/blog"
+              action="All blogs"
+            />
+          </div>
+        )}
+      </div>
+    </>
+  );
 }

@@ -57,9 +57,15 @@ async function main() {
       await prisma.blogPost.create({ data: post });
       continue;
     }
-    if (found.category !== post.category) {
-      await prisma.blogPost.update({ where: { id: found.id }, data: { category: post.category } });
-    }
+    await prisma.blogPost.update({
+      where: { id: found.id },
+      data: {
+        category: post.category,
+        coverImage: post.coverImage,
+        title: post.title,
+        excerpt: post.excerpt,
+      },
+    });
   }
 
   console.log("Catalog and journal are seeded.");

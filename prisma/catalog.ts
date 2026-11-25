@@ -315,7 +315,7 @@ export const journal: {
     slug: "landing-page-or-full-website",
     category: "Landing pages",
     excerpt: "Choose a landing page when you have one offer. Choose a full site when people need to look around before they trust you.",
-    coverImage: shot("photo-1460925895917-afdab827c52f"),
+    coverImage: "/brand/blog/landing-page-or-full-website.jpg",
     content: `A landing page and a website solve different moments.
 
 ## When one page is enough
@@ -339,7 +339,7 @@ The price is on the piece. The brief after payment is what turns the format into
     slug: "what-to-send-after-you-pay",
     category: "How to buy",
     excerpt: "The build starts when we can see the business. These are the materials that keep a fixed-price format moving.",
-    coverImage: shot("photo-1455390582262-044cdead277a"),
+    coverImage: "/brand/blog/what-to-send-after-you-pay.jpg",
     content: `Payment reserves the format. The brief starts the work.
 
 ## The list we ask for
@@ -370,7 +370,7 @@ If the catalog format is wrong for the business, do not force the brief. Use the
     slug: "what-a-fixed-price-includes",
     category: "How to buy",
     excerpt: "The number on the piece is the scope. Here is how to read it before you add anything to the cart.",
-    coverImage: shot("photo-1497366811353-6870744d04b2"),
+    coverImage: "/brand/blog/what-a-fixed-price-includes.jpg",
     content: `A catalog price is a promise about scope. It is worth reading the promise before you pay.
 
 ## What the number covers
@@ -394,7 +394,7 @@ Browse the [catalog](/work) with the include-list open. That list is the contrac
     slug: "shop-or-service-site",
     category: "Service websites",
     excerpt: "Sell goods and you need a shop. Sell time, routes, or a table, and you need a service website.",
-    coverImage: shot("photo-1556742502-ec7c0e9f34b1"),
+    coverImage: "/brand/blog/shop-or-service-site.jpg",
     content: `Local businesses often buy the wrong shape of website because the words "online presence" hide the offer.
 
 ## If people take something home
