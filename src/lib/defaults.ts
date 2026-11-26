@@ -1,4 +1,4 @@
-import { COMPANY_ADDRESS, COMPANY_PHONE } from "@/lib/company-contact";
+import { COMPANY_ADDRESS, COMPANY_EMAIL, COMPANY_PHONE } from "@/lib/company-contact";
 
 export const defaultProfile = {
   id: "main",
@@ -10,7 +10,7 @@ export const defaultProfile = {
   heroHeadline: "We Build Digital Experiences\nThat Move Businesses Forward.",
   heroSubline:
     "From exceptional websites and digital products to strategic branding and digital marketing, we help businesses build, grow and compete in the digital world.",
-  email: "hello@quicktech.studio",
+  email: COMPANY_EMAIL,
   phone: COMPANY_PHONE,
   address: COMPANY_ADDRESS,
   whatsapp: COMPANY_PHONE,

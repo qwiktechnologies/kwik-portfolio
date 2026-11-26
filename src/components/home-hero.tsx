@@ -22,7 +22,7 @@ function HeroActions({ phone, phoneHref }: { phone: string; phoneHref: string })
         </Link>
         <Link href="/work" className="btn-hero-ghost">
           <FiPlay aria-hidden className="opacity-90" />
-          Portfolio
+          Our Work
         </Link>
         <a
           href={phoneHref}

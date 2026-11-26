@@ -1,14 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FiCheck } from "react-icons/fi";
 import { HomeHero } from "@/components/home-hero";
+import { TestimonialsSection } from "@/components/testimonials-section";
 import { JsonLd } from "@/components/json-ld";
 import { NewsletterForm } from "@/components/newsletter-form";
 import { WorkCard } from "@/components/work-card";
-import { buttonClass } from "@/components/ui";
 import { prisma } from "@/lib/db";
 import { faqs } from "@/lib/faq";
-import { pageCopy, paragraphs } from "@/lib/page-copy";
+import { pageCopy } from "@/lib/page-copy";
 import { getProfile } from "@/lib/profile";
 import { siteUrl } from "@/lib/site";
 
@@ -48,25 +47,6 @@ const services = [
     body: "From the latest gadgets to essential tech tools, we offer a curated selection for your business or personal setup.",
     image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=85",
     alt: "Phone, earbuds, and other tech gadgets on a desk",
-  },
-];
-
-const reasons = [
-  {
-    title: "Tailored Solutions:",
-    body: "We understand that every business is unique, which is why we offer customized services that fit your specific needs and goals.",
-  },
-  {
-    title: "Proven Results",
-    body: "With a track record of successful projects, our solutions are designed to deliver tangible results and long-term value.",
-  },
-  {
-    title: "Expert Team",
-    body: "Our diverse team of experts brings a wealth of experience in web development, design, marketing, and technology, ensuring you get the best solutions.",
-  },
-  {
-    title: "Client-Centric Approach",
-    body: "We put your needs first, working closely with you to ensure that our services not only meet but exceed your expectations.",
   },
 ];
 
@@ -139,39 +119,6 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      <section className="mx-auto w-full max-w-[1200px] px-4 py-16 sm:px-6" aria-labelledby="who-heading">
-        <div className="grid items-center gap-10 lg:grid-cols-2">
-          <div>
-            <h2 id="who-heading" className="font-serif text-4xl text-[#1d4e9e]">Who We Are</h2>
-            <div className="mt-5 space-y-4 text-sm leading-7 text-[#16181d]">
-              {paragraphs(copy.aboutBody).map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-            <Link href="/about" className={`${buttonClass.orange} mt-6`}>See More</Link>
-          </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-md bg-[#e7e3da]">
-            <Image
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1400&q=85"
-              alt="The Qwik Technologies team collaborating in a modern workspace"
-              fill
-              className="object-cover"
-              sizes="(min-width: 1024px) 40vw, 100vw"
-            />
-          </div>
-        </div>
-        <dl className="mt-12 grid gap-8 sm:grid-cols-2">
-          <div>
-            <dt className="font-serif text-4xl text-[#1d4e9e]">5+</dt>
-            <dd className="text-lg text-[#1d4e9e]">Years of Experience</dd>
-          </div>
-          <div>
-            <dt className="font-serif text-4xl text-[#1d4e9e]">13k</dt>
-            <dd className="text-lg text-[#1d4e9e]">Customer Satisfaction</dd>
-          </div>
-        </dl>
-      </section>
-
       <section className="bg-[#f7f6f3] py-16" aria-labelledby="do-heading">
         <div className="mx-auto w-full max-w-[1200px] px-4 sm:px-6">
           <h2 id="do-heading" className="text-center font-serif text-4xl text-[#16181d]">What We Do</h2>
@@ -202,36 +149,6 @@ export default async function HomePage() {
         </Link>
       </section>
 
-      <section aria-labelledby="why-heading">
-        <div className="mx-auto w-full max-w-[1200px] px-4 pb-6 pt-4 text-left sm:px-6 lg:text-right">
-          <h2 id="why-heading" className="font-serif text-4xl">Why Choose Us</h2>
-          <p className="mt-2 text-sm text-[#c4beb4]">Empowering your business with technology, innovation, and a customer-first approach.</p>
-        </div>
-        <div className="relative min-h-[560px] overflow-hidden bg-[#10131a]">
-          <Image
-            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=85"
-            alt="Analyst reviewing business dashboards and growth metrics"
-            fill
-            className="object-cover object-right"
-            sizes="100vw"
-          />
-          <div className="relative mx-auto grid w-full max-w-[1200px] px-4 py-16 sm:px-6 lg:grid-cols-2">
-            <div className="max-w-md bg-[#16181d]/92 p-8 text-white sm:p-10">
-              <ul className="space-y-7">
-                {reasons.map((reason) => (
-                  <li key={reason.title}>
-                    <h3 className="flex items-center gap-2 text-lg font-semibold">
-                      <FiCheck aria-hidden /> {reason.title}
-                    </h3>
-                    <p className="mt-2 text-sm leading-6 text-white/80">{reason.body}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="mx-auto grid w-full max-w-[1200px] items-center gap-6 px-4 py-16 sm:px-6 lg:grid-cols-2">
         <h2 className="max-w-sm font-serif text-3xl leading-snug text-[#1d4e9e] sm:text-4xl">
           Subribe to our newsletter to get free brand Guide
@@ -239,13 +156,11 @@ export default async function HomePage() {
         <NewsletterForm />
       </section>
 
-      <section className="mx-auto w-full max-w-[1200px] px-4 pb-16 text-center sm:px-6" aria-labelledby="stories-heading">
-        <h2 id="stories-heading" className="text-sm text-[#6b655c]">Client Testimonial</h2>
-      </section>
+      <TestimonialsSection />
 
       <section id="faq" className="border-t border-[#ece8df] bg-white">
         <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
-          <h2 className="font-serif text-4xl">FAQ</h2>
+          <h2 className="font-serif text-4xl font-bold text-[#16181d]">Frequently Asked Questions</h2>
           <div className="mt-6 divide-y divide-[#ece8df] border-y border-[#ece8df]">
             {faqs.map((faq) => (
               <details key={faq.question} className="group py-4">

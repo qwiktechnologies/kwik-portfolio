@@ -19,7 +19,7 @@ type Profile = {
 
 const links = [
   { href: "/", label: "Home" },
-  { href: "/work", label: "Portfolio" },
+  { href: "/work", label: "Our Work" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "Who We Are" },
   { href: "/contact", label: "Get In Touch" },
@@ -38,7 +38,13 @@ export function Footer({ profile }: { profile: Profile }) {
       <div className="mx-auto grid w-full max-w-[1200px] gap-10 px-4 py-14 sm:px-6 md:grid-cols-12">
         <div className="md:col-span-6">
           <Link href="/" className="inline-flex max-w-full">
-            <Image src="/brand/logo.png" alt={profile.companyName} width={909} height={271} className="h-16 w-auto sm:h-[4.5rem]" />
+            <Image
+              src="/brand/logo-white.png"
+              alt={profile.companyName}
+              width={927}
+              height={269}
+              className="h-14 w-auto sm:h-16"
+            />
           </Link>
           <p className="mt-5 max-w-md text-sm leading-7 text-white/75">
             Technology needs to support human initiatives not substitute them. Only when you have the courage to lose sight of the shore, you will discover new oceans!

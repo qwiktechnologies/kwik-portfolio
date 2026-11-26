@@ -7,7 +7,7 @@ import { prisma } from "@/lib/db";
 import { CATEGORIES } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "Portfolio",
+  title: "Our Work",
   description: "Browse Qwik Technologies templates. Each country has its own price, and anywhere else sees US dollars.",
   alternates: { canonical: "/work" },
 };
@@ -46,8 +46,7 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
 
   return (
     <>
-    <section className="relative min-h-[280px] overflow-hidden bg-[#10243a]">
-      <Image src="/brand/catalog-banner.jpg" alt="" fill className="object-cover opacity-45" sizes="100vw" priority />
+    <section className="hero-surface relative min-h-[280px] overflow-hidden">
       <div className="relative mx-auto flex w-full max-w-[1200px] flex-col items-start px-4 py-16 text-white sm:px-6">
         <h1 className="max-w-xl font-serif text-3xl leading-tight sm:text-5xl">Have a Project in mind?</h1>
         <p className="mt-3 max-w-lg text-sm leading-6 text-white/85">We can help you bring your ideas to life. Let&apos;s talk about what we can build and raise together.</p>
@@ -57,7 +56,7 @@ export default async function WorkPage({ searchParams }: { searchParams: Promise
     <div className="mx-auto w-full max-w-[1200px] px-4 py-12 sm:px-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h2 className="font-serif text-4xl text-[#1d4e9e] sm:text-5xl">Portfolio</h2>
+          <h2 className="font-serif text-4xl text-[#1d4e9e] sm:text-5xl">Our Work</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-[#16181d]">The formats already on the shelf. You see the price set for your country.</p>
         </div>
         <RateLine className="text-sm text-[#6b655c]" />

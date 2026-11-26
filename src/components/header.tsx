@@ -5,9 +5,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState, type ReactNode } from "react";
 import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter } from "react-icons/fa6";
-import { FiChevronDown, FiMenu, FiMessageCircle, FiSearch, FiShoppingBag, FiX } from "react-icons/fi";
+import { FiMenu, FiMessageCircle, FiSearch, FiShoppingBag, FiX } from "react-icons/fi";
 import { logoutAction } from "@/lib/actions/auth";
-import { CATEGORIES, canManageStudio } from "@/lib/constants";
+import { canManageStudio } from "@/lib/constants";
 import { MARKETS, marketByCurrency } from "@/lib/markets";
 import { useCart } from "./cart-provider";
 import { useCurrency } from "./currency-provider";
@@ -33,14 +33,10 @@ export function Header({
   const router = useRouter();
   const { count } = useCart();
   const [open, setOpen] = useState(false);
-  const [menu, setMenu] = useState<"template" | "course" | null>(null);
-  const [section, setSection] = useState<"template" | "course" | null>(null);
   const [query, setQuery] = useState("");
 
   useEffect(() => {
     setOpen(false);
-    setMenu(null);
-    setSection(null);
   }, [pathname]);
 
   function search(event: FormEvent) {
@@ -61,7 +57,7 @@ export function Header({
           <div className="flex min-w-0 items-center gap-3 sm:gap-4">
             <a href={`mailto:${email}`} className="hidden items-center gap-1.5 truncate hover:text-white/80 lg:inline-flex">
               <FiMessageCircle aria-hidden />
-              @Qwiktechnologies.com
+              {email}
             </a>
             <div className="flex shrink-0 items-center gap-3 text-sm">
               <Social href={facebook || "https://www.facebook.com"} label="Facebook"><FaFacebookF /></Social>
@@ -91,12 +87,9 @@ export function Header({
           </form>
           <nav className="ml-auto hidden items-center gap-5 text-sm text-[#3d3a33] xl:flex" aria-label="Primary">
             <Link href="/" className={pathname === "/" ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>Home</Link>
-            <div className="relative" onMouseEnter={() => setMenu("template")} onMouseLeave={() => setMenu(null)}>
-              <Link href="/work" className="inline-flex items-center gap-1 hover:text-[#1d4e9e]">
-                Portfolio <FiChevronDown className="text-xs" aria-hidden />
-              </Link>
-              {menu === "template" ? <Drop links={CATEGORIES.map((item) => ({ href: `/work?category=${encodeURIComponent(item)}`, label: item }))} /> : null}
-            </div>
+            <Link href="/work" className={pathname.startsWith("/work") ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>
+              Our Work
+            </Link>
             <Link href="/blog" className={pathname.startsWith("/blog") ? "text-[#1d4e9e]" : "hover:text-[#1d4e9e]"}>
               Blog
             </Link>
@@ -130,17 +123,7 @@ export function Header({
             </form>
             <div className="flex flex-col gap-1 text-sm">
               <Link href="/" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Home</Link>
-              <button type="button" className="flex items-center justify-between rounded-md px-2 py-2.5 text-left hover:bg-[#f6f3ec]" aria-expanded={section === "template"} onClick={() => setSection((value) => (value === "template" ? null : "template"))}>
-                Portfolio <FiChevronDown className={`text-xs transition ${section === "template" ? "rotate-180" : ""}`} aria-hidden />
-              </button>
-              {section === "template" ? (
-                <div className="mb-1 ml-2 flex flex-col border-l border-[#ece8df] pl-2">
-                  <Link href="/work" className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>All portfolio</Link>
-                  {CATEGORIES.map((item) => (
-                    <Link key={item} href={`/work?category=${encodeURIComponent(item)}`} className="rounded-md px-2 py-2 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>{item}</Link>
-                  ))}
-                </div>
-              ) : null}
+              <Link href="/work" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Our Work</Link>
               <Link href="/blog" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Blog</Link>
               <Link href="/about" className="rounded-md px-2 py-2.5 hover:bg-[#f6f3ec]" onClick={() => setOpen(false)}>Who We Are</Link>
               <Link href="/contact" className="mt-1 rounded-md border border-[#2b2926] px-3 py-2.5 text-center" onClick={() => setOpen(false)}>Get In Touch</Link>
@@ -158,20 +141,6 @@ function Social({ href, label, children }: { href: string; label: string; childr
     <a href={href} aria-label={label} target="_blank" rel="noreferrer" className="hover:text-white/70">
       {children}
     </a>
-  );
-}
-
-function Drop({ links }: { links: { href: string; label: string }[] }) {
-  return (
-    <div className="absolute left-0 top-full z-50 w-56 pt-2">
-      <div className="rounded-md border border-[#ece8df] bg-white p-2 shadow-lg">
-        {links.map((link) => (
-          <Link key={link.href} href={link.href} className="block rounded px-3 py-2 text-sm hover:bg-[#f6f3ec]">
-            {link.label}
-          </Link>
-        ))}
-      </div>
-    </div>
   );
 }
 
