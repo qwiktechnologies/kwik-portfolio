@@ -2,7 +2,7 @@ export const faqs = [
   {
     question: "What services does Qwik Technologies offer?",
     answer:
-      "Qwik Technologies provides digital solutions including website development, software development, UI/UX design, graphic design, branding, digital marketing, and technology consulting.",
+      "Qwik Technologies provides digital solutions including website development, software development, UI/UX design, graphic design, branding, digital marketing and technology consulting.",
   },
   {
     question: "How do I get started with a project?",
@@ -17,7 +17,7 @@ export const faqs = [
   {
     question: "Do you offer customised website designs?",
     answer:
-      "Yes. We create customised websites tailored to your brand identity, business objectives, target audience, and specific requirements.",
+      "Yes! We create customised websites tailored to your brand identity, business objectives, target audience and specific requirements.",
   },
   {
     question: "Do you provide support after project delivery?",
@@ -27,6 +27,6 @@ export const faqs = [
   {
     question: "Can I purchase ready-made website templates?",
     answer:
-      "Yes. We offer ready-made website templates designed for different industries and business needs. You can explore available templates, preview their designs, and select one that suits your business.",
+      "Absolutely! We offer ready-made website templates designed for different industries and business needs. You can explore available templates, preview their designs and select one that suits your business.",
   },
 ];

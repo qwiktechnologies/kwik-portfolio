@@ -9,24 +9,30 @@ export const featuredTestimonials: Testimonial[] = [
     name: "Daniel Okafor",
     role: "Business Owner",
     quote:
-      "Qwik Technologies transformed our ideas into a professional website that truly represents our business. The process was smooth, the team understood our vision, and the results exceeded our expectations.",
+      "Qwik Technologies transformed our ideas into a professional website that truly represents our business. The process was smooth, the team understood our needs, and the final result exceeded our expectations.",
   },
   {
-    name: "Amaka Nwosu",
-    role: "E-commerce Founder",
+    name: "Sarah Williams",
+    role: "Founder, Beauty & Lifestyle Brand",
     quote:
-      "Our online store went live on schedule with clear product pages and checkout. Sales inquiries started the same week we launched.",
+      "We wanted a brand identity that would make our business stand out, and Qwik Technologies delivered. Their creativity, attention to detail and understanding of our vision made the entire experience worthwhile.",
   },
   {
-    name: "Ibrahim Musa",
-    role: "Operations Director",
+    name: "Michael Adeyemi",
+    role: "Business Consultant",
     quote:
-      "They built a service website that explains what we do in plain language. Clients now book calls knowing exactly what to expect.",
+      "Working with Qwik Technologies gave our business a more structured digital presence. Their marketing approach, content quality and commitment to delivering results were impressive.",
   },
   {
-    name: "Grace Okon",
-    role: "Marketing Lead",
+    name: "Grace Thompson",
+    role: "Startup Founder",
     quote:
-      "From brand visuals to the final site, the team stayed responsive. We finally have a digital presence we are proud to share.",
+      "The team brought our ideas to life through a clean, modern and user-friendly design. They paid attention to the little details and created an experience that makes our platform easier to navigate.",
+  },
+  {
+    name: "David Emmanuel",
+    role: "Entrepreneur",
+    quote:
+      "Qwik Technologies demonstrated professionalism and a strong understanding of technology. They approached our project with creativity and dedication, delivering a solution that addressed our business needs.",
   },
 ];
