@@ -50,7 +50,7 @@ export function Header({
     <header className="sticky top-0 z-40">
       <div className="bg-[#0c1220] text-white">
         <div className="mx-auto flex h-10 w-full max-w-[1200px] items-center justify-between gap-3 px-4 text-xs sm:px-6">
-          <Link href="/#faq" className="inline-flex shrink-0 items-center gap-1.5 hover:text-white/80">
+          <Link href="/faq" className="inline-flex shrink-0 items-center gap-1.5 hover:text-white/80">
             <FiMessageCircle aria-hidden />
             FAQ
           </Link>

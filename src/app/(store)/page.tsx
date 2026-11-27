@@ -3,10 +3,8 @@ import Link from "next/link";
 import { HomeHero } from "@/components/home-hero";
 import { TestimonialsSection } from "@/components/testimonials-section";
 import { JsonLd } from "@/components/json-ld";
-import { NewsletterForm } from "@/components/newsletter-form";
 import { WorkCard } from "@/components/work-card";
 import { prisma } from "@/lib/db";
-import { faqs } from "@/lib/faq";
 import { pageCopy } from "@/lib/page-copy";
 import { getProfile } from "@/lib/profile";
 import { siteUrl } from "@/lib/site";
@@ -89,15 +87,6 @@ export default async function HomePage() {
             url,
             description: profile.tagline,
           },
-          {
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: faqs.map((faq) => ({
-              "@type": "Question",
-              name: faq.question,
-              acceptedAnswer: { "@type": "Answer", text: faq.answer },
-            })),
-          },
         ]}
       />
 
@@ -149,28 +138,7 @@ export default async function HomePage() {
         </Link>
       </section>
 
-      <section className="mx-auto grid w-full max-w-[1200px] items-center gap-6 px-4 py-16 sm:px-6 lg:grid-cols-2">
-        <h2 className="max-w-sm font-serif text-3xl leading-snug text-[#1d4e9e] sm:text-4xl">
-          Subribe to our newsletter to get free brand Guide
-        </h2>
-        <NewsletterForm />
-      </section>
-
       <TestimonialsSection />
-
-      <section id="faq" className="border-t border-[#ece8df] bg-white">
-        <div className="mx-auto w-full max-w-[1200px] px-4 py-14 sm:px-6">
-          <h2 className="font-serif text-4xl font-bold text-[#16181d]">Frequently Asked Questions</h2>
-          <div className="mt-6 divide-y divide-[#ece8df] border-y border-[#ece8df]">
-            {faqs.map((faq) => (
-              <details key={faq.question} className="group py-4">
-                <summary className="cursor-pointer list-none font-medium">{faq.question}</summary>
-                <p className="max-w-3xl pt-3 text-sm leading-6 text-[#5c5648]">{faq.answer}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
     </>
   );
 }

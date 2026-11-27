@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FiCheck } from "react-icons/fi";
 import { AddToCart } from "@/components/add-to-cart";
+import { LeaveReviewPanel } from "@/components/leave-review-panel";
 import { JsonLd } from "@/components/json-ld";
 import { Money, RateLine } from "@/components/money";
 import { RichText } from "@/components/rich-text";
@@ -113,6 +114,11 @@ export default async function WorkDetail({ params }: { params: Promise<Params> }
           </div>
         </section>
       ) : null}
+      <section className="mt-16 max-w-lg" aria-label="Leave a review">
+        <LeaveReviewPanel
+          description={`Bought ${item.title} or used this format? Share your experience — approved reviews appear on the homepage.`}
+        />
+      </section>
     </article>
   );
 }

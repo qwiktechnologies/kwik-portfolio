@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { BriefForm } from "@/components/brief-form";
+import { LeaveReviewPanel } from "@/components/leave-review-panel";
 import { ClearCart } from "@/components/clear-cart";
 import { buttonClass } from "@/components/ui";
 import { getSession } from "@/lib/auth";
@@ -83,15 +84,20 @@ export default async function SuccessPage({
       <p className="mt-4 max-w-2xl text-muted">
         Paid {formatMoney(order.totalNgn, "NGN")}. The formats: {order.items.map((item) => item.title).join(", ")}.
       </p>
-      <div className="mt-10">
-        {order.brief ? (
-          <div className="rounded-3xl bg-[#e8f5ee] p-6">
-            <p className="font-serif text-3xl">Brief already sent for {order.brief.businessName}.</p>
-            <Link href={`/account/orders/${order.id}`} className={`${buttonClass.solid} mt-5`}>Open the purchase</Link>
-          </div>
-        ) : (
-          <BriefForm orderId={order.id} email={session.email} />
-        )}
+      <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:items-start">
+        <div>
+          {order.brief ? (
+            <div className="rounded-3xl bg-[#e8f5ee] p-6">
+              <p className="font-serif text-3xl">Brief already sent for {order.brief.businessName}.</p>
+              <Link href={`/account/orders/${order.id}`} className={`${buttonClass.solid} mt-5`}>Open the purchase</Link>
+            </div>
+          ) : (
+            <BriefForm orderId={order.id} email={session.email} />
+          )}
+        </div>
+        <LeaveReviewPanel
+          description="Tell us how the purchase went. Approved reviews show on the homepage carousel."
+        />
       </div>
     </div>
   );

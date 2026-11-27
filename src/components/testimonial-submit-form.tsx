@@ -1,8 +1,13 @@
 "use client";
 
 import { useActionState } from "react";
+import { FiSend } from "react-icons/fi";
 import { submitTestimonial } from "@/lib/actions/public";
-import { buttonClass, Field, Notice, TextArea } from "./ui";
+import { Notice } from "./ui";
+import { TestimonialStarRating } from "./testimonial-star-rating";
+
+const fieldClass =
+  "h-12 w-full rounded-lg border border-transparent bg-[#f4f4f5] px-4 text-sm text-[#16181d] outline-none placeholder:text-[#9ca3af] focus:border-[#1d4e9e] focus:bg-white";
 
 export function TestimonialSubmitForm() {
   const [state, action, pending] = useActionState(submitTestimonial, { error: "", ok: false });
@@ -10,7 +15,7 @@ export function TestimonialSubmitForm() {
   if (state.ok) {
     return (
       <p className="rounded-xl bg-[#e8f0fa] px-4 py-5 text-center text-sm text-[#1d4e9e]">
-        Thank you. We received your testimonial and will review it before publishing.
+        Thank you. We received your review and will approve it before it appears on the site.
       </p>
     );
   }
@@ -18,27 +23,40 @@ export function TestimonialSubmitForm() {
   return (
     <form action={action} className="space-y-4">
       {state.error ? <Notice>{state.error}</Notice> : null}
-      <div className="grid gap-4 sm:grid-cols-2">
-        <Field label="Your name" name="name" required autoComplete="name" />
-        <Field label="Email" name="email" type="email" required autoComplete="email" />
-      </div>
-      <Field label="Role or title" name="role" required hint="e.g. Business Owner" />
-      <TextArea label="Your testimonial" name="quote" required rows={5} hint="Share your experience working with Qwik Technologies." />
       <div>
-        <label className="mb-1.5 block text-sm font-medium text-[#16181d]" htmlFor="testimonial-photo">
-          Photo (optional)
+        <label htmlFor="testimonial-name" className="mb-1.5 block text-sm font-medium text-[#16181d]">
+          Your name
         </label>
-        <input
-          id="testimonial-photo"
-          name="photo"
-          type="file"
-          accept="image/jpeg,image/png,image/webp"
-          className="block w-full text-sm text-[#5e584e] file:mr-3 file:rounded-md file:border-0 file:bg-[#1d4e9e] file:px-3 file:py-2 file:text-sm file:font-medium file:text-white hover:file:bg-[#163d7a]"
-        />
-        <p className="mt-1 text-xs text-[#6b655c]">JPG, PNG, or WebP, up to 5 MB.</p>
+        <input id="testimonial-name" className={fieldClass} name="name" required autoComplete="name" placeholder="e.g. Daniel Okafor" />
       </div>
-      <button className={`${buttonClass.orange} w-full sm:w-auto`} disabled={pending}>
-        {pending ? "Sending…" : "Submit testimonial"}
+      <div>
+        <label htmlFor="testimonial-role" className="mb-1.5 block text-sm font-medium text-[#16181d]">
+          Business / location <span className="font-normal text-[#6b7280]">(optional)</span>
+        </label>
+        <input id="testimonial-role" className={fieldClass} name="role" autoComplete="organization" placeholder="e.g. Business Owner, Lagos" />
+      </div>
+      <input type="hidden" name="email" value="visitor@testimonial.local" />
+      <TestimonialStarRating />
+      <div>
+        <label htmlFor="testimonial-quote" className="mb-1.5 block text-sm font-medium text-[#16181d]">
+          Your review
+        </label>
+        <textarea
+          id="testimonial-quote"
+          className={`${fieldClass} min-h-[140px] resize-y py-3`}
+          name="quote"
+          required
+          rows={5}
+          placeholder="Tell others about your experience…"
+        />
+      </div>
+      <button
+        type="submit"
+        disabled={pending}
+        className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#16181d] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#2b2926] disabled:opacity-60"
+      >
+        <FiSend aria-hidden />
+        {pending ? "Sending…" : "Submit review"}
       </button>
     </form>
   );

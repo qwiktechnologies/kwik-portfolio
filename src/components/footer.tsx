@@ -22,6 +22,7 @@ const links = [
   { href: "/work", label: "Our Work" },
   { href: "/blog", label: "Blog" },
   { href: "/about", label: "Who We Are" },
+  { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Get In Touch" },
 ];
 

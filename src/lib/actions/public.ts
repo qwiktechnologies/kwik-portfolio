@@ -101,31 +101,27 @@ export async function sendMessage(_prev: { error: string; ok: boolean }, formDat
 }
 
 export async function submitTestimonial(_prev: { error: string; ok: boolean }, formData: FormData) {
-  const photo = formData.get("photo");
+  const ratingRaw = String(formData.get("rating") || "5").trim();
+  const rating = Math.min(5, Math.max(1, Number.parseInt(ratingRaw, 10) || 5));
 
   const parsed = z
     .object({
       name: z.string().min(2, "Enter your name.").max(80),
-      email: z.string().email("Enter a valid email."),
-      role: z.string().min(2, "Add your role or title.").max(80),
+      email: z.string().email("Enter a valid email.").or(z.literal("visitor@testimonial.local")),
+      role: z.string().max(80),
       quote: z.string().min(20, "Write at least a few sentences.").max(2000),
     })
     .safeParse({
       name: String(formData.get("name") || "").trim(),
-      email: String(formData.get("email") || "").trim(),
+      email: String(formData.get("email") || "visitor@testimonial.local").trim(),
       role: String(formData.get("role") || "").trim(),
       quote: String(formData.get("quote") || "").trim(),
     });
 
   if (!parsed.success) return { error: parsed.error.issues[0]?.message || "Check the form.", ok: false };
 
-  let photoNote = "";
-  if (photo instanceof File && photo.size > 0) {
-    if (photo.size > 5_000_000) return { error: "Photo must be 5 MB or smaller.", ok: false };
-    photoNote = `\n\nPhoto uploaded: ${photo.name} (${Math.round(photo.size / 1024)} KB). Reply to the submitter if you need the file.`;
-  }
-
-  const message = `Role: ${parsed.data.role}\n\n${parsed.data.quote}${photoNote}`;
+  const roleLine = parsed.data.role ? `Role: ${parsed.data.role}\n` : "";
+  const message = `${roleLine}Rating: ${rating}/5\n\n${parsed.data.quote}`;
 
   await prisma.contactMessage.create({
     data: {
